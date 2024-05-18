@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 23:18:06 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/12 16:14:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/18 14:52:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,17 +94,3 @@ char	**ft_split(char const *s, char c)
 		++i;
 	return (ft_split_append(s, c, array, i));
 }
-/*
-#include <stdio.h>
-int	main()
-{
-	char *str = "q q q                     q qq          ";
-	char **array_str = ft_split(str, ' ');
-
-	int	i = -1;
-	while (array_str[++i])
-		printf("[%s]\n", array_str[i]);
-	ft_free_ft_split(array_str);
-	return (0);
-}
-*/

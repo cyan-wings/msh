@@ -6,12 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/20 21:29:46 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/12 16:02:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/18 16:07:34 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include "ft_lst_utils.h"
+#include "ft_mem_utils.h"
 
 void	ft_lstclear(t_list **lst, void (*del) (void *))
 {
@@ -23,7 +24,8 @@ void	ft_lstclear(t_list **lst, void (*del) (void *))
 		{
 			tmp = (*lst)->next;
 			del((*lst)->content);
-			free(*lst);
+			(*lst)->content = 0;
+			ft_memdel((void **) lst);
 			*lst = tmp;
 		}
 	}
