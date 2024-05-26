@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 19:37:49 by myeow             #+#    #+#             */
-/*   Updated: 2024/04/11 15:15:43 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/26 23:46:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,9 @@ static char	*ft_readline(char *str, int fd)
 	return (str);
 }
 
+/*
+ * Modified for minishell.
+ */
 static char	*ft_extractline(char *str)
 {
 	size_t	i;
@@ -48,14 +51,12 @@ static char	*ft_extractline(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		++i;
-	new_str = ft_calloc(i + 2, sizeof(char));
+	new_str = ft_calloc(i + 1, sizeof(char));
 	if (!new_str)
 		return (0);
 	i = -1;
 	while (*str && *str != '\n')
 		new_str[++i] = *str++;
-	if (*str == '\n')
-		new_str[++i] = *str;
 	return (new_str);
 }
 
