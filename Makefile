@@ -89,6 +89,8 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 
 clean:
 	$(RM) $(OBJDIR)
+	$(RM) .DS_Store
+	$(RM) .minishell_history
 	$(MAKE_C) $(LIBFTDIR) $@
 
 fclean: clean

@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 21:50:20 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/26 23:36:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/27 00:48:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	minishell_save_history(char *input, const char *filename)
 	ssize_t	input_len;
 
 	add_history(input);
-	fd = open(filename, O_WRONLY | O_APPEND , 0644);
+	fd = open(filename, O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 		minishell_perror_exit("Open history when save", EXIT_FAILURE);
 	input_len = ft_strlen(input);

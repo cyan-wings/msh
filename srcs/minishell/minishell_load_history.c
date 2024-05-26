@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 22:12:03 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/26 23:22:10 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/27 00:47:23 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,4 @@ void	minishell_load_history(const char *filename)
 	}
 	close(fd);
 	return ;
-}	
+}

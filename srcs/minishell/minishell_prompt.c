@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 00:37:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/27 00:45:13 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/27 00:47:40 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*minishell_prompt(void)
 	char	buffer[1024];
 	char	*prompt;
 	int		i;
-	
+
 	if (!getcwd(buffer, 1024))
 		minishell_perror_exit("getcwd", EXIT_FAILURE);
 	prompt = ft_calloc(ft_strlen(buffer) + 3, sizeof(char));
