@@ -6,30 +6,13 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:08:41 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/27 00:47:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/27 23:09:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-
-int	main(void)
-{
-	extern char	**environ;
-
-	while (environ && *environ)
-		printf("%s\n", *environ++);
-	return (0);
-}
-*/
-
-#include <readline/readline.h>
-#include <stdlib.h>
 #include "minishell.h"
-#include "ft_mem_utils.h"
 
+/*
 int	main(void)
 {
 	char	*input;
@@ -48,5 +31,20 @@ int	main(void)
 		free(input);
 		ft_memdel((void **) &prompt);
 	}
+	return (0);
+}*/
+
+int	main(void)
+{
+	t_list	*env_list;
+
+	env_list = 0;
+	minishell_env_init(&env_list);
+	while (env_list)
+	{
+		printf("%s\n", ((t_env *) env_list->content)->val);
+		env_list = env_list->next;
+	}
+	minishell_env_free(&env_list);
 	return (0);
 }
