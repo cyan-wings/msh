@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 13:58:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/27 22:38:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/27 23:12:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	minishell_env_setvar(t_list **env_list, char *k, char *v)
 	if (!env_list)
 		return ;
 	curr = *env_list;
-	while(curr)
+	while (curr)
 	{
 		env_var = (t_env *) curr->content;
 		if (!ft_strcmp(env_var->key, k))
