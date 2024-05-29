@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/27 22:33:09 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/29 16:34:02 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,13 @@ typedef struct s_env
 
 //ENV
 void	minishell_env_init(t_list **env_list);
+char	*minishell_env_getvar(t_list *env_list, char *k);
 void	minishell_env_setvar(t_list **env_list, char *k, char *v);
 void	minishell_env_free(t_list **env_list);
 
 void	minishell_load_history(const char *filename);
 void	minishell_save_history(char *input, const char *filename);
 void	minishell_perror_exit(char *s, int status);
-char	*minishell_prompt(void);
+char	*minishell_prompt(t_list *env_list);
 
 #endif
