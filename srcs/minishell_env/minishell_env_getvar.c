@@ -1,35 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_env_free.c                               :+:      :+:    :+:   */
+/*   minishell_env_getvar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 21:56:46 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/28 20:37:47 by myeow            ###   ########.fr       */
+/*   Created: 2024/05/29 13:51:47 by myeow             #+#    #+#             */
+/*   Updated: 2024/05/29 20:14:44 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	minishell_t_env_clear(void *content)
+char	*minishell_env_getvar(t_list *env_list, char *k)
 {
 	t_env	*env_var;
-	char	*k;
-	char	*v;
 
-	env_var = (t_env *) content;
-	k = env_var->key;
-	v = env_var->val;
-	ft_memdel((void **) &k);
-	ft_memdel((void **) &v);
-	free(content);
-	return ;
-}
-
-void	minishell_env_free(t_list **env_list)
-{
-	ft_lstclear(env_list, minishell_t_env_clear);
-	system("leaks minishell -q");
-	return ;
+	env_var = 0;
+	while (env_list)
+	{
+		env_var = (t_env *) env_list->content;
+		if (!ft_strcmp(k, env_var->key))
+			return (env_var->val);
+		env_list = env_list->next;
+	}
+	return (0);
 }

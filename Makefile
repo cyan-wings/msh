@@ -29,6 +29,7 @@ SRC_M			=	\
 					utils/ft_arraylen									\
 					error_handling/minishell_perror_exit				\
 					minishell_env/minishell_env_init					\
+					minishell_env/minishell_env_getvar					\
 					minishell_env/minishell_env_setvar					\
 					minishell_env/minishell_env_free					\
 					minishell/minishell_load_history					\
@@ -55,7 +56,7 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 NAME			=	minishell
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
-FSANITIZE		=	-fsanitize=address -g
+#FSANITIZE		=	-fsanitize=address -g
 
 IFLAGS			=	$(HDRINC) $(LIBFTINC) $(READLINEINC)
 LFLAGS			=	$(LIBFTLD) $(READLINELD)
