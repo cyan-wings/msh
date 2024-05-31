@@ -26,14 +26,17 @@ HDRINC			=	-I$(HDRDIR)
 
 SRCDIR			=	srcs/
 SRC_M			=	\
+					debug/minishell_print_token_list					\
 					utils/ft_arraylen									\
 					error_handling/minishell_perror_exit				\
 					minishell_env/minishell_env_init					\
 					minishell_env/minishell_env_getvar					\
 					minishell_env/minishell_env_setvar					\
 					minishell_env/minishell_env_free					\
-					minishell/minishell_load_history					\
-					minishell/minishell_save_history					\
+					minishell_history/minishell_load_history			\
+					minishell_history/minishell_save_history			\
+					minishell_tokenise/minishell_tokenise				\
+					minishell_tokenise/minishell_tokenise_free			\
 					minishell/minishell_prompt							\
 					minishell/minishell									\
 

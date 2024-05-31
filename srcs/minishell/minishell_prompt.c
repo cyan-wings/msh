@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 00:37:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/29 16:59:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/29 21:18:08 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,3 @@ char	*minishell_prompt(t_list *env_list)
 	ft_memcpy(prompt + i, " $> ", 4);
 	return (prompt);
 }
-
