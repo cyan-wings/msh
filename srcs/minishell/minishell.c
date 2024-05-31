@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:08:41 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/29 20:13:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/05/31 13:19:26 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,17 @@ static char	*minishell_get_input(t_list *env_list)
 	return (input);
 }
 
+static void	minishell_process_input(char *input)
+{
+	t_list	*token_list;
+
+	token_list = 0;
+	minishell_tokenise(input, &token_list);
+	minishell_print_token_list(token_list);
+	minishell_tokenise_free(&token_list);
+	return ;
+}
+
 static void	minishell_clean(t_list **env_list)
 {
 	minishell_env_free(env_list);
@@ -56,8 +67,9 @@ int	main(void)
 	while (1)
 	{
 		input = minishell_get_input(env_list);
+		minishell_process_input(input);
 		free(input);
-		break;
+		break ;
 	}
 	minishell_clean(&env_list);
 	system("leaks minishell -q");

@@ -1,35 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_env_free.c                               :+:      :+:    :+:   */
+/*   minishell_tokenise_free.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 21:56:46 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/31 13:13:37 by myeow            ###   ########.fr       */
+/*   Created: 2024/05/31 13:09:47 by myeow             #+#    #+#             */
+/*   Updated: 2024/05/31 13:21:13 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	minishell_t_env_clear(void *content)
+static void	minishell_t_token_clear(void *content)
 {
-	t_env	*env_var;
-	char	*k;
-	char	*v;
+	t_token	*token;
+	char	*s;
 
-	env_var = (t_env *) content;
-	k = env_var->key;
-	v = env_var->val;
-	ft_memdel((void **) &k);
-	ft_memdel((void **) &v);
+	token = (t_token *) content;
+	s = token->string;
+	ft_memdel((void **) &s);
 	free(content);
 	return ;
 }
 
-void	minishell_env_free(t_list **env_list)
+void	minishell_tokenise_free(t_list **token_list)
 {
-	ft_lstclear(env_list, minishell_t_env_clear);
-	//system("leaks minishell -q");
-	return ;
+	ft_lstclear(token_list, minishell_t_token_clear);
+	return;
 }
