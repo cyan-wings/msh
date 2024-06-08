@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 21:50:38 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/31 13:06:14 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/08 17:22:40 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,19 @@
 
 #include "minishell.h"
 
-static t_token	*create_token(char *word)
+/*
+ * This function is to tokenise those double SYMBOLS.
+ * If for example there are 3 of the same symbols (i.e., "<<<"),
+ * it shall be tokenised as "<<" and "<". 
+ * The incrementer is implemented in the minishell_tokenise function.
+ */
+static int	check_double_symbol(char c1, char c2)
 {
-	t_token	*token;
-
-	token = (t_token *) ft_memalloc(sizeof(t_token));
-	if (!token)
-		minishell_perror_exit("Token no mem", EXIT_FAILURE);
-	token->string = word;
-	return (token);
+	if (!c2)
+		return 0;
+	if (c1 == c2 && ft_strchr(SYMBOLS, c1))
+		return 1;
+	return 0;
 }
 
 /*
@@ -38,7 +42,18 @@ static char	*ft_strdup_start_end(char *str, int start, int end)
 	return ((char *) ft_memmove(new_str, str + start, end - start + 1));
 }
 
-void	minishell_tokenise_insert(char *word, t_list **token_list)
+static t_token	*create_token(char *word)
+{
+	t_token	*token;
+
+	token = (t_token *) ft_memalloc(sizeof(t_token));
+	if (!token)
+		minishell_perror_exit("Token no mem", EXIT_FAILURE);
+	token->string = word;
+	return (token);
+}
+
+static void	minishell_tokenise_insert(char *word, t_list **token_list)
 {
 	char	*token_string;
 	int		i;
@@ -51,6 +66,8 @@ void	minishell_tokenise_insert(char *word, t_list **token_list)
 	{
 		if (ft_strchr(SYMBOLS, word[i]) || ft_strchr(SYMBOLS, word[i + 1]) || !word[i + 1])
 		{
+			if (check_double_symbol(word[i], word[i + 1]))
+				++i;
 			token_string = ft_strdup_start_end(word, start_token_i, i);
 			ft_lstadd_back(token_list, ft_lstnew(create_token(token_string)));
 			start_token_i = i + 1;
