@@ -37,6 +37,10 @@ SRC_M			=	\
 					minishell_history/minishell_save_history			\
 					minishell_tokenise/minishell_tokenise				\
 					minishell_tokenise/minishell_tokenise_free			\
+					minishell_parse/minishell_parse_word_string			\
+					minishelL_parse/minishell_parse_word				\
+					minishell_parse/minishell_parse_operator			\
+					minishell_parse/minishell_parse						\
 					minishell/minishell_prompt							\
 					minishell/minishell									\
 

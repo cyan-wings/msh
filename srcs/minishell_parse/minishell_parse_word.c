@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_print_token_list.c                       :+:      :+:    :+:   */
+/*   minishell_parse_word.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/31 13:17:12 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/27 17:57:48 by myeow            ###   ########.fr       */
+/*   Created: 2024/06/26 18:52:11 by myeow             #+#    #+#             */
+/*   Updated: 2024/06/28 15:44:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_print_token_list(t_list *token_list)
+int	minishell_parse_word_string(char *str, int *idx);
+
+int	minishell_parse_word(t_token *token)
 {
-	while (token_list)
-	{
-		ft_putstr_fd(((t_token *) token_list->content)->value, 1);
-		ft_putchar_fd('\n', 1);
-		token_list = token_list->next;
-	}
-	return ;
+	char	*str;
+	int		idx;
+
+	str = token->value;
+	idx = 0;
+	if (!str)
+		return (0);
+	return (minishell_parse_word_string(str, &idx));
 }

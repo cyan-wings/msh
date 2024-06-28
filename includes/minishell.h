@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/31 13:20:40 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/27 18:27:02 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,47 @@
 # include "libft.h"
 # include "get_next_line.h"
 
+/*
+# define OA "<"
+# define CA ">"
+# define DOA "<<"
+# define DCA ">>"
+# define PIPE "|"
+# define OP "("
+# define CP ")"
+# define AND "&&"
+# define OR "||"
+*/
+
 typedef struct s_env
 {
 	char		*key;
 	char		*val;
 }	t_env;
 
+typedef enum e_token_type
+{
+	WORD,
+	OPERATOR,
+}	t_token_type;
+
 typedef struct s_token
 {
-	char	*string;
+	char			*value;
+	t_token_type	type;
 }	t_token;
+
+typedef enum e_operator_type
+{
+	DEFAULT,
+	REDIRECT,
+	CONTROL,
+}	t_operator_type;
+
+//MINISHELL_PARSE
+int		minishell_parse_word(t_token *token);
+int		minishell_parse_operator(t_token *token, t_operator_type type);
+void	minishell_parse(t_list *token_list);
 
 //DEBUG
 void	minishell_print_token_list(t_list *token_list);
