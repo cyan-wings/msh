@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:38:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/28 15:40:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/28 16:08:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	quote_string(char *str, int *idx, char quote_type)
 
 static int	string_tail(char *str, int *idx)
 {
-	int start_idx;
+	int	start_idx;
 
 	if (str[*idx] == 0)
 		return (1);
