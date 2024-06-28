@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/27 18:27:02 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/28 16:39:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ typedef struct s_env
 	char		*val;
 }	t_env;
 
-typedef enum e_token_type
-{
-	WORD,
-	OPERATOR,
-}	t_token_type;
-
 typedef struct s_token
 {
 	char			*value;
@@ -58,6 +52,20 @@ typedef enum e_operator_type
 	REDIRECT,
 	CONTROL,
 }	t_operator_type;
+
+typedef enum e_token_type
+{
+	WORD,
+	OPERATOR,
+}	t_token_type;
+
+typedef struct s_ast_node
+{
+	char				*type;
+	struct s_ast_node	**children;
+	int					child_count;
+	char				*value;
+}	t_ast_node;
 
 //MINISHELL_PARSE
 int		minishell_parse_word(t_token *token);
