@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_env_init.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/27 13:48:43 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/27 23:12:26 by myeow            ###   ########.fr       */
+/*   Created: 2024/06/28 17:47:05 by myeow             #+#    #+#             */
+/*   Updated: 2024/06/28 17:47:07 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+include "minishell.h"
 
 static char	*find_equals(char *env_str)
 {
