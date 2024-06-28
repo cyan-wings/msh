@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:08:41 by myeow             #+#    #+#             */
-/*   Updated: 2024/05/31 13:19:26 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/28 14:47:19 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ static void	minishell_process_input(char *input)
 	token_list = 0;
 	minishell_tokenise(input, &token_list);
 	minishell_print_token_list(token_list);
+	minishell_parse(token_list);
 	minishell_tokenise_free(&token_list);
-	return ;
 }
 
 static void	minishell_clean(t_list **env_list)
