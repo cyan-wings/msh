@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:49:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/28 17:49:57 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 22:59:35 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,9 @@ static void	minishell_tokenise_insert(char *word, t_list **token_list)
 	}
 }
 
+/*
+ * TODO: Ignore whitespaces when parsing a quoted string
+ */
 void	minishell_tokenise(char *input, t_list **token_list)
 {
 	const char	*delims = WHITESPACES;

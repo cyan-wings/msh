@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 15:38:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/28 16:08:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 22:51:40 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static int	characters_except_a_b(char *str, int *idx, char a, char b)
 static int	quote_string(char *str, int *idx, char quote_type)
 {
 	if (str[*idx] == 0)
-		return (1);
+		return (0);
 	if (str[*idx] == quote_type)
 	{
 		++*idx;
@@ -49,23 +49,15 @@ static int	quote_string(char *str, int *idx, char quote_type)
 
 static int	string_tail(char *str, int *idx)
 {
-	int	start_idx;
-
 	if (str[*idx] == 0)
 		return (1);
-	start_idx = *idx;
 	if (characters_except_a_b(str, idx, SQUOTE, DQUOTE))
-	{
-		++*idx;
 		return (string_tail(str, idx));
-	}
-	*idx = start_idx;
 	if (quote_string(str, idx, DQUOTE))
 	{
 		++*idx;
 		return (string_tail(str, idx));
 	}
-	*idx = start_idx;
 	if (quote_string(str, idx, SQUOTE))
 	{
 		++*idx;
