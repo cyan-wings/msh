@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:44:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 19:52:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 23:17:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 		return (0);
 	i = -1;
 	while (++i < child_count - 1)
-		new_children[i] = *old_children_ptr[i];
+		new_children[i] = (*old_children_ptr)[i];
 	free(*old_children_ptr);
 	*old_children_ptr = 0;
 	return (new_children);
