@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/28 16:39:53 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 19:41:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,6 @@ typedef struct s_env
 	char		*val;
 }	t_env;
 
-typedef struct s_token
-{
-	char			*value;
-	t_token_type	type;
-}	t_token;
-
 typedef enum e_operator_type
 {
 	DEFAULT,
@@ -59,17 +53,33 @@ typedef enum e_token_type
 	OPERATOR,
 }	t_token_type;
 
-typedef struct s_ast_node
+typedef struct s_token
 {
-	char				*type;
-	struct s_ast_node	**children;
-	int					child_count;
-	char				*value;
-}	t_ast_node;
+	char			*value;
+	t_token_type	type;
+}	t_token;
 
-//MINISHELL_PARSE
-int		minishell_parse_word(t_token *token);
-int		minishell_parse_operator(t_token *token, t_operator_type type);
+
+typedef struct s_ast
+{
+	char			*type;
+	struct s_ast	**children;
+	int				child_count;
+	char			*value;
+}	t_ast;
+
+//MINISHELL_PARSE_CMD
+t_ast	*minishell_parse_cmd(t_list **token_ptr);
+t_ast	*minishell_parse_cmd_arguments(t_list **token_ptr);
+
+//MINISHELL_PARSE_AST
+t_ast	*minishell_parse_astnew(char *type, char *value);
+void	minishell_parse_astadd_child(t_ast *parent, t_ast *child);
+void	minishell_parse_astprint(t_ast *node, int indent);
+void	minishell_parse_astfree(t_ast *node);
+
+//MINISHELL_PARSE_TOKEN
+int		minishell_parse_token(t_list *token_list);
 void	minishell_parse(t_list *token_list);
 
 //DEBUG
@@ -78,6 +88,7 @@ void	minishell_print_token_list(t_list *token_list);
 //MINISHELL_TOKENISE
 void	minishell_tokenise(char *input, t_list **token_list);
 void	minishell_tokenise_free(t_list **token_list);
+void	minishell_tokenise_get_next_token(t_list **token_ptr);
 
 //MINISHELL_ENV
 void	minishell_env_init(t_list **env_list);

@@ -26,23 +26,31 @@ HDRINC			=	-I$(HDRDIR)
 
 SRCDIR			=	srcs/
 SRC_M			=	\
-					debug/minishell_print_token_list					\
-					utils/ft_arraylen									\
-					error_handling/minishell_perror_exit				\
-					minishell_env/minishell_env_init					\
-					minishell_env/minishell_env_getvar					\
-					minishell_env/minishell_env_setvar					\
-					minishell_env/minishell_env_free					\
-					minishell_history/minishell_load_history			\
-					minishell_history/minishell_save_history			\
-					minishell_tokenise/minishell_tokenise				\
-					minishell_tokenise/minishell_tokenise_free			\
-					minishell_parse/minishell_parse_word_string			\
-					minishelL_parse/minishell_parse_word				\
-					minishell_parse/minishell_parse_operator			\
-					minishell_parse/minishell_parse						\
-					minishell/minishell_prompt							\
-					minishell/minishell									\
+					debug/minishell_print_token_list						\
+					utils/ft_arraylen										\
+					error_handling/minishell_perror_exit					\
+					minishell_env/minishell_env_init						\
+					minishell_env/minishell_env_getvar						\
+					minishell_env/minishell_env_setvar						\
+					minishell_env/minishell_env_free						\
+					minishell_history/minishell_load_history				\
+					minishell_history/minishell_save_history				\
+					minishell_tokenise/minishell_tokenise					\
+					minishell_tokenise/minishell_tokenise_free				\
+					minishell_tokenise/minishell_tokenise_get_next_token	\
+					minishell_parse/cmd/minishell_parse_cmd					\
+					minishell_parse/cmd/minishell_parse_cmd_arguments		\
+					minishell_parse/token/minishell_parse_word_string		\
+					minishelL_parse/token/minishell_parse_word				\
+					minishell_parse/token/minishell_parse_operator			\
+					minishell_parse/token/minishell_parse_token				\
+					minishell_parse/ast/minishell_parse_astnew				\
+					minishell_parse/ast/minishell_parse_astadd_child		\
+					minishell_parse/ast/minishell_parse_astprint			\
+					minishell_parse/ast/minishell_parse_astfree				\
+					minishell_parse/minishell_parse							\
+					minishell/minishell_prompt								\
+					minishell/minishell										\
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M)))
 

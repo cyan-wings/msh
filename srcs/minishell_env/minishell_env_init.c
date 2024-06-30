@@ -6,11 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:47:05 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/28 17:47:07 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 16:27:25 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-include "minishell.h"
+#include "minishell.h"
 
 static char	*find_equals(char *env_str)
 {
