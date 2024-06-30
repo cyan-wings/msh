@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/26 18:36:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/27 18:23:23 by myeow            ###   ########.fr       */
+/*   Updated: 2024/06/30 20:02:55 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static int	contains(t_token *token, const char **ops)
 	while (*ops)
 	{
 		if (!ft_strcmp(token->value, *ops))
+		{
+			token->type = OPERATOR;
 			return (1);
+		}
 		++ops;
 	}
 	return (0);
