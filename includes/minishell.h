@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 19:41:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/02 20:22:26 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef enum e_operator_type
 
 typedef enum e_token_type
 {
-	WORD,
-	OPERATOR,
+	WORD = 5,
+	OPERATOR = 7,
 }	t_token_type;
 
 typedef struct s_token
@@ -59,7 +59,9 @@ typedef struct s_token
 	t_token_type	type;
 }	t_token;
 
-
+/*
+ * Consider changing the type to an enum
+ */
 typedef struct s_ast
 {
 	char			*type;
@@ -71,6 +73,7 @@ typedef struct s_ast
 //MINISHELL_PARSE_CMD
 t_ast	*minishell_parse_cmd(t_list **token_ptr);
 t_ast	*minishell_parse_cmd_arguments(t_list **token_ptr);
+t_ast	*minishell_parse_cmd_redirections(t_list **token_ptr);
 
 //MINISHELL_PARSE_AST
 t_ast	*minishell_parse_astnew(char *type, char *value);

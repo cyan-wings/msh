@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:44:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 23:17:18 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/01 19:25:48 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 
 	new_children = (t_ast **) malloc(sizeof(t_ast *) * child_count);
 	if (!new_children)
+	{
+		minishell_perror_exit("New ast child malloc error.", 1);
 		return (0);
+	}
 	i = -1;
 	while (++i < child_count - 1)
 		new_children[i] = (*old_children_ptr)[i];
@@ -35,6 +38,8 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 
 void	minishell_parse_astadd_child(t_ast *parent, t_ast *child)
 {
+	if (!child)
+		return ;
 	parent->child_count++;
 	parent->children = children_realloc(&(parent->children), \
 			parent->child_count);
