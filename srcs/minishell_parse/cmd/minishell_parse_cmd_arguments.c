@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 18:14:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 19:46:52 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/02 21:05:15 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,11 @@ t_ast	*minishell_parse_cmd_arguments(t_list **token_ptr)
 	token = (t_token *)(*token_ptr)->content;
 	while (*token_ptr && token->type == WORD)
 	{
-		token = (t_token *)(*token_ptr)->content;
 		arg_child_node = argument(token);
 		minishell_parse_astadd_child(args_root_node, arg_child_node);
 		minishell_tokenise_get_next_token(token_ptr);
+		if (*token_ptr)
+			token = (t_token *)(*token_ptr)->content;
 	}
 	return (args_root_node);
 }
