@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_print_token_list.c                       :+:      :+:    :+:   */
+/*   minishell_perror.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 17:45:24 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/03 20:03:44 by myeow            ###   ########.fr       */
+/*   Created: 2024/07/03 17:20:08 by myeow             #+#    #+#             */
+/*   Updated: 2024/07/03 17:24:09 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_print_token_list(t_list *token_list)
+/*
+ * This prints an error message but does not terminate the shell.
+ * Possible error types:
+ * 		(1) Tokenise error.
+ * 		(2) Parsing error.
+ *
+ * May want to include functionality to free up certain stuff.
+ */
+void	minishell_perror(char *error_msg)
 {
-	ft_putstr_fd("Tokens:\n\t\t", 1);
-	while (token_list)
-	{
-		ft_putchar_fd('[', 1);
-		ft_putstr_fd(((t_token *) token_list->content)->value, 1);
-		ft_putchar_fd(']', 1);
-		ft_putstr_fd(" -> ", 1);
-		token_list = token_list->next;
-	}
-	ft_putstr_fd("NULL\n", 1);
+	ft_putendl_fd(error_msg, 2);
 	return ;
 }

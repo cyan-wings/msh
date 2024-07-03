@@ -29,6 +29,7 @@ SRC_M			=	\
 					debug/minishell_print_token_list						\
 					utils/ft_arraylen										\
 					error_handling/minishell_perror_exit					\
+					error_handling/minishell_perror							\
 					minishell_env/minishell_env_init						\
 					minishell_env/minishell_env_getvar						\
 					minishell_env/minishell_env_setvar						\
@@ -36,6 +37,8 @@ SRC_M			=	\
 					minishell_history/minishell_load_history				\
 					minishell_history/minishell_save_history				\
 					minishell_tokenise/minishell_tokenise					\
+					minishell_tokenise/minishell_tokenise_create_token		\
+					minishell_tokenise/minishell_tokenise_insert_token		\
 					minishell_tokenise/minishell_tokenise_free				\
 					minishell_tokenise/minishell_tokenise_get_next_token	\
 					minishell_parse/cmd/minishell_parse_cmd					\
