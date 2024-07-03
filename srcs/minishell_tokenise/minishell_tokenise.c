@@ -6,92 +6,60 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:49:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 22:59:35 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/03 20:43:22 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-#define METACHARS "<>|&()"
-#define WHITESPACES " \t\r\n\v\f"
+void	minishell_tokenise_insert_token(char *str, t_list **token_list);
 
 /*
- * This function is to tokenise those double METACHARS.
- * If for example there are 3 of the same metachars (i.e., "<<<"),
- * it shall be tokenised as "<<" and "<". 
- * The incrementer is implemented in the minishell_tokenise function.
+ * This function is to check whether its quoted.
+ * Input is incremented at the beginning because input will be
+ * the quote character when this function enters.
+ * Return:
+ * 		Pointer to the closing quote character if present,
+ * 		null if not.
  */
-static int	check_double_symbol(char c1, char c2)
+static char	*get_close_quote(char *ptr, char quote_type)
 {
-	if (!c2)
-		return (0);
-	if (c1 == c2 && ft_strchr(METACHARS, c1))
-		return (1);
+	++ptr;
+	while (*ptr && *ptr != quote_type)
+		++ptr;
+	if (*ptr == quote_type)
+		return (ptr);
 	return (0);
 }
 
 /*
- * end character is inclusive.
+ * Similar to ft_split_tok, but ignoring delims in quotes.
  */
-static char	*ft_strdup_start_end(char *str, int start, int end)
+int	minishell_tokenise(char *input, t_list **token_list)
 {
-	char	*new_str;
-
-	new_str = 0;
-	new_str = ft_memalloc(end - start + 2);
-	return ((char *) ft_memmove(new_str, str + start, end - start + 1));
-}
-
-static t_token	*create_token(char *word)
-{
-	t_token	*token;
-
-	token = (t_token *) ft_memalloc(sizeof(t_token));
-	if (!token)
-		minishell_perror_exit("Token no mem", EXIT_FAILURE);
-	token->value = word;
-	return (token);
-}
-
-static void	minishell_tokenise_insert(char *word, t_list **token_list)
-{
-	char	*token_string;
-	int		i;
-	int		start_token_i;
-
-	token_string = 0;
-	i = -1;
-	start_token_i = 0;
-	while (word[++i])
-	{
-		if (ft_strchr(METACHARS, word[i]) || \
-				ft_strchr(METACHARS, word[i + 1]) || !word[i + 1])
-		{
-			if (check_double_symbol(word[i], word[i + 1]))
-				++i;
-			token_string = ft_strdup_start_end(word, start_token_i, i);
-			ft_lstadd_back(token_list, ft_lstnew(create_token(token_string)));
-			start_token_i = i + 1;
-		}
-	}
-}
-
-/*
- * TODO: Ignore whitespaces when parsing a quoted string
- */
-void	minishell_tokenise(char *input, t_list **token_list)
-{
-	const char	*delims = WHITESPACES;
-	char		*word;
-	char		*saveptr;
+	const char	*sep = " \t\r\n\v\f";
+	char		*start_ptr;
 
 	if (!input || !token_list)
-		return ;
-	word = ft_strtok_r(input, delims, &saveptr);
-	while (word)
+		return (0);
+	while (*input && ft_strchr(sep, *input))
+		++input;
+	start_ptr = input;
+	while (*input)
 	{
-		minishell_tokenise_insert(word, token_list);
-		word = ft_strtok_r(0, delims, &saveptr);
+		if (*input == '\'' || *input == '\"')
+			input = get_close_quote(input, *input);
+		if (!input)
+			return (0);
+		if (!ft_strchr(sep, *input) && (!input[1] || ft_strchr(sep, input[1])))
+		{
+			if (input[1])
+				*++input = 0;
+			minishell_tokenise_insert_token(start_ptr, token_list);
+		}
+		if (ft_strchr(sep, *input) && !ft_strchr(sep, input[1]))
+			start_ptr = input + 1;
+		++input;
 	}
-	return ;
+	return (1);
 }

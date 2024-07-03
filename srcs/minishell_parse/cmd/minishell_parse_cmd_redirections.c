@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:48:03 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/02 21:21:54 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/03 20:12:22 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,3 @@ t_ast	*minishell_parse_cmd_redirections(t_list **token_ptr)
 	}
 	return (redirs_root_node);
 }
-

@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/02 20:22:26 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/03 18:19:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	minishell_parse(t_list *token_list);
 void	minishell_print_token_list(t_list *token_list);
 
 //MINISHELL_TOKENISE
-void	minishell_tokenise(char *input, t_list **token_list);
+int		minishell_tokenise(char *input, t_list **token_list);
 void	minishell_tokenise_free(t_list **token_list);
 void	minishell_tokenise_get_next_token(t_list **token_ptr);
 
@@ -104,6 +104,7 @@ void	minishell_load_history(const char *filename);
 void	minishell_save_history(char *input, const char *filename);
 
 //ERROR_HANDLING
+void	minishell_perror(char *error_msg);
 void	minishell_perror_exit(char *s, int status);
 
 //MINISHELL

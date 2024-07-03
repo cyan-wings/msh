@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell_print_token_list.c                       :+:      :+:    :+:   */
+/*   minishell_tokenise_create_token.c                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 17:45:24 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/03 20:03:44 by myeow            ###   ########.fr       */
+/*   Created: 2024/07/03 20:21:51 by myeow             #+#    #+#             */
+/*   Updated: 2024/07/03 20:38:10 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	minishell_print_token_list(t_list *token_list)
+t_token	*minishell_tokenise_create_token(char *str)
 {
-	ft_putstr_fd("Tokens:\n\t\t", 1);
-	while (token_list)
-	{
-		ft_putchar_fd('[', 1);
-		ft_putstr_fd(((t_token *) token_list->content)->value, 1);
-		ft_putchar_fd(']', 1);
-		ft_putstr_fd(" -> ", 1);
-		token_list = token_list->next;
-	}
-	ft_putstr_fd("NULL\n", 1);
-	return ;
+	t_token	*token;
+
+	token = (t_token *) ft_memalloc(sizeof(t_token));
+	if (!token)
+		minishell_perror_exit("Token no mem", EXIT_FAILURE);
+	token->value = str;
+	return (token);
 }
