@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/03 18:19:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:16:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ typedef enum e_token_type
 {
 	WORD = 5,
 	OPERATOR = 7,
+	REDIR_OP = 8,
+	CTRL_OP = 9
 }	t_token_type;
 
 typedef struct s_token
@@ -70,10 +72,15 @@ typedef struct s_ast
 	char			*value;
 }	t_ast;
 
+//MINISHELL_PARSE_PIPELINE
+t_ast	*minishell_parse_pipeline(t_list **token_ptr);
+
 //MINISHELL_PARSE_CMD
 t_ast	*minishell_parse_cmd(t_list **token_ptr);
-t_ast	*minishell_parse_cmd_arguments(t_list **token_ptr);
-t_ast	*minishell_parse_cmd_redirections(t_list **token_ptr);
+void	minishell_parse_cmd_arguments(t_list **token_ptr,
+		t_ast **args_root_node);
+void	minishell_parse_cmd_redirections(t_list **token_ptr,
+		t_ast **redirs_root_node);
 
 //MINISHELL_PARSE_AST
 t_ast	*minishell_parse_astnew(char *type, char *value);
@@ -83,7 +90,7 @@ void	minishell_parse_astfree(t_ast *node);
 
 //MINISHELL_PARSE_TOKEN
 int		minishell_parse_token(t_list *token_list);
-void	minishell_parse(t_list *token_list);
+int		minishell_parse(t_list *token_list, t_ast **root);
 
 //DEBUG
 void	minishell_print_token_list(t_list *token_list);

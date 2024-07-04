@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/01 17:48:03 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/03 20:12:22 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/04 17:42:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,20 @@ static t_ast	*redirection(t_token *curr, t_token *next)
 	return (redir_node);
 }
 
-t_ast	*minishell_parse_cmd_redirections(t_list **token_ptr)
+void	minishell_parse_cmd_redirections(t_list **token_ptr,
+		t_ast **redirs_root_node)
 {
-	t_ast	*redirs_root_node;
 	t_token	*token_curr;
 	t_token	*token_next;
 	t_ast	*redir_child_node;
 
-	redirs_root_node = minishell_parse_astnew("redirections", 0);
 	token_curr = (t_token *)(*token_ptr)->content;
 	token_next = (t_token *)(*token_ptr)->next->content;
-	while (*token_ptr && token_curr->type == OPERATOR && \
+	while (*token_ptr && token_curr->type == REDIR_OP && \
 			(*token_ptr)->next && token_next->type == WORD)
 	{
 		redir_child_node = redirection(token_curr, token_next);
-		minishell_parse_astadd_child(redirs_root_node, redir_child_node);
+		minishell_parse_astadd_child(*redirs_root_node, redir_child_node);
 		minishell_tokenise_get_next_token(token_ptr);
 		minishell_tokenise_get_next_token(token_ptr);
 		if (*token_ptr && (*token_ptr)->next)
@@ -48,5 +47,4 @@ t_ast	*minishell_parse_cmd_redirections(t_list **token_ptr)
 			token_next = (t_token *)(*token_ptr)->next->content;
 		}
 	}
-	return (redirs_root_node);
 }
