@@ -41,6 +41,7 @@ SRC_M			=	\
 					minishell_tokenise/minishell_tokenise_insert_token		\
 					minishell_tokenise/minishell_tokenise_free				\
 					minishell_tokenise/minishell_tokenise_get_next_token	\
+					minishell_parse/pipeline/minishell_parse_pipeline		\
 					minishell_parse/cmd/minishell_parse_cmd					\
 					minishell_parse/cmd/minishell_parse_cmd_arguments		\
 					minishell_parse/cmd/minishell_parse_cmd_redirections	\
