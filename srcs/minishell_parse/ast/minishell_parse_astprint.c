@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 16:16:16 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 23:13:38 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/05 17:37:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ void	minishell_parse_astprint(t_ast *node, int indent)
 	if (node->value)
 	{
 		ft_putstr_fd(": ", 1);
-		ft_putendl_fd(node->value, 1);
+		ft_putstr_fd(node->value, 1);
+		ft_putchar_fd('\n', 1);
 	}
 	j = -1;
 	while (++j < node->child_count)
@@ -34,4 +35,5 @@ void	minishell_parse_astprint(t_ast *node, int indent)
 		ft_putchar_fd('\n', 1);
 		minishell_parse_astprint(node->children[j], indent + 1);
 	}
+	ft_putchar_fd('\n', 1);
 }

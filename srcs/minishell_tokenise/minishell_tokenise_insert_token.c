@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 20:25:49 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/03 21:02:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/05 17:49:09 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_token	*minishell_tokenise_create_token(char *str);
 
 #define META "<>|&()"
+#define META_DOUBLE "<>|&"
 
 /*
  * The string is guaranteed to have a closing quote.
@@ -31,7 +32,7 @@ int	check_double_meta(char c1, char c2)
 {
 	if (!c2)
 		return (0);
-	if (c1 == c2 && ft_strchr(META, c1))
+	if (c1 == c2 && ft_strchr(META_DOUBLE, c1))
 		return (1);
 	return (0);
 }
