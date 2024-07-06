@@ -34,8 +34,10 @@ MEMSRCS			=	$(addprefix $(MEMDIR)$(FT_PRE), $(MEMSRC))
 STRDIR			=	$(SRCDIR)$(FT_PRE)string_utils/
 STRSRC			=		\
 						atoi			\
+						atol			\
 						free_ft_split	\
 						itoa			\
+						itol			\
 						split			\
 						strchr			\
 						strclr			\

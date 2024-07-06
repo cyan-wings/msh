@@ -6,7 +6,7 @@
 /*   By: myeow <marvin@42.fr>                       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 13:04:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/05 18:00:18 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/06 22:04:33 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,19 +76,13 @@ typedef struct s_ast
 t_ast	*minishell_parse_grouping(t_list **token_ptr);
 t_ast	*minishell_parse_list(t_list **token_ptr);
 t_ast	*minishell_parse_pipeline(t_list **token_ptr);
-
-//MINISHELL_PARSE_CMD
 t_ast	*minishell_parse_cmd(t_list **token_ptr);
-void	minishell_parse_cmd_arguments(t_list **token_ptr,
-			t_ast **args_root_node);
-void	minishell_parse_cmd_redirections(t_list **token_ptr,
-			t_ast **redirs_root_node);
 
 //MINISHELL_PARSE_AST
 t_ast	*minishell_parse_astnew(char *type, char *value);
 void	minishell_parse_astadd_child(t_ast *parent, t_ast *child);
 void	minishell_parse_astprint(t_ast *node, int indent);
-void	minishell_parse_astfree(t_ast *node);
+void	minishell_parse_astfree(t_ast **root_node);
 
 //MINISHELL_PARSE_TOKEN
 int		minishell_parse_token(t_list *token_list);

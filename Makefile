@@ -78,7 +78,7 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 NAME			=	minishell
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
-FSANITIZE		=	-fsanitize=address -g
+#FSANITIZE		=	-fsanitize=address -g
 
 IFLAGS			=	$(HDRINC) $(LIBFTINC) $(READLINEINC)
 LFLAGS			=	$(LIBFTLD) $(READLINELD)

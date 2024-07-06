@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 17:44:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/04 15:20:26 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/06 15:11:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 /*
  * Last space remain empty for the new child to be added.
  * Which is why child_count - 1.
+ *
+ * NICETOHAVE TODO: Find a more optimal solution to realloc number of nodes
+ * (ex. geometric progression 1 2 4 8 16...)
  */
 static t_ast	**children_realloc(t_ast ***old_children_ptr,
 		int child_count)
