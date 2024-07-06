@@ -6,12 +6,15 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 16:47:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/06/30 23:09:59 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/06 15:08:49 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
+ * Kill the whole minishell processe if malloc error.
+ */
 t_ast	*minishell_parse_astnew(char *type, char *value)
 {
 	t_ast	*node;
