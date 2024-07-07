@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 16:24:58 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/06 22:04:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/07 14:42:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_ast	*minishell_parse_grouping(t_list **token_ptr)
 	if (!list_node || \
 			ft_strcmp(((t_token *)(*token_ptr)->content)->value, ")"))
 		return (minishell_parse_grouping_error(&grouping_node, &list_node));
+	minishell_tokenise_get_next_token(token_ptr);
 	minishell_parse_astadd_child(grouping_node, list_node);
 	return (grouping_node);
 }
