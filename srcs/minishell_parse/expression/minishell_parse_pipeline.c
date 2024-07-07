@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/04 16:20:12 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/06 22:20:14 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/07 14:33:39 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ t_ast	*minishell_parse_pipeline(t_list **token_ptr)
 {
 	t_ast	*pipeline_node;
 	int		status;
-	
+
 	if (!*token_ptr)
 		return (0);
 	pipeline_node = 0;

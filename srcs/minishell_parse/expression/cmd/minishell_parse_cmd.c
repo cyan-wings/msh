@@ -6,16 +6,16 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 17:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/06 22:05:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/07 14:38:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	minishell_parse_cmd_redirections(t_list **token_ptr,
-		t_ast **redirs_root_node);
+int		minishell_parse_cmd_redirections(t_list **token_ptr,
+			t_ast **redirs_root_node);
 void	minishell_parse_cmd_arguments(t_list **token_ptr,
-		t_ast **args_root_node);
+			t_ast **args_root_node);
 
 /*
  * May want to add checks later on whether executable is of type WORD.
@@ -44,7 +44,7 @@ static void	executable_arguments(
 		minishell_parse_cmd_arguments(token_ptr, args_node);
 }
 
-static t_ast *minishell_parse_cmd_error(
+static t_ast	*minishell_parse_cmd_error(
 		t_ast **redirs_node,
 		t_ast **exec_node,
 		t_ast **args_node,
