@@ -26,38 +26,38 @@ HDRINC			=	-I$(HDRDIR)
 
 SRCDIR			=	srcs/
 SRC_M			=	\
-					debug/minishell_print_token_list									\
-					utils/ft_arraylen													\
-					error_handling/minishell_perror_exit								\
-					error_handling/minishell_perror										\
-					minishell_env/minishell_env_init									\
-					minishell_env/minishell_env_getvar									\
-					minishell_env/minishell_env_setvar									\
-					minishell_env/minishell_env_free									\
-					minishell_history/minishell_load_history							\
-					minishell_history/minishell_save_history							\
-					minishell_tokenise/minishell_tokenise								\
-					minishell_tokenise/minishell_tokenise_create_token					\
-					minishell_tokenise/minishell_tokenise_insert_token					\
-					minishell_tokenise/minishell_tokenise_free							\
-					minishell_tokenise/minishell_tokenise_get_next_token				\
-					minishell_parse/expression/minishell_parse_grouping					\
-					minishell_parse/expression/minishell_parse_list						\
-					minishell_parse/expression/minishell_parse_pipeline					\
-					minishell_parse/expression/cmd/minishell_parse_cmd					\
-					minishell_parse/expression/cmd/minishell_parse_cmd_arguments		\
-					minishell_parse/expression/cmd/minishell_parse_cmd_redirections		\
-					minishell_parse/token/minishell_parse_word_string					\
-					minishelL_parse/token/minishell_parse_word							\
-					minishell_parse/token/minishell_parse_operator						\
-					minishell_parse/token/minishell_parse_token							\
-					minishell_parse/ast/minishell_parse_astnew							\
-					minishell_parse/ast/minishell_parse_astadd_child					\
-					minishell_parse/ast/minishell_parse_astprint						\
-					minishell_parse/ast/minishell_parse_astfree							\
-					minishell_parse/minishell_parse										\
-					minishell/minishell_prompt											\
-					minishell/minishell													\
+					debug/msh_print_token_list								\
+					utils/ft_arraylen										\
+					error_handling/msh_perror_exit							\
+					error_handling/msh_perror								\
+					msh_env/msh_env_init									\
+					msh_env/msh_env_getvar									\
+					msh_env/msh_env_setvar									\
+					msh_env/msh_env_free									\
+					msh_history/msh_load_history							\
+					msh_history/msh_save_history							\
+					msh_tokenise/msh_tokenise								\
+					msh_tokenise/msh_tokenise_create_token					\
+					msh_tokenise/msh_tokenise_insert_token					\
+					msh_tokenise/msh_tokenise_free							\
+					msh_tokenise/msh_tokenise_get_next_token				\
+					msh_parse/expression/msh_parse_grouping					\
+					msh_parse/expression/msh_parse_list						\
+					msh_parse/expression/msh_parse_pipeline					\
+					msh_parse/expression/cmd/msh_parse_cmd					\
+					msh_parse/expression/cmd/msh_parse_cmd_arguments		\
+					msh_parse/expression/cmd/msh_parse_cmd_redirections		\
+					msh_parse/token/msh_parse_word_string					\
+					msh_parse/token/msh_parse_word							\
+					msh_parse/token/msh_parse_operator						\
+					msh_parse/token/msh_parse_token							\
+					msh_parse/ast/msh_parse_astnew							\
+					msh_parse/ast/msh_parse_astadd_child					\
+					msh_parse/ast/msh_parse_astprint						\
+					msh_parse/ast/msh_parse_astfree							\
+					msh_parse/msh_parse										\
+					msh/msh_prompt											\
+					msh/msh													\
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M)))
 
@@ -75,7 +75,7 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 ###FLAGS								######
 ##############################################
 
-NAME			=	minishell
+NAME			=	msh
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
 #FSANITIZE		=	-fsanitize=address -g
@@ -116,7 +116,7 @@ $(OBJDIR)%.o: $(SRCDIR)%.c
 clean:
 	$(RM) $(OBJDIR)
 	$(RM) .DS_Store
-	$(RM) .minishell_history
+	$(RM) .msh_history
 	$(MAKE_C) $(LIBFTDIR) $@
 
 fclean: clean
