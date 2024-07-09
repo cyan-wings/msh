@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:37:21 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/09 14:15:46 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,6 @@ int	main(void)
 		break ;
 	}
 	msh_clean(&env_list);
-	system("leaks msh -q");
+	//system("leaks msh -q");
 	return (0);
 }
