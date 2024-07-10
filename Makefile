@@ -34,6 +34,8 @@ SRC_M			=	\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
 					msh_env/msh_env_free									\
+					msh_expansion/msh_expansion_dollar						\
+					msh_expansion/msh_expansion								\
 					msh_history/msh_load_history							\
 					msh_history/msh_save_history							\
 					msh_tokenise/msh_tokenise								\
@@ -78,7 +80,7 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 NAME			=	msh
 CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
-FSANITIZE		=	-fsanitize=address -g
+#FSANITIZE		=	-fsanitize=address -g
 
 IFLAGS			=	$(HDRINC) $(LIBFTINC) $(READLINEINC)
 LFLAGS			=	$(LIBFTLD) $(READLINELD)

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:50:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/06 14:02:04 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/10 20:45:14 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ char	*ft_itoa(int n);
 char	*ft_itol(long n);
 char	**ft_split(char const *s, char c);
 char	**ft_split_tok(char *s, char const *set);
+void	ft_strappend(char **ptr, char const *add);
 char	*ft_strchr(const char *s, int c);
 void	ft_strclr(char *s);
 int		ft_strcmp(const char *s1, const char *s2);

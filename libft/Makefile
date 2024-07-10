@@ -39,6 +39,7 @@ STRSRC			=		\
 						itoa			\
 						itol			\
 						split			\
+						strappend		\
 						strchr			\
 						strclr			\
 						strcmp			\
