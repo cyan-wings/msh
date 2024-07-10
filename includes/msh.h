@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:32:34 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/10 17:26:44 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ typedef struct s_ast
 	int				child_count;
 	char			*value;
 }	t_ast;
+
+//MSH_EXPANSION
+void	msh_expansion(t_ast *node, t_list *env_list);
 
 //msh_PARSE_EXPRESSION
 t_ast	*msh_parse_grouping(t_list **token_ptr);
