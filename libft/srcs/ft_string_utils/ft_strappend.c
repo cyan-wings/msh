@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:10:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/10 22:13:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/11 19:09:45 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 void	ft_strappend(char **ptr, char const *add)
 {
-	char *new;
+	char	*new;
 
 	if (!add || !ptr)
 		return ;
