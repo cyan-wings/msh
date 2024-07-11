@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:34:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:35:10 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/11 19:33:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  * Possible error types:
  * 		(1) Tokenise error.
  * 		(2) Parsing error.
+ * 		(3) Open or close dir error during wildcards expansion.
  *
  * May want to include functionality to free up certain stuff.
  */
