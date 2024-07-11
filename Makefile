@@ -34,6 +34,8 @@ SRC_M			=	\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
 					msh_env/msh_env_free									\
+					msh_expansion/utils/msh_expansion_utils_strappend		\
+					msh_expansion/msh_expansion_quotes						\
 					msh_expansion/msh_expansion_dollar						\
 					msh_expansion/msh_expansion								\
 					msh_history/msh_load_history							\

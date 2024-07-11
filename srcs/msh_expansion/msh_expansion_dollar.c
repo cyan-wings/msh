@@ -6,11 +6,14 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/10 22:12:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/11 16:17:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+
+void	msh_expansion_utils_strappend(char **strptr, int start, int i,
+			char **new_strptr);
 
 int	ft_ischar_identifier(char c)
 {
@@ -34,19 +37,6 @@ static char	*process_identifier(t_list *env_list, char *str, int start, int *i)
 	return (value);
 }
 
-static void	append_to_new_str(char **strptr, int start, int i,
-		char **new_strptr)
-{
-	char	*temp;
-
-	if (start == i)
-		return ;
-	temp = 0;
-	temp = ft_substr(*strptr, start, i - start);
-	ft_strappend(new_strptr, temp);
-	ft_memdel((void **) &temp);
-}
-
 /*
  * Environment variables cannot be special chars
  *
@@ -54,23 +44,27 @@ static void	append_to_new_str(char **strptr, int start, int i,
  */
 void	msh_expansion_dollar(char **strptr, t_list *env_list)
 {
+	int		dquote_flag;
 	int		flag;
 	int		start;
 	int		i;
 	char	*new_str;
 	char	*temp;
 
+	dquote_flag = 0;
 	flag = 0;
 	start = 0;
 	i = -1;
 	new_str = 0;
 	while ((*strptr)[++i])
 	{
-		if ((*strptr)[i] == '\'')
+		if ((*strptr)[i] == '\"')
+			++dquote_flag;
+		if ((*strptr)[i] == '\'' && !(dquote_flag % 2))
 			++flag;
 		if ((*strptr)[i] == '$' && !(flag % 2))
 		{
-			append_to_new_str(strptr, start, i, &new_str);
+			msh_expansion_utils_strappend(strptr, start, i, &new_str);
 			start = ++i;
 			temp = process_identifier(env_list, *strptr, start, &i);
 			ft_strappend(&new_str, temp);
@@ -78,7 +72,7 @@ void	msh_expansion_dollar(char **strptr, t_list *env_list)
 			start = i--;
 		}
 	}
-	append_to_new_str(strptr, start, i, &new_str);
+	msh_expansion_utils_strappend(strptr, start, i, &new_str);
 	ft_memdel((void **) strptr);
 	*strptr = new_str;
 }
