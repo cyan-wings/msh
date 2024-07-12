@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 18:08:07 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 19:13:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/07/12 15:07:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static void	start_from_last_wildcard(int *i, int *j,
 	*i = *match;
 }
 
+/*
+ * Usually a wildcard would take from of '*'.
+ * This function assumes that the '*' char value for pattern matching 
+ * has been converted to -1.
+ */
 int	ft_strmatch_pattern_helper(char *str, char *pattern, int startIndex,
 		int match)
 {
@@ -40,7 +45,7 @@ int	ft_strmatch_pattern_helper(char *str, char *pattern, int startIndex,
 	{
 		if (j < m && pattern[j] == str[i])
 			found_match(&i, &j);
-		else if (j < m && pattern[j] == '*')
+		else if (j < m && pattern[j] == -1)
 		{
 			startIndex = j;
 			match = i;
@@ -51,7 +56,7 @@ int	ft_strmatch_pattern_helper(char *str, char *pattern, int startIndex,
 		else
 			return (0);
 	}
-	while (j < m && pattern[j] == '*')
+	while (j < m && pattern[j] == -1)
 		++j;
 	return (j == m);
 }
