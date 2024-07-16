@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh.h"
+#include <stdio.h>
 
 /*
  * while (env_list)
@@ -62,6 +63,9 @@ static void	msh_process_input(char *input, t_list **env_list)
 		msh_perror("Parsing_error.");
 	msh_parse_astprint(root, 0);
 	msh_expansion(root, *env_list);
+	// printf("%s, %i\n", root->type, root->child_count);
+	printf("\n---------------------------\n");
+	traversal(root);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }

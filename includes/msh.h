@@ -99,6 +99,9 @@ int		msh_tokenise(char *input, t_list **token_list);
 void	msh_tokenise_free(t_list **token_list);
 void	msh_tokenise_get_next_token(t_list **token_ptr);
 
+//msh_TRAVERSAL
+void	traversal(t_ast *node);
+
 //msh_ENV
 void	msh_env_init(t_list **env_list);
 char	*msh_env_getvar(t_list *env_list, char *k);
