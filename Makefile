@@ -9,7 +9,8 @@ LIBFT			=	$(LIBFTDIR)/libft.a
 
 READLINEDIR		=	readline
 READLINEINC		=	-I$(READLINEDIR)
-READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
+# READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
+READLINELD		=	 -lreadline -lncurses 
 
 
 ##############################################
@@ -61,6 +62,7 @@ SRC_M			=	\
 					msh_parse/ast/msh_parse_astprint						\
 					msh_parse/ast/msh_parse_astfree							\
 					msh_parse/msh_parse										\
+					msh_traversal/msh_traversal								\
 					msh/msh_prompt											\
 					msh/msh													\
 
