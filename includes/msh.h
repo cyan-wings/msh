@@ -13,6 +13,7 @@
 #ifndef MSH_H
 # define MSH_H
 
+#include "ft_lst_utils.h"
 # define HISTORY_FILE ".msh_history"
 
 # include <stdio.h>
@@ -33,7 +34,8 @@
 # define AND "&&"
 # define OR "||"
 */
-
+struct s_ast;
+typedef int (*t_bif)(struct s_ast *node, t_list **env_list);
 typedef struct s_env
 {
 	char		*key;
@@ -100,13 +102,16 @@ void	msh_tokenise_free(t_list **token_list);
 void	msh_tokenise_get_next_token(t_list **token_ptr);
 
 //msh_TRAVERSAL
-void	traversal(t_ast *node);
+void	traversal(t_ast *node, t_list **env_list, t_bif *builtin_list);
 
 //msh_ENV
 void	msh_env_init(t_list **env_list);
 char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_setvar(t_list **env_list, char *k, char *v);
 void	msh_env_free(t_list **env_list);
+
+// msh_BUILTIN
+void	msh_builtin_init(t_bif **builtin_list);
 
 //msh_HISTORY
 void	msh_load_history(const char *filename);

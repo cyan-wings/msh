@@ -62,11 +62,13 @@ SRC_M			=	\
 					msh_parse/ast/msh_parse_astprint						\
 					msh_parse/ast/msh_parse_astfree							\
 					msh_parse/msh_parse										\
-					msh_traversal/msh_traversal								\
 					msh/msh_prompt											\
-					msh/msh													\
+					msh/msh
 
-SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M)))
+
+# msh_traversal/msh_traversal								\
+
+SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))
 
 
 ##############################################
