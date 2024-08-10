@@ -87,10 +87,10 @@ static int	msh_parse_cmd_helper(
 		)
 {
 	int		status;
-	t_ast	*cmd_node;
+	// t_ast	*cmd_node;
 
 	status = 1;
-	cmd_node = 0;
+	// cmd_node = 0;
 	*redirs_node = msh_parse_astnew("redirections", 0);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);

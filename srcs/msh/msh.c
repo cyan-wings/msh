@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_lst_utils.h"
+#include "ft_string_utils.h"
 #include <stdio.h>
 
 /*
@@ -20,10 +22,11 @@
  * env_list = env_list->next;
  * }
  */
-static void	msh_init(t_list **env_list)
+static void	msh_init(t_list **env_list, t_bif **builtin_list)
 {
 	msh_load_history(HISTORY_FILE);
 	msh_env_init(env_list);
+	// msh_builtin_init(builtin_list);
 	return ;
 }
 
@@ -41,7 +44,8 @@ static char	*msh_get_input(t_list *env_list)
 	return (input);
 }
 
-static void	msh_process_input(char *input, t_list **env_list)
+// static void	msh_process_input(char *input, t_list **env_list)
+static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_list)
 {
 	t_list	*token_list;
 	t_ast	*root;
@@ -62,10 +66,10 @@ static void	msh_process_input(char *input, t_list **env_list)
 	if (!flag)
 		msh_perror("Parsing_error.");
 	msh_parse_astprint(root, 0);
-	msh_expansion(root, *env_list);
+	// msh_expansion(root, *env_list);
 	// printf("%s, %i\n", root->type, root->child_count);
-	printf("\n---------------------------\n");
-	traversal(root);
+	// printf("\n---------------------------\n");
+	traversal(root, env_list, builtin_list);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }
@@ -77,16 +81,24 @@ static void	msh_clean(t_list **env_list)
 
 int	main(void)
 {
-	char	*input;
 	t_list	*env_list;
+	t_bif	*builtin_list;
+	char	*input;
 
 	input = 0;
 	env_list = 0;
-	msh_init(&env_list);
+	builtin_list = 0;
+	msh_init(&env_list, &builtin_list);
+
+	// char **test = ft_split(msh_env_getvar(env_list, "PATH"), ':');
+	// for (int i = 0; test[i]; i++)
+	// 	printf("%s\n", test[i]);
+	// return (0);
+
 	while (1)
 	{
 		input = msh_get_input(env_list);
-		msh_process_input(input, &env_list);
+		msh_process_input(input, &env_list, builtin_list);
 		free(input);
 		break ;
 	}
