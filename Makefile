@@ -29,6 +29,7 @@ SRCDIR			=	srcs/
 SRC_M			=	\
 					debug/msh_print_token_list								\
 					utils/ft_arraylen										\
+					utils/ft_get_arr										\
 					error_handling/msh_perror_exit							\
 					error_handling/msh_perror								\
 					msh_env/msh_env_init									\
@@ -62,6 +63,8 @@ SRC_M			=	\
 					msh_parse/ast/msh_parse_astprint						\
 					msh_parse/ast/msh_parse_astfree							\
 					msh_parse/msh_parse										\
+					msh_traversal/msh_traversal 							\
+					msh_traversal/msh_pipe      							\
 					msh/msh_prompt											\
 					msh/msh
 

@@ -1,6 +1,4 @@
-#include "ft_lst_utils.h"
 #include "msh.h"
-#include <stdio.h>
 
 void handle_pipeline(t_ast *node, t_list **env_list)
 {
@@ -34,6 +32,11 @@ void	handle_node(t_ast *node)
 	if (ft_strcmp(node->type, "pipeline"))
 		handle_pipeline(node);
 	else if (ft_strcmp(node->type, "list_op"))
+		return;
+	else if (ft_strcmp(node->type, "grouping"))
+		return;
+	else
+		return;
 		// handle_pipeline(node);
 }
 
