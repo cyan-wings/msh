@@ -24,6 +24,7 @@
  */
 static void	msh_init(t_list **env_list, t_bif **builtin_list)
 {
+	(void) builtin_list;
 	msh_load_history(HISTORY_FILE);
 	msh_env_init(env_list);
 	// msh_builtin_init(builtin_list);
@@ -47,6 +48,7 @@ static char	*msh_get_input(t_list *env_list)
 // static void	msh_process_input(char *input, t_list **env_list)
 static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_list)
 {
+	(void) builtin_list;
 	t_list	*token_list;
 	t_ast	*root;
 	int		flag;
@@ -66,10 +68,10 @@ static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_lis
 	if (!flag)
 		msh_perror("Parsing_error.");
 	msh_parse_astprint(root, 0);
-	// msh_expansion(root, *env_list);
+	msh_expansion(root, *env_list);
 	// printf("%s, %i\n", root->type, root->child_count);
 	// printf("\n---------------------------\n");
-	traversal(root, env_list, builtin_list);
+	// traversal(root, env_list, builtin_list);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }

@@ -109,9 +109,21 @@ void	msh_env_init(t_list **env_list);
 char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_setvar(t_list **env_list, char *k, char *v);
 void	msh_env_free(t_list **env_list);
+char **msh_env_get_array(t_list *env_list);
 
 // msh_BUILTIN
 void	msh_builtin_init(t_bif **builtin_list);
+
+//utils
+char **get_var_arr(t_ast *node) ;
+int check_is_plugin(char *executable) ;
+
+// msh_execution_UTILS
+void	handle_redirection_in(int *fd, t_ast *node);
+void	handle_redirection_out(int *fd, t_ast *node);
+void ft_dup2(int oldfd, int newfd) ;
+void handle_redirection(t_ast *node);
+void	run_execve(t_ast *node, t_list **env_list);
 
 //msh_HISTORY
 void	msh_load_history(const char *filename);
