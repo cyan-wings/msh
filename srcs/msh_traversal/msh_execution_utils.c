@@ -1,4 +1,6 @@
+#include "ft_string_utils.h"
 #include "msh.h"
+#include <stdio.h>
 
 void	handle_redirection_in(int *fd, t_ast *node)
 {
@@ -33,7 +35,7 @@ void ft_dup2(int oldfd, int newfd) {
   if (res == -1) {
     // write(2, str, ft_strlen(str));
     // write(2, ": ", 2);
-    write(2, "dup2 failed", 11);
+    write(2, "dup2 failed\n", 12);
     exit(1);
   }
 }
@@ -43,23 +45,33 @@ void handle_redirection(t_ast *node)
 	int	i;
 	int in;
 	int out;
-	// t_ast *current;
+	t_ast *current;
 
 	i = -1;
 	in = -69;
 	out = -69;
-	while (++i < node->child_count)
+	while (++i <= node->child_count)
 	{
 		current = node->children[i];
-		if (!ft_strcmp(node->value, "<<") || !ft_strcmp(node->value, "<"))	
-			handle_redirection_in(&in, node);
-		else if (!ft_strcmp(node->value, ">") || !ft_strcmp(node->value, ">>"))	
-			handle_redirection_out(&out, node);
+		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))	
+			handle_redirection_in(&in, current);
+		else if (!ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))	
+			handle_redirection_out(&out, current);
 	}
 	if (in != -69)
 		ft_dup2(in, STDIN_FILENO);
 	if (out != -69)
 		ft_dup2(out, STDOUT_FILENO);
+}
+
+char *generate_filepath(char *command, char *path) {
+	char *res;
+	char *temp;
+
+	temp = ft_strjoin(path, "/");
+	res = ft_strjoin(temp,command);
+	free(temp);
+	return res;
 }
 
 void	run_execve(t_ast *node, t_list **env_list)
@@ -73,11 +85,15 @@ void	run_execve(t_ast *node, t_list **env_list)
 
 	i = -1;
 	path = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
-	argv_arr = get_var_arr(node->children[1]);
+	// printf("is this node: %s\n\n", node->type);
+	argv_arr = get_var_arr(node);
 	envp_arr = msh_env_get_array(*env_list);
 	while (path[++i])
 	{
-		filepath = ft_strjoin(path[i], node->children[0]->value);
+		// printf("the current node in here: %s\n\n", node->children[0]->value);
+		// filepath = ft_strjoin(path[i], node->children[0]->value);
+		filepath = generate_filepath(node->children[0]->value, path[i]);
+		// printf("current filepath: %s\n\n", filepath);
 		res = execve(filepath, argv_arr, envp_arr);
 		free(filepath);
 		if (res != -1)

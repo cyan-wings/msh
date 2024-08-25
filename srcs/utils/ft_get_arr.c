@@ -1,17 +1,22 @@
+#include "ft_string_utils.h"
 #include "msh.h"
+#include <stdio.h>
 
 char **get_var_arr(t_ast *node) {
 	int i;
 	char **res;
+	t_ast *current;
 
-	if (ft_strcmp(node->type, "arguments"))
+	current = node->children[1];
+	if (ft_strcmp(current->type, "arguments"))
 		return NULL;
 	i = -1;
-	res = (char **)malloc(sizeof(char *) * (node->child_count + 1));
-	while (++i < node->child_count) {
-		res[i] = ft_strdup(node->children[i]->value);
+	res = (char **)malloc(sizeof(char *) * (current->child_count + 2));
+	res[0] = ft_strdup(node->children[0]->value);
+	while (++i < current->child_count) {
+		res[i+1] = ft_strdup(current->children[i]->value);
 	}
-	res[i] = NULL;
+	res[i+1] = NULL;
 	return res;
 }
 

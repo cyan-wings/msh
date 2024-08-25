@@ -71,7 +71,8 @@ static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_lis
 	msh_expansion(root, *env_list);
 	// printf("%s, %i\n", root->type, root->child_count);
 	// printf("\n---------------------------\n");
-	// traversal(root, env_list, builtin_list);
+	printf("\n\n\n");
+	traversal(root, env_list, builtin_list);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }
@@ -80,6 +81,8 @@ static void	msh_clean(t_list **env_list)
 {
 	msh_env_free(env_list);
 }
+
+int g_exit_status = 0;
 
 int	main(void)
 {
@@ -102,7 +105,7 @@ int	main(void)
 		input = msh_get_input(env_list);
 		msh_process_input(input, &env_list, builtin_list);
 		free(input);
-		break ;
+		// break ;
 	}
 	msh_clean(&env_list);
 	//system("leaks msh -q");
