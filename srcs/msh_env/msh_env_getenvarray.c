@@ -23,9 +23,9 @@ static char *get_current_var(t_list *env_list) {
 	key_len = ft_strlen(current_env->key);
 	val_len = ft_strlen(current_env->val);
 	res = ft_memalloc(key_len + val_len + 2);
-	ft_strlcpy(res, current_env->key, key_len);
-	ft_strlcpy(res + key_len, "=", key_len);
-	ft_strlcpy(res + key_len + 1, current_env->val, val_len);
+	ft_strlcpy(res, current_env->key, key_len + 1);
+	res[key_len] = '=';
+	ft_strlcpy(res + key_len + 1, current_env->val, val_len+1);
 	return res;
 }
 

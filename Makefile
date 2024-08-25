@@ -36,6 +36,7 @@ SRC_M			=	\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
 					msh_env/msh_env_free									\
+					msh_env/msh_env_getenvarray								\
 					msh_expansion/utils/msh_expansion_utils_strappend		\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
 					msh_expansion/msh_expansion_quotes						\
@@ -65,6 +66,7 @@ SRC_M			=	\
 					msh_parse/msh_parse										\
 					msh_traversal/msh_traversal 							\
 					msh_traversal/msh_pipe      							\
+					msh_traversal/msh_execution_utils     					\
 					msh/msh_prompt											\
 					msh/msh
 
