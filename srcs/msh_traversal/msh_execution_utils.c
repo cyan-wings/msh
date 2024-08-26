@@ -84,6 +84,7 @@ void	run_execve(t_ast *node, t_list **env_list)
 	char **envp_arr;
 
 	i = -1;
+	reset_signal();
 	path = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
 	// printf("is this node: %s\n\n", node->type);
 	argv_arr = get_var_arr(node);
