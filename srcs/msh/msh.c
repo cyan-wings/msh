@@ -102,6 +102,7 @@ int	main(void)
 
 	while (1)
 	{
+		signal_init();
 		input = msh_get_input(env_list);
 		msh_process_input(input, &env_list, builtin_list);
 		free(input);

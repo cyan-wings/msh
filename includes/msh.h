@@ -18,6 +18,9 @@
 
 # include <stdio.h>
 # include <stdlib.h>
+# include <signal.h>
+# include <errno.h>
+# include <termios.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "libft.h"
@@ -128,8 +131,13 @@ void	handle_redirection(t_ast *node);
 void	run_execve(t_ast *node, t_list **env_list);
 
 // msh_execute
-int	single_cmd(t_ast *node, pid_t *pid, t_list **env_list, t_bif *builtin_list);
-int	multi_cmd(t_ast *node, pid_t *pid, t_list **env_list, t_bif *builtin_list);
+int		single_cmd(t_ast *node, pid_t *pid, t_list **env_list, t_bif *builtin_list);
+int		multi_cmd(t_ast *node, pid_t *pid, t_list **env_list, t_bif *builtin_list);
+
+// msh_signals
+void	signal_init(void);
+void 	sigint_handler(int sig);
+void 	reset_signal(void);
 
 //msh_HISTORY
 void	msh_load_history(const char *filename);
