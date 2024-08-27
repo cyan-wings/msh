@@ -7,10 +7,13 @@ LIBFTINC		=	-I$(LIBFTDIR)/includes/
 LIBFTLD			=	-L$(LIBFTDIR) -lft
 LIBFT			=	$(LIBFTDIR)/libft.a
 
-READLINEDIR		=	readline
-READLINEINC		=	-I$(READLINEDIR)/
+# READLINEDIR		=	readline
+READLINEDIR		=	/opt/homebrew/Cellar/readline/8.2.13/lib/
+READLINEIDIR		=	/opt/homebrew/Cellar/readline/8.2.13/include/readline
+READLINEINC		=	-I$(READLINEIDIR)/
 # READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
 READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses 
+# READLINELD		=	-lreadline -lncurses 
 
 
 ##############################################

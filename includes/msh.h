@@ -21,8 +21,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
-# include "readline.h"
-# include "history.h"
+# include <readline.h>
+# include <history.h>
 # include "libft.h"
 # include "get_next_line.h"
 

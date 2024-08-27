@@ -38,6 +38,8 @@ static char	*msh_get_input(t_list *env_list)
 
 	prompt = msh_prompt(env_list);
 	input = readline(prompt);
+	if (!input)
+		return 0;
 	if (*input)
 		msh_save_history(input, HISTORY_FILE);
 	printf("The input was: %s\n", input);
@@ -106,6 +108,8 @@ int	main(void)
 	{
 		signal_init();
 		input = msh_get_input(env_list);
+		if (!input)
+			exit(0) ;
 		msh_process_input(input, &env_list, builtin_list);
 		free(input);
 		// break ;
