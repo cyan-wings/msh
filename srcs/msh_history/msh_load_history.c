@@ -6,13 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:44:45 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:44:47 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 16:32:47 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <fcntl.h>
 #include <stdlib.h>
-#include <readline/history.h>
 #include "get_next_line.h"
 #include "msh.h"
 

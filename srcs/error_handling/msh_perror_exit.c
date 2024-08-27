@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:35:23 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 19:32:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:22:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
  *
  * Usually used when malloc error.
  */
-void	msh_perror_exit(char *s, int status)
+void	msh_perror_exit(char *error_msg, int status)
 {
-	perror(s);
+	perror(error_msg);
 	exit(status);
 }

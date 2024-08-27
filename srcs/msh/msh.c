@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/12 21:04:35 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 15:43:35 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ static void	msh_clean(t_list **env_list)
 }
 
 int g_exit_status = 0;
+
+void	signal_init(void);
 
 int	main(void)
 {

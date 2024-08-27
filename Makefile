@@ -8,9 +8,9 @@ LIBFTLD			=	-L$(LIBFTDIR) -lft
 LIBFT			=	$(LIBFTDIR)/libft.a
 
 READLINEDIR		=	readline
-READLINEINC		=	-I$(READLINEDIR)
+READLINEINC		=	-I$(READLINEDIR)/
 # READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
-READLINELD		=	 -lreadline -lncurses 
+READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses 
 
 
 ##############################################
@@ -67,6 +67,7 @@ SRC_M			=	\
 					msh_traversal/msh_traversal 							\
 					msh_traversal/msh_pipe      							\
 					msh_traversal/msh_execution_utils     					\
+					msh_signals/msh_signals									\
 					msh/msh_prompt											\
 					msh/msh
 
@@ -94,8 +95,8 @@ CC				=	cc
 CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
 FSANITIZE		=	-fsanitize=address -g
 
-IFLAGS			=	$(HDRINC) $(LIBFTINC) $(READLINEINC)
-LFLAGS			=	$(LIBFTLD) $(READLINELD)
+IFLAGS			=	$(READLINEINC) $(LIBFTINC) $(HDRINC)
+LFLAGS			=	$(READLINELD) $(LIBFTLD)
 
 RM				=	rm -rf
 MAKE			=	make

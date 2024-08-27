@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 16:29:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 16:14:17 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <signal.h>
 # include <errno.h>
 # include <termios.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include "readline.h"
+# include "history.h"
 # include "libft.h"
 # include "get_next_line.h"
 
@@ -145,7 +145,7 @@ void	msh_save_history(char *input, const char *filename);
 
 //ERROR_HANDLING
 void	msh_perror(char *error_msg);
-void	msh_perror_exit(char *s, int status);
+void	msh_perror_exit(char *error_msg, int status);
 
 //msh
 char	*msh_prompt(t_list *env_list);

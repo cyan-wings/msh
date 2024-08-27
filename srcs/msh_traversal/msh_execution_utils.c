@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_execution_utils.c                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/08/27 15:39:47 by myeow             #+#    #+#             */
+/*   Updated: 2024/08/27 15:42:55 by myeow            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_string_utils.h"
 #include "msh.h"
 #include <stdio.h>
@@ -28,16 +40,13 @@ void	handle_redirection_out(int *fd, t_ast *node)
 		*fd = open(node->children[0]->value, O_CREAT | O_TRUNC | O_RDWR, S_IRWXU | S_IRGRP | S_IROTH);
 }
 
-void ft_dup2(int oldfd, int newfd) {
-  int res;
+void ft_dup2(int oldfd, int newfd)
+{
+	int res;
 
-  res = dup2(oldfd, newfd);
-  if (res == -1) {
-    // write(2, str, ft_strlen(str));
-    // write(2, ": ", 2);
-    write(2, "dup2 failed\n", 12);
-    exit(1);
-  }
+	res = dup2(oldfd, newfd);
+	if (res == -1)
+		msh_perror_exit("dup2 failed\n", 1);
 }
 
 void handle_redirection(t_ast *node)
@@ -53,9 +62,9 @@ void handle_redirection(t_ast *node)
 	while (++i <= node->child_count)
 	{
 		current = node->children[i];
-		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))	
+		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))
 			handle_redirection_in(&in, current);
-		else if (!ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))	
+		else if (!ft_strcmp(current->value, ">") || !ft_strcmp(current->value, ">>"))
 			handle_redirection_out(&out, current);
 	}
 	if (in != -69)
@@ -64,9 +73,10 @@ void handle_redirection(t_ast *node)
 		ft_dup2(out, STDOUT_FILENO);
 }
 
-char *generate_filepath(char *command, char *path) {
-	char *res;
-	char *temp;
+char *generate_filepath(char *command, char *path)
+{
+	char	*res;
+	char	*temp;
 
 	temp = ft_strjoin(path, "/");
 	res = ft_strjoin(temp,command);
@@ -74,14 +84,16 @@ char *generate_filepath(char *command, char *path) {
 	return res;
 }
 
+void reset_signal(void);
+
 void	run_execve(t_ast *node, t_list **env_list)
 {
-	int	i;
-	char **path;
-	char *filepath;
-	int res;
-	char **argv_arr;
-	char **envp_arr;
+	int		i;
+	char	**path;
+	char	*filepath;
+	int		res;
+	char	**argv_arr;
+	char	**envp_arr;
 
 	i = -1;
 	reset_signal();
