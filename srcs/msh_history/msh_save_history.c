@@ -6,12 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:44:37 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:44:39 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 16:32:58 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
-#include <readline/history.h>
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>

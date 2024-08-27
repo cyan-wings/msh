@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:00:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 14:00:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/27 16:34:17 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_token	*msh_tokenise_create_token(char *str);
 
-#define META "<>|&()"
+#define META_C "<>|&()"
 #define META_DOUBLE "<>|&"
 
 /*
@@ -62,8 +62,8 @@ void	msh_tokenise_insert_token(char *str, t_list **token_list)
 	{
 		if (str[i] == '\'' || str[i] == '\"')
 			i = get_close_quote_idx(str, i, str[i]);
-		if (ft_strchr(META, str[i]) || \
-				ft_strchr(META, str[i + 1]) || !str[i + 1])
+		if (ft_strchr(META_C, str[i]) || \
+				ft_strchr(META_C, str[i + 1]) || !str[i + 1])
 		{
 			if (check_double_meta(str[i], str[i + 1]))
 				++i;
