@@ -2,6 +2,7 @@
 #include "msh.h"
 #include <stdio.h>
 
+//get ARGUMENTS FOR EXECVE
 char **get_var_arr(t_ast *node) {
 	int i;
 	char **res;

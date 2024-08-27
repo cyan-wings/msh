@@ -16,7 +16,7 @@
 
 void	handle_redirection_in(int *fd, t_ast *node)
 {
-	if (*fd != 69)
+	if (*fd != -69)
 	{
 		close(*fd);
 		*fd = -69;
@@ -29,7 +29,7 @@ void	handle_redirection_in(int *fd, t_ast *node)
 
 void	handle_redirection_out(int *fd, t_ast *node)
 {
-	if (*fd != 69)
+	if (*fd != -69)
 	{
 		close(*fd);
 		*fd = -69;
