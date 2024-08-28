@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:00:47 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/12 21:02:04 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 17:25:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 void	msh_expansion_quotes(char **strptr);
 
+/*
+ * The * character is replaced with a -1 character value because it is
+ * possible for a filename to include the * character.
+ * The -1 will then be used later for pattern matching for 0-any chars.
+ */
 static int	check_and_replace_wildcards(char **strptr)
 {
 	int	flag;

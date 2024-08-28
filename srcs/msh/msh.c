@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/27 15:43:35 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 18:16:49 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,9 @@ static char	*msh_get_input(t_list *env_list)
 	return (input);
 }
 
-// static void	msh_process_input(char *input, t_list **env_list)
-static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_list)
+static void	msh_process_input(char *input, t_list **env_list,
+		t_bif *builtin_list, t_global *global)
 {
-	(void) builtin_list;
 	t_list	*token_list;
 	t_ast	*root;
 	int		flag;
@@ -74,7 +73,7 @@ static void	msh_process_input(char *input, t_list **env_list, t_bif *builtin_lis
 	// printf("%s, %i\n", root->type, root->child_count);
 	// printf("\n---------------------------\n");
 	printf("\n\n\n");
-	traversal(root, env_list, builtin_list);
+	msh_execute(root, env_list, builtin_list, global);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }
@@ -84,33 +83,27 @@ static void	msh_clean(t_list **env_list)
 	msh_env_free(env_list);
 }
 
-int g_exit_status = 0;
-
 void	signal_init(void);
 
 int	main(void)
 {
-	t_list	*env_list;
-	t_bif	*builtin_list;
-	char	*input;
+	t_global	global;
+	t_list		*env_list;
+	t_bif		*builtin_list;
+	char		*input;
 
+	global = (t_global){0};
 	input = 0;
 	env_list = 0;
 	builtin_list = 0;
 	msh_init(&env_list, &builtin_list);
-
-	// char **test = ft_split(msh_env_getvar(env_list, "PATH"), ':');
-	// for (int i = 0; test[i]; i++)
-	// 	printf("%s\n", test[i]);
-	// return (0);
-
 	while (1)
 	{
 		signal_init();
 		input = msh_get_input(env_list);
 		if (!input)
 			exit(0) ;
-		msh_process_input(input, &env_list, builtin_list);
+		msh_process_input(input, &env_list, builtin_list, &global);
 		free(input);
 		// break ;
 	}

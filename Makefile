@@ -7,13 +7,9 @@ LIBFTINC		=	-I$(LIBFTDIR)/includes/
 LIBFTLD			=	-L$(LIBFTDIR) -lft
 LIBFT			=	$(LIBFTDIR)/libft.a
 
-# READLINEDIR		=	readline
-READLINEDIR		=	/opt/homebrew/Cellar/readline/8.2.13/lib/
-READLINEIDIR		=	/opt/homebrew/Cellar/readline/8.2.13/include/readline
-READLINEINC		=	-I$(READLINEIDIR)/
-# READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
-READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses 
-# READLINELD		=	-lreadline -lncurses 
+READLINEDIR		=	readline
+READLINEINC		=	-I$(READLINEDIR)/
+READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
 
 
 ##############################################
@@ -67,9 +63,13 @@ SRC_M			=	\
 					msh_parse/ast/msh_parse_astprint						\
 					msh_parse/ast/msh_parse_astfree							\
 					msh_parse/msh_parse										\
-					msh_traversal/msh_traversal 							\
-					msh_traversal/msh_pipe      							\
-					msh_traversal/msh_execution_utils     					\
+					msh_execute/msh_execute_util_dup2						\
+					msh_execute/msh_execute_simple_cmd_redirs				\
+					msh_execute/msh_execute_simple_cmd						\
+					msh_execute/msh_execute_pipeline						\
+					msh_execute/msh_execute_grouping						\
+					msh_execute/msh_execute_traverse_nodes					\
+					msh_execute/msh_execute		 							\
 					msh_signals/msh_signals									\
 					msh/msh_prompt											\
 					msh/msh

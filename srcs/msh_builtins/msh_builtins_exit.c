@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:39:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:39:33 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 16:20:26 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ static void	msh_builtins_exit_helper(char *exit_arg_str)
 
 /*
  * Input type may change to ast node.
+ *
+ * TODO: The current code doesn't exit when invalid arguments.
+ * But BASH exits even though the exit arguments are invalid
  */
 int	msh_builtins_exit(int argc, char **argv, int subshell_flag)
 {
