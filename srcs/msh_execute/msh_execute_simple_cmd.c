@@ -6,15 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 19:45:13 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 20:37:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
 void	msh_execute_simple_cmd_redirs(t_ast *node);
-
-void	reset_signal(void);
 
 char	*generate_filepath(char *command, char *path)
 {
@@ -24,6 +22,25 @@ char	*generate_filepath(char *command, char *path)
 	temp = ft_strjoin(path, "/");
 	res = ft_strjoin(temp, command);
 	free(temp);
+	return (res);
+}
+
+//get ARGUMENTS FOR EXECVE
+static char	**get_var_arr(t_ast *node)
+{
+	int		i;
+	char	**res;
+	t_ast	*current;
+
+	current = node->children[1];
+	if (ft_strcmp(current->type, "arguments"))
+		return NULL;
+	i = -1;
+	res = (char **)malloc(sizeof(char *) * (current->child_count + 2));
+	res[0] = ft_strdup(node->children[0]->value);
+	while (++i < current->child_count)
+		res[i + 1] = ft_strdup(current->children[i]->value);
+	res[i + 1] = NULL;
 	return (res);
 }
 
@@ -37,7 +54,7 @@ static void	run_execve(t_ast *node, t_list **env_list)
 	char	**envp_arr;
 
 	i = -1;
-	reset_signal();
+	msh_signal_reset();
 	path = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
 	argv_arr = get_var_arr(node);
 	envp_arr = msh_env_get_array(*env_list);
@@ -66,7 +83,7 @@ void	msh_execute_simple_cmd(t_ast *node, t_list **env_list,
 {
 	if (node->children[2]->child_count > 0)
 		msh_execute_simple_cmd_redirs(node->children[2]);
-	if (check_is_plugin(node->children[0]->value))
+	if (msh_builtins_check_available(node->children[0]->value))
 		exit(builtin_list[0](node, env_list));
 	else
 		run_execve(node, env_list);

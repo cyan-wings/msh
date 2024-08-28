@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 18:40:40 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 20:33:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,20 +19,20 @@
 static int	msh_execute_list_op(t_ast *node, t_global *global)
 {
 	if (ft_strcmp(node->type, "list_op"))
-		return 0;
+		return (0);
 	if (!ft_strcmp( node->value, "&&") && global->status != 0)
-		return 1;
+		return (1);
 	if (!ft_strcmp( node->value, "||") && global->status == 0)
-		return 1;
-	return 0;
+		return (1);
+	return (0);
 //TODO: what to do when its valid and when its not
 }
 
 void	msh_execute_pipeline(t_ast *node, t_list **env_list,
-		t_bif *builtin_list, t_global *global);
+				t_bif *builtin_list, t_global *global);
 
 void	msh_execute_grouping(t_ast *node, t_list **env_list,
-		t_bif *builtin_list, t_global *global);
+				t_bif *builtin_list, t_global *global);
 
 static int	execute_node(t_ast *node, t_list **env_list,
 		t_bif *builtin_list, t_global *global)
@@ -62,7 +62,7 @@ int	msh_execute_traverse_nodes(t_ast *node, t_list **env_list,
 	while (++i < node->child_count)
 	{
 		if (msh_execute_traverse_nodes(node->children[i],
-					env_list, builtin_list, global))
+				env_list, builtin_list, global))
 			return (1);
 	}
 	if (execute_node(node, env_list, builtin_list, global))

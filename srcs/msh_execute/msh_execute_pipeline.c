@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 19:43:51 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 20:23:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	execute_single_simple_cmd(t_ast *node, pid_t *pid,
 	t_ast	*current;
 
 	current = node->children[0];
-	if (check_is_plugin(current->children[0]->value))
+	if (msh_builtins_check_available(current->children[0]->value))
 	{
 		// TODO: run builtin
 		// TODO: return builtin value

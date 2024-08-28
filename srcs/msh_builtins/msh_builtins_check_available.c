@@ -1,22 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_execute_util_dup2.c                            :+:      :+:    :+:   */
+/*   msh_builtins_check_available.c                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 19:29:42 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:30:48 by myeow            ###   ########.fr       */
+/*   Created: 2024/08/28 20:18:28 by myeow             #+#    #+#             */
+/*   Updated: 2024/08/28 20:20:26 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "ft_string_utils.h"
 
-void	msh_execute_util_dup2(int oldfd, int newfd)
+int	msh_builtins_check_available(char *executable)
 {
-	int	res;
+	const char	*builtin_list[] = {
+		"cd",
+		"export",
+		"exit",
+		"unset",
+		"echo",
+		"pwd",
+		"env"
+	};
+	int			i;
 
-	res = dup2(oldfd, newfd);
-	if (res == -1)
-		msh_perror_exit("dup2 failed\n", 1);
+	i = -1;
+	while (++i < 7)
+		if (!ft_strcmp(executable, builtin_list[i]))
+			return (1);
+	return (0);
 }
