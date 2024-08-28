@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 19:37:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 20:36:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,15 +85,12 @@ typedef int (*t_bif)(t_ast *node, t_list **env_list);
 
 // msh_BUILTIN
 void	msh_builtin_init(t_bif **builtin_list);
-
-//utils
-char	**get_var_arr(t_ast *node) ;
-int		check_is_plugin(char *executable) ;
+int		msh_builtins_check_available(char *executable);
 
 // msh_signals
 void	signal_init(void);
 void 	sigint_handler(int sig);
-void 	reset_signal(void);
+void 	msh_signal_reset(void);
 
 //EXECUTE
 int		msh_execute(t_ast *node, t_list **env_list, t_bif *builtin_list,

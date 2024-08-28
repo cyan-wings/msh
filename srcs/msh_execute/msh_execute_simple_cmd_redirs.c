@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:21:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 19:48:36 by myeow            ###   ########.fr       */
+/*   Updated: 2024/08/28 20:31:10 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	msh_execute_simple_cmd_redirs(t_ast *node)
 		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))
 			handle_redirection_in(&in, current);
 		else if (!ft_strcmp(current->value, ">")
-				|| !ft_strcmp(current->value, ">>"))
+			|| !ft_strcmp(current->value, ">>"))
 			handle_redirection_out(&out, current);
 	}
 	if (in != -69)
