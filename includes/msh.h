@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 19:22:17 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 00:44:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,6 @@ void	msh_env_init(t_list **env_list);
 char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_setvar(t_list **env_list, char *k, char *v);
 void	msh_env_free(t_list **env_list);
-char	**msh_env_get_array(t_list *env_list);
 
 //HISTORY
 void	msh_load_history(const char *filename);

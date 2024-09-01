@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 16:27:31 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 00:59:11 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	msh_execute_simple_cmd(t_ast *node, t_list **env_list);
 
 /*
  * Function runs when there are no pipes in a pipeline.
+ * TODO: Do we need to run builtin without fork()?
  */
 static int	execute_single_simple_cmd(t_ast *node, pid_t *pid,
 		t_list **env_list)
@@ -28,9 +29,7 @@ static int	execute_single_simple_cmd(t_ast *node, pid_t *pid,
 	temp_builtin = msh_builtins_get_builtin(current->children[0]->value);
 	if (temp_builtin)
 	{
-		// TODO: run builtin
-		// TODO: return builtin value
-		// res = builtin_list[builtin](current[1]->value);
+		//run builtin
 		printf("running builtin\n");
 		return (1);
 	}
@@ -102,6 +101,9 @@ static int	execute_multi_simple_cmd(t_ast *node, pid_t *pid,
 	return (-1);
 }
 
+/*
+ * TODO: Attempt to handle grouping from here.
+ */
 void	msh_execute_pipeline(t_ast *node, t_list **env_list,
 			t_global *global)
 {

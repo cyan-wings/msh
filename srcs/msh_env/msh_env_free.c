@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:40:51 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:41:07 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 23:56:54 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ static void	msh_t_env_clear(void *content)
 	return ;
 }
 
+//Use system("leaks msh -q"); after ft_lstclear.
 void	msh_env_free(t_list **env_list)
 {
 	ft_lstclear(env_list, msh_t_env_clear);
-	//system("leaks msh -q");
 	return ;
 }
