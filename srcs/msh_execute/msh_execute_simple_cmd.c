@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 19:11:31 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:17:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	**get_var_arr(t_ast *node)
 
 	current = node->children[1];
 	if (ft_strcmp(current->type, "arguments"))
-		return NULL;
+		return (NULL);
 	i = -1;
 	res = (char **)malloc(sizeof(char *) * (current->child_count + 2));
 	res[0] = ft_strdup(node->children[0]->value);

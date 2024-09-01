@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 16:21:39 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:16:50 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,19 @@ static int	msh_execute_list_op(t_ast *node, t_global *global)
 {
 	if (ft_strcmp(node->type, "list_op"))
 		return (0);
-	if (!ft_strcmp( node->value, "&&") && global->status != 0)
+	if (!ft_strcmp(node->value, "&&") && global->status != 0)
 		return (1);
-	if (!ft_strcmp( node->value, "||") && global->status == 0)
+	if (!ft_strcmp(node->value, "||") && global->status == 0)
 		return (1);
 	return (0);
 //TODO: what to do when its valid and when its not
 }
 
 void	msh_execute_pipeline(t_ast *node, t_list **env_list,
-			t_global *global);
+				t_global *global);
 
 void	msh_execute_grouping(t_ast *node, t_list **env_list,
-			t_global *global);
+				t_global *global);
 
 static int	execute_node(t_ast *node, t_list **env_list, t_global *global)
 {
