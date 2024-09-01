@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 17:33:46 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:09:23 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,11 +87,6 @@ typedef int (*t_bif)(int argc, char **argv, t_list **env_list,
 //BUILTIN
 t_bif	*msh_builtins_get_builtin(char *executable);
 
-//SIGNALS
-void	signal_init(void);
-void 	sigint_handler(int sig);
-void 	msh_signal_reset(void);
-
 //EXECUTE
 int		msh_execute(t_ast *node, t_list **env_list, t_global *global);
 
@@ -136,8 +131,5 @@ void	msh_save_history(char *input, const char *filename);
 //ERROR_HANDLING
 void	msh_perror(char *error_msg);
 void	msh_perror_exit(char *error_msg, int status);
-
-//MSH
-char	*msh_prompt(t_list *env_list);
 
 #endif

@@ -77,12 +77,9 @@ SRC_M			=	\
 					msh_execute/msh_execute_grouping						\
 					msh_execute/msh_execute_traverse_nodes					\
 					msh_execute/msh_execute		 							\
-					msh_signals/msh_signals									\
+					msh/msh_init_signal										\
 					msh/msh_prompt											\
-					msh/msh
-
-
-# msh_traversal/msh_traversal								\
+					msh/msh													\
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))
 
