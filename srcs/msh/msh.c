@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 19:09:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:20:12 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*msh_get_input(t_list *env_list)
 	prompt = msh_prompt(env_list);
 	input = readline(prompt);
 	if (!input)
-		return 0;
+		return (0);
 	if (*input)
 		msh_save_history(input, HISTORY_FILE);
 	printf("The input was: %s\n", input);
@@ -98,7 +98,7 @@ int	main(void)
 		msh_init_signal();
 		input = msh_get_input(env_list);
 		if (!input)
-			exit(0) ;
+			exit(0);
 		msh_process_input(input, &env_list, &global);
 		free(input);
 		// break ;

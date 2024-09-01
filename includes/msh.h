@@ -6,14 +6,14 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 19:09:23 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:22:17 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MSH_H
 # define MSH_H
 
-#include "ft_lst_utils.h"
+# include "ft_lst_utils.h"
 # define HISTORY_FILE ".msh_history"
 
 # include <stdio.h>
@@ -81,8 +81,8 @@ typedef struct s_ast
 	char			*value;
 }	t_ast;
 
-typedef int (*t_bif)(int argc, char **argv, t_list **env_list,
-		int subshell_flag);
+typedef int	(*t_bif)(int argc, char **argv, t_list **env_list,
+			int subshell_flag);
 
 //BUILTIN
 t_bif	*msh_builtins_get_builtin(char *executable);
