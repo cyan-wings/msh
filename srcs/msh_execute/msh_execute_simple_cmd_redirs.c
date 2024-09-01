@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:21:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:31:10 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 18:21:02 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ static void	handle_redirection_out(int *fd, t_ast *node)
 
 void	msh_execute_util_dup2(int oldfd, int newfd);
 
+/*
+ * TODO:
+ * 	Flag errors when file does not exist based on bash behavior.
+ */
 void	msh_execute_simple_cmd_redirs(t_ast *node)
 {
 	int		i;
@@ -53,7 +57,7 @@ void	msh_execute_simple_cmd_redirs(t_ast *node)
 	i = -1;
 	in = -69;
 	out = -69;
-	while (++i <= node->child_count)
+	while (++i < node->child_count)
 	{
 		current = node->children[i];
 		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))
