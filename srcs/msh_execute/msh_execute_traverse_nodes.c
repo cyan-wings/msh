@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 19:16:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 01:00:09 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ void	msh_execute_pipeline(t_ast *node, t_list **env_list,
 void	msh_execute_grouping(t_ast *node, t_list **env_list,
 				t_global *global);
 
+/*
+ * TODO: Grouping will not be handled at the root.
+ */
 static int	execute_node(t_ast *node, t_list **env_list, t_global *global)
 {
 	int	res;

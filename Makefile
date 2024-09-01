@@ -34,7 +34,6 @@ SRC_M			=	\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
 					msh_env/msh_env_free									\
-					msh_env/msh_env_getenvarray								\
 					msh_expansion/utils/msh_expansion_utils_strappend		\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
 					msh_expansion/msh_expansion_quotes						\
@@ -71,6 +70,7 @@ SRC_M			=	\
 					msh_builtins/msh_builtins_func_unset					\
 					msh_builtins/msh_builtins_get_builtin					\
 					msh_execute/msh_execute_util_dup2						\
+					msh_execute/msh_execute_simple_cmd_get_envp_arr			\
 					msh_execute/msh_execute_simple_cmd_redirs				\
 					msh_execute/msh_execute_simple_cmd						\
 					msh_execute/msh_execute_pipeline						\
