@@ -62,7 +62,14 @@ SRC_M			=	\
 					msh_parse/ast/msh_parse_astprint						\
 					msh_parse/ast/msh_parse_astfree							\
 					msh_parse/msh_parse										\
-					msh_builtins/msh_builtins_check_available				\
+					msh_builtins/msh_builtins_func_cd						\
+					msh_builtins/msh_builtins_func_echo						\
+					msh_builtins/msh_builtins_func_env						\
+					msh_builtins/msh_builtins_func_exit						\
+					msh_builtins/msh_builtins_func_export					\
+					msh_builtins/msh_builtins_func_pwd						\
+					msh_builtins/msh_builtins_func_unset					\
+					msh_builtins/msh_builtins_get_builtin					\
 					msh_execute/msh_execute_util_dup2						\
 					msh_execute/msh_execute_simple_cmd_redirs				\
 					msh_execute/msh_execute_simple_cmd						\

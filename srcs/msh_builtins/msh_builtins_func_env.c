@@ -1,24 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_builtins_exit.c                                :+:      :+:    :+:   */
+/*   msh_builtins_func_env.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 13:39:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:39:33 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/01 16:53:04 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/01 16:53:24 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-void	msh_builtin_init(t_bif **builtin_list)
+int	msh_builtins_func_env(int argc, char **argv, t_list **env_list,
+		int subshell_flag)
 {
-	builtin_list[0] = echo;
-	builtin_list[1] = cd;
-	builtin_list[2] = pwd;
-	builtin_list[3] = export;
-	builtin_list[4] = unset;
-	builtin_list[5] = env;
-	builtin_list[6] = exit;
+	(void) argc;
+	(void) argv;
+	(void) env_list;
+	(void) subshell_flag;
+	return (0);
 }

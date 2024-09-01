@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:33:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 16:21:39 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,29 @@ static int	msh_execute_list_op(t_ast *node, t_global *global)
 }
 
 void	msh_execute_pipeline(t_ast *node, t_list **env_list,
-				t_bif *builtin_list, t_global *global);
+			t_global *global);
 
 void	msh_execute_grouping(t_ast *node, t_list **env_list,
-				t_bif *builtin_list, t_global *global);
+			t_global *global);
 
-static int	execute_node(t_ast *node, t_list **env_list,
-		t_bif *builtin_list, t_global *global)
+static int	execute_node(t_ast *node, t_list **env_list, t_global *global)
 {
 	int	res;
 
 	res = 0;
 	if (!ft_strcmp(node->type, "pipeline"))
-		msh_execute_pipeline(node, env_list, builtin_list, global);
+		msh_execute_pipeline(node, env_list, global);
 	else if (!ft_strcmp(node->type, "list_op"))
 		res = msh_execute_list_op(node, global);
 	else if (!ft_strcmp(node->type, "grouping"))
-		msh_execute_grouping(node, env_list, builtin_list, global);
+		msh_execute_grouping(node, env_list, global);
 	else
 		return (res);
 	return (res);
 }
 
 int	msh_execute_traverse_nodes(t_ast *node, t_list **env_list,
-		t_bif *builtin_list, t_global *global)
+		t_global *global)
 {
 	int	i;
 
@@ -62,10 +61,10 @@ int	msh_execute_traverse_nodes(t_ast *node, t_list **env_list,
 	while (++i < node->child_count)
 	{
 		if (msh_execute_traverse_nodes(node->children[i],
-				env_list, builtin_list, global))
+				env_list, global))
 			return (1);
 	}
-	if (execute_node(node, env_list, builtin_list, global))
+	if (execute_node(node, env_list, global))
 		return (1);
 	return (0);
 }

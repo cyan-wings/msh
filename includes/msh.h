@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:36:06 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 17:33:46 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,22 +81,21 @@ typedef struct s_ast
 	char			*value;
 }	t_ast;
 
-typedef int (*t_bif)(t_ast *node, t_list **env_list);
+typedef int (*t_bif)(int argc, char **argv, t_list **env_list,
+		int subshell_flag);
 
-// msh_BUILTIN
-void	msh_builtin_init(t_bif **builtin_list);
-int		msh_builtins_check_available(char *executable);
+//BUILTIN
+t_bif	*msh_builtins_get_builtin(char *executable);
 
-// msh_signals
+//SIGNALS
 void	signal_init(void);
 void 	sigint_handler(int sig);
 void 	msh_signal_reset(void);
 
 //EXECUTE
-int		msh_execute(t_ast *node, t_list **env_list, t_bif *builtin_list,
-		t_global *global);
+int		msh_execute(t_ast *node, t_list **env_list, t_global *global);
 
-//MSH_EXPANSION
+//EXPANSION
 void	msh_expansion(t_ast *node, t_list *env_list);
 
 //PARSE_EXPRESSION
