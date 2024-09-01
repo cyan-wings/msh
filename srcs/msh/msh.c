@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 16:19:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:09:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static void	msh_init(t_list **env_list)
 	msh_env_init(env_list);
 	return ;
 }
+
+char	*msh_prompt(t_list *env_list);
 
 static char	*msh_get_input(t_list *env_list)
 {
@@ -68,8 +70,6 @@ static void	msh_process_input(char *input, t_list **env_list,
 		msh_perror("Parsing_error.");
 	msh_parse_astprint(root, 0);
 	msh_expansion(root, *env_list);
-	// printf("%s, %i\n", root->type, root->child_count);
-	// printf("\n---------------------------\n");
 	printf("\n\n\n");
 	msh_execute(root, env_list, global);
 	msh_parse_astfree(&root);
@@ -81,7 +81,7 @@ static void	msh_clean(t_list **env_list)
 	msh_env_free(env_list);
 }
 
-void	signal_init(void);
+void	msh_init_signal(void);
 
 int	main(void)
 {
@@ -95,7 +95,7 @@ int	main(void)
 	msh_init(&env_list);
 	while (1)
 	{
-		signal_init();
+		msh_init_signal();
 		input = msh_get_input(env_list);
 		if (!input)
 			exit(0) ;

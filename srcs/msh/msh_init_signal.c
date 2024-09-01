@@ -1,18 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_signals.c                                      :+:      :+:    :+:   */
+/*   msh_init_signal.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 20:36:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:38:15 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/01 19:05:41 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/01 19:06:54 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-void	signal_init(void)
+static void	sigint_handler(int sig)
+{
+	if (sig != SIGINT)
+    return;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	msh_init_signal(void)
 {
 	struct termios term;
 	
@@ -28,21 +38,5 @@ void	signal_init(void)
 		exit(errno);
 	}
 	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_DFL);
-}
-
-void	sigint_handler(int sig)
-{
-	if (sig != SIGINT)
-    return;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	msh_signal_reset(void)
-{
-	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
 }

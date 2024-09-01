@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 18:47:16 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 19:11:31 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,12 @@ static char	**get_var_arr(t_ast *node)
 	return (res);
 }
 
+static void	signal_reset(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+}
+
 static void	run_execve(t_ast *node, t_list **env_list)
 {
 	int		i;
@@ -54,7 +60,7 @@ static void	run_execve(t_ast *node, t_list **env_list)
 	char	**envp_arr;
 
 	i = -1;
-	msh_signal_reset();
+	signal_reset();
 	path = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
 	argv_arr = get_var_arr(node);
 	envp_arr = msh_env_get_array(*env_list);
