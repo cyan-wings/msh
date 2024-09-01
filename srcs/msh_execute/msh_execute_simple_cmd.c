@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:37:38 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 17:32:50 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,15 @@ static void	run_execve(t_ast *node, t_list **env_list)
 	free(path);
 }
 
-void	msh_execute_simple_cmd(t_ast *node, t_list **env_list,
-		t_bif *builtin_list)
+void	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 {
+	t_bif	builtin_func;
+
 	if (node->children[2]->child_count > 0)
 		msh_execute_simple_cmd_redirs(node->children[2]);
-	if (msh_builtins_check_available(node->children[0]->value))
-		exit(builtin_list[0](node, env_list));
+	builtin_func = *msh_builtins_get_builtin(node->children[0]->value);
+	if (builtin_func)
+		exit(builtin_func(1, get_var_arr(node), env_list, 1));
 	else
 		run_execve(node, env_list);
 }

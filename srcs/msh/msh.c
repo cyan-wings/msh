@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 18:16:49 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/01 16:19:27 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,10 @@
  * env_list = env_list->next;
  * }
  */
-static void	msh_init(t_list **env_list, t_bif **builtin_list)
+static void	msh_init(t_list **env_list)
 {
-	(void) builtin_list;
 	msh_load_history(HISTORY_FILE);
 	msh_env_init(env_list);
-	// msh_builtin_init(builtin_list);
 	return ;
 }
 
@@ -48,7 +46,7 @@ static char	*msh_get_input(t_list *env_list)
 }
 
 static void	msh_process_input(char *input, t_list **env_list,
-		t_bif *builtin_list, t_global *global)
+		t_global *global)
 {
 	t_list	*token_list;
 	t_ast	*root;
@@ -73,7 +71,7 @@ static void	msh_process_input(char *input, t_list **env_list,
 	// printf("%s, %i\n", root->type, root->child_count);
 	// printf("\n---------------------------\n");
 	printf("\n\n\n");
-	msh_execute(root, env_list, builtin_list, global);
+	msh_execute(root, env_list, global);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
 }
@@ -89,21 +87,19 @@ int	main(void)
 {
 	t_global	global;
 	t_list		*env_list;
-	t_bif		*builtin_list;
 	char		*input;
 
 	global = (t_global){0};
 	input = 0;
 	env_list = 0;
-	builtin_list = 0;
-	msh_init(&env_list, &builtin_list);
+	msh_init(&env_list);
 	while (1)
 	{
 		signal_init();
 		input = msh_get_input(env_list);
 		if (!input)
 			exit(0) ;
-		msh_process_input(input, &env_list, builtin_list, &global);
+		msh_process_input(input, &env_list, &global);
 		free(input);
 		// break ;
 	}

@@ -1,33 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_builtins_check_available.c                     :+:      :+:    :+:   */
+/*   msh_builtins_func_echo.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/08/28 20:18:28 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 20:20:26 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/01 16:52:38 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/01 16:52:57 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_utils.h"
+#include "msh.h"
 
-int	msh_builtins_check_available(char *executable)
+int	msh_builtins_func_echo(int argc, char **argv, t_list **env_list,
+		int subshell_flag)
 {
-	const char	*builtin_list[] = {
-		"cd",
-		"export",
-		"exit",
-		"unset",
-		"echo",
-		"pwd",
-		"env"
-	};
-	int			i;
-
-	i = -1;
-	while (++i < 7)
-		if (!ft_strcmp(executable, builtin_list[i]))
-			return (1);
+	(void) argc;
+	(void) argv;
+	(void) env_list;
+	(void) subshell_flag;
 	return (0);
 }

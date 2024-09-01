@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_builtins_exit.c                                :+:      :+:    :+:   */
+/*   msh_builtins_func_exit.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 13:39:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 16:20:26 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/01 16:37:15 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/01 17:11:11 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "ft_string_utils.h"
 #include "msh.h"
 
 static void	too_many_args_error(int argc)
 {
 	if (argc > 2)
-		ft_putendl_fd("bash: exit: too many arguments");
+		ft_putendl_fd("bash: exit: too many arguments", 2);
 }
 
 static int	not_numeric(char *str)
@@ -31,7 +32,8 @@ static int	not_numeric(char *str)
 	return (0);
 }
 
-static void	msh_builtins_exit_helper(char *exit_arg_str)
+static int	msh_builtins_exit_helper(char *exit_arg_str,
+		unsigned char exit_status)
 {
 	long	exit_arg_value;
 	char	*temp;
@@ -41,13 +43,14 @@ static void	msh_builtins_exit_helper(char *exit_arg_str)
 	if (not_numeric(exit_arg_str) || ft_strcmp(exit_arg_str, temp))
 	{
 		ft_putstr_fd("msh: exit: ", 2);
-		ft_putstr_fd(argv[1]);
+		ft_putstr_fd(exit_arg_str, 2);
 		ft_putendl_fd("numeric argument required", 2);
 		exit_status = 255;
 	}
 	else
-		exit_status = exit_arg_value % 256;
+		exit_status = (unsigned char)(exit_arg_value % 256);
 	ft_memdel((void **) &temp);
+	return (exit_status);
 }
 
 /*
@@ -59,7 +62,6 @@ static void	msh_builtins_exit_helper(char *exit_arg_str)
 int	msh_builtins_exit(int argc, char **argv, int subshell_flag)
 {
 	unsigned char	exit_status;
-	long			exit_arg_value;
 	char			*temp;
 
 	if (!subshell_flag && isatty(STDERR_FILENO))
@@ -69,11 +71,19 @@ int	msh_builtins_exit(int argc, char **argv, int subshell_flag)
 		exit(exit_status);
 	if (argc > 2)
 	{
-		ft_putendl_fd("bash: exit: too many arguments");
+		ft_putendl_fd("bash: exit: too many arguments", 2);
 		ft_memdel((void **) &temp);
 		return (EXIT_FAILURE);
 	}
 	else
-		msh_builtins_exit_helper(argv[1]);
+		exit_status = msh_builtins_exit_helper(argv[1], exit_status);
 	exit(exit_status);
+}
+
+int	msh_builtins_func_exit(int argc, char **argv, t_list **env_list,
+		int subshell_flag)
+{
+	(void) env_list;
+	too_many_args_error(argc);
+	return (msh_builtins_exit(argc, argv, subshell_flag));
 }
