@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 00:46:25 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 16:06:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	msh_execute_simple_cmd_redirs(t_ast *node);
  * Note:
  * 		argv is always NULL terminated.
  * 		+ 2 due to the executable and the NULL terminator.
+ * 		i is not incremented in the while loop becauase first index
+ * 		of the arguments' child array is 0.
  */
 static void	get_argv_arr(t_ast *node, char ***argv_arr)
 {
@@ -32,10 +34,10 @@ static void	get_argv_arr(t_ast *node, char ***argv_arr)
 	*argv_arr = (char **)ft_calloc(arguments->child_count + 2, sizeof(char *));
 	if (!*argv_arr)
 		return (msh_perror_exit("Malloc argv array failure.", 1));
-	i = -1;
-	(*argv_arr)[++i] = ft_strdup(node->children[0]->value);
+	i = 0;
+	(*argv_arr)[i--] = ft_strdup(node->children[0]->value);
 	while (++i < arguments->child_count)
-		(*argv_arr)[i] = ft_strdup(arguments->children[i]->value);
+		(*argv_arr)[i + 1] = ft_strdup(arguments->children[i]->value);
 }
 
 char	**msh_execute_simple_cmd_get_envp_arr(t_list *env_list);
@@ -57,6 +59,9 @@ char	*generate_filepath(char *command, char *path)
 	return (res);
 }
 
+/*
+ * TODO: rename ft_free_ft_split to be more generic.
+ */
 static void	run_execve(t_ast *node, t_list **env_list,
 		char **argv_arr, char **envp_arr)
 {
@@ -101,8 +106,11 @@ void	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 	envp_arr = msh_execute_simple_cmd_get_envp_arr(*env_list);
 	builtin_func = msh_builtins_get_builtin(node->children[0]->value);
 	if (builtin_func)
+	{
+		printf("Execute builtin\n");
 		exit((*builtin_func)(node->children[1]->child_count,
 				argv_arr, env_list, 1));
+	}
 	else
 		run_execve(node, env_list, argv_arr, envp_arr);
 }
