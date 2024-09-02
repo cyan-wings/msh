@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:42:36 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:42:52 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 22:40:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	msh_env_setvar(t_list **env_list, char *k, char *v)
 		env_var = (t_env *) curr->content;
 		if (!ft_strcmp(env_var->key, k))
 		{
+			ft_memdel((void **)&env_var->val);
 			env_var->val = v;
 			return ;
 		}

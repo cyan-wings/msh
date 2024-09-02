@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 20:00:58 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 22:21:29 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	msh_builtins_func_unset(
 			ft_putstr_fd(argv[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
 			exit_status = 1;
-			continue;
+			continue ;
 		}
 		msh_env_delvar(env_list, argv[i]);
 	}

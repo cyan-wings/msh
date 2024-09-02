@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 20:47:35 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 22:41:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,16 +31,32 @@ static int	print_invalid_argument(char *arg_str)
 	return (2);
 }
 
-static void	export_var_to_env_list(t_list **env_list, char *key, char *value)
+static char	*get_key(char *arg_str, char **value, int *exit_status)
 {
-	char	*k;
-	char	*v;
+	char	*key;
 
-	k = ft_strdup(key);
-	v = ft_strdup(value);
-	if (!k || !v)
-		return (msh_perror_exit("Export key val no mem", EXIT_FAILURE));
-	msh_env_setvar(env_list, k, v);
+	*value = 0;
+	*value = ft_strchr(arg_str, '=');
+	if (*value)
+		**value = 0;
+	key = ft_strdup(arg_str);
+	if (!key)
+	{
+		msh_perror_exit("Export key no mem", EXIT_FAILURE);
+		return (0);
+	}
+	if (!check_identifier(key))
+	{
+		ft_putstr_fd("msh: export: `", 2);
+		if (*value)
+			**value = '=';
+		ft_putstr_fd(arg_str, 2);
+		ft_putendl_fd("': not a valid identifier", 2);
+		*exit_status = 1;
+		ft_memdel((void **)&key);
+		return (0);
+	}
+	return (key);
 }
 
 int	msh_builtins_func_export(
@@ -52,35 +68,26 @@ int	msh_builtins_func_export(
 {
 	int		exit_status;
 	int		i;
-	char	*equals;
 	char	*key;
 	char	*value;
 
 	if (argv[1] && argv[1][0] == '-')
 		return (print_invalid_argument(argv[1]));
-	msh_env_print(*env_list);
 	exit_status = 0;
 	i = 0;
 	while (argv[++i])
 	{
-		equals = 0;
-		equals = ft_strchr(argv[i], '=');
-		if (!equals)
-			continue;
-		*equals = 0;
-		key = argv[i];
-		if (!check_identifier(key))
+		key = 0;
+		key = get_key(argv[i], &value, &exit_status);
+		if (!key || !value)
 		{
-			ft_putstr_fd("msh: export: `", 2);
-			*equals = '=';
-			ft_putstr_fd(argv[i], 2);
-			ft_putendl_fd("': not a valid identifier", 2);
-			exit_status = 1;
-			continue;
+			ft_memdel((void **)&key);
+			continue ;
 		}
-		value = equals + 1;
-		export_var_to_env_list(env_list, key, value);
+		value = ft_strdup(++value);
+		if (!value)
+			msh_perror_exit("Export value no mem", EXIT_FAILURE);
+		msh_env_setvar(env_list, key, value);
 	}
-	msh_env_print(*env_list);
 	return (exit_status);
 }
