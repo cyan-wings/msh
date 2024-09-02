@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 22:41:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 22:44:13 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,5 +89,6 @@ int	msh_builtins_func_export(
 			msh_perror_exit("Export value no mem", EXIT_FAILURE);
 		msh_env_setvar(env_list, key, value);
 	}
+	msh_env_print(*env_list);
 	return (exit_status);
 }
