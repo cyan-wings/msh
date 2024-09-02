@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 00:59:11 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 13:36:10 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ static int	execute_single_simple_cmd(t_ast *node, pid_t *pid,
 	temp_builtin = msh_builtins_get_builtin(current->children[0]->value);
 	if (temp_builtin)
 	{
-		//run builtin
 		printf("running builtin\n");
+		msh_execute_simple_cmd(current, env_list);
 		return (1);
 	}
 	else
