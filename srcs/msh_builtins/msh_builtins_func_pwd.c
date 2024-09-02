@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:55:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 16:09:25 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 16:16:54 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
  */
 int	msh_builtins_func_pwd(int argc __attribute((unused)), char **argv,
 		t_list **env_list, int subshell_flag __attribute((unused)))
-{	
+{
 	if (argv[1] && argv[1][0] == '-')
 	{
 		ft_putstr_fd("msh: pwd: ", 2);

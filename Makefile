@@ -33,7 +33,10 @@ SRC_M			=	\
 					msh_env/msh_env_init									\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
+					msh_env/msh_env_delvar									\
+					msh_env/msh_env_free_t_env								\
 					msh_env/msh_env_free									\
+					msh_env/msh_env_print									\
 					msh_expansion/utils/msh_expansion_utils_strappend		\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
 					msh_expansion/msh_expansion_quotes						\
