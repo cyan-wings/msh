@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:35:43 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 19:12:16 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 22:21:59 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	msh_env_delvar(t_list **env_list, char *k)
 				*env_list = curr->next;
 			msh_env_free_t_env(curr->content);
 			ft_memdel((void **) &curr);
-			break;
+			break ;
 		}
 		prev = curr;
 		curr = curr->next;
