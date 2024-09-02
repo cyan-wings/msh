@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 19:31:02 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/02 20:00:58 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ int	msh_builtins_func_unset(
 		int subshell_flag __attribute((unused))
 )
 {
-	int		exit_status;
-	int		i;
+	int	exit_status;
+	int	i;
 
 	if (argv[1] && argv[1][0] == '-')
 		return (print_invalid_argument(argc, argv[1]));
@@ -70,13 +70,13 @@ int	msh_builtins_func_unset(
 	{
 		if (!check_identifier(argv[i]))
 		{
-			ft_putstr_fd("bash: unset: `", 2);
+			ft_putstr_fd("msh: unset: `", 2);
 			ft_putstr_fd(argv[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
+			exit_status = 1;
 			continue;
 		}
-		if (argv[i])
-			msh_env_delvar(env_list, argv[i]);
+		msh_env_delvar(env_list, argv[i]);
 	}
-	return (0);
+	return (exit_status);
 }
