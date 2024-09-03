@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/03 16:51:47 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/03 19:47:35 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	check_restricted(char *identifier)
  */
 static int	check_identifier(char *identifier)
 {
-		if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
+	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
 		return (0);
 	while (*++identifier)
 		if (!ft_isalnum(*identifier) && *identifier != '_')
