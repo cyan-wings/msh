@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:48:25 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/03 16:38:45 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/03 20:32:37 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,29 @@ static void	get_dir(char **argv, t_list **env_list, char **dir, int *is_home)
 		*dir = argv[1];
 }
 
-static int	get_change_dir_exit_status(char *dir, struct stat *statbuf)
+static int	print_return_error(char *err_str, char *dir)
 {
-	if (stat(dir, statbuf) == -1)
+	ft_putstr_fd("msh: cd: ", 2);
+	ft_putstr_fd(dir, 2);
+	ft_putendl_fd(err_str, 2);
+	return (1);
+}
+
+static int	get_change_dir_exit_status(char *dir)
+{
+	struct stat	statbuf;
+
+	if (access(dir, F_OK))
+		return (print_return_error(": No such file or directory", dir));
+	if (stat(dir, &statbuf) == -1)
 	{
-		ft_putendl_fd("stat error.", 1);
+		ft_putendl_fd("stat error.", 2);
 		return (1);
 	}
-	if (!S_ISDIR((*statbuf).st_mode))
-	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(dir, 2);
-		ft_putendl_fd(": No such file or directory", 2);
-		return (1);
-	}
-	if ((*statbuf).st_mode & S_IXUSR)
-	{
-		ft_putstr_fd("bash: cd: ", 2);
-		ft_putstr_fd(dir, 2);
-		ft_putendl_fd(": Permission denied", 2);
-		return (1);
-	}
+	if (!S_ISDIR(statbuf.st_mode))
+		return (print_return_error(": Not a directory", dir));
+	if (!(statbuf.st_mode & S_IXUSR))
+		return (print_return_error(": Permission denied", dir));
 	if (chdir(dir) == -1)
 	{
 		ft_putendl_fd("chdir error.", 1);
@@ -81,14 +83,12 @@ static int	get_change_dir_exit_status(char *dir, struct stat *statbuf)
  * This differs from bash.
  * OLDPWD and PWD is set regardless whether env var is present or not.
  * Bash only updates if either of these are available as env_vars.
+ *
+ * Special note:
+ * 		getcwd can fail when the current directory does not have
+ * 		read permissions. This can be tested by creating a 
+ * 		test directory with chmod 100.
  */
-static void	update_pwd_env_var(t_list **env_list,
-		char *prev_dir, char *changed_dir)
-{
-	msh_env_setvar(env_list, "OLDPWD", prev_dir);
-	msh_env_setvar(env_list, "PWD", changed_dir);
-}
-
 int	msh_builtins_func_cd(
 		int argc __attribute((unused)),
 		char **argv, t_list **env_list,
@@ -98,7 +98,6 @@ int	msh_builtins_func_cd(
 	char		*dir;
 	int			is_home;
 	char		curr_dir[PATH_MAX];
-	struct stat	statbuf;
 
 	if (argv[1] && argv[1][0] == '-' && argv[1][1])
 		return (print_invalid_argument(argv[1]));
@@ -110,10 +109,11 @@ int	msh_builtins_func_cd(
 		ft_putendl_fd("getcwd error.", 1);
 		return (1);
 	}
-	if (get_change_dir_exit_status(dir, &statbuf))
+	if (get_change_dir_exit_status(dir))
 		return (1);
 	if (is_home)
 		ft_putendl_fd(dir, 2);
-	update_pwd_env_var(env_list, curr_dir, dir);
+	msh_env_setvar(env_list, "OLDPWD", curr_dir);
+	msh_env_setvar(env_list, "PWD", dir);
 	return (0);
 }
