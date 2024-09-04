@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 19:06:18 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/04 20:26:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,8 @@ void	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 	envp_arr = msh_execute_simple_cmd_get_envp_arr(*env_list);
 	builtin_func = msh_builtins_get_builtin(node->children[0]->value);
 	if (builtin_func)
-	{
-		printf("Execute builtin\n");
-		exit((*builtin_func)(node->children[1]->child_count + 1,
-				argv_arr, env_list, 1));
-	}
+		(*builtin_func)(node->children[1]->child_count + 1,
+				argv_arr, env_list, 1);
 	else
 		run_execve(node, env_list, argv_arr, envp_arr);
 }

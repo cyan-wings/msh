@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 18:50:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/04 20:27:43 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,10 @@ static void	msh_process_input(char *input, t_list **env_list,
 	if (!flag)
 	{
 		msh_perror("Parsing_error.");
-		return;
+		return ;
 	}
 	msh_parse_astprint(root, 0);
 	msh_expansion(root, *env_list);
-	printf("\n\n\n");
 	msh_execute(root, env_list, global);
 	msh_parse_astfree(&root);
 	msh_tokenise_free(&token_list);
@@ -86,6 +85,7 @@ static void	msh_clean(t_list **env_list)
 
 void	msh_init_signal(void);
 
+//system("leaks msh -q");
 int	main(void)
 {
 	t_global	global;
@@ -106,6 +106,5 @@ int	main(void)
 		free(input);
 	}
 	msh_clean(&env_list);
-	//system("leaks msh -q");
 	return (0);
 }
