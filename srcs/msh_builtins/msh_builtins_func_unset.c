@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/03 19:47:35 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/04 19:16:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,18 @@
 
 #define RESTRICTED_ENV_VARS 3
 
-static int	print_invalid_argument(int argc, char *arg_str)
+static int	print_invalid_argument(char *arg_str)
 {
+	if (!ft_strcmp(arg_str, "-"))
+	{
+		ft_putendl_fd("msh: unset: `-': not a valid identifier", 2);
+		return (1);
+	}
 	ft_putstr_fd("msh: unset: ", 2);
 	ft_putchar_fd(arg_str[0], 2);
 	ft_putchar_fd(arg_str[1], 2);
 	ft_putendl_fd(":invalid option", 2);
 	ft_putendl_fd("unset: usage: unset [name ...]", 2);
-	if (argc == 2)
-		return (127);
 	return (2);
 }
 
@@ -67,13 +70,10 @@ static int	check_identifier(char *identifier)
  * @return:
  * 		0 - if all identifiers are valid and no errors.
  * 		1 - when one or more identifiers are invalid.
- * 		2 - when the first argument has a '-' and there is more
- * 				than 1 argument.
- * 		127 - when the first argument has a '-' and there is
- * 				only 1 argument.
+ * 		2 - when the first argument start with '-' with other characters
  */
 int	msh_builtins_func_unset(
-		int argc,
+		int argc __attribute((unused)),
 		char **argv,
 		t_list **env_list __attribute((unused)),
 		int subshell_flag __attribute((unused))
@@ -83,7 +83,7 @@ int	msh_builtins_func_unset(
 	int	i;
 
 	if (argv[1] && argv[1][0] == '-')
-		return (print_invalid_argument(argc, argv[1]));
+		return (print_invalid_argument(argv[1]));
 	exit_status = 0;
 	i = 0;
 	while (argv[++i])
