@@ -6,20 +6,59 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:53:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/04 18:49:22 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
+/*
+ * TODO: delims have to do quote expansion.
+ */
+static int	redirection_heredoc(const char *delim)
+{
+	int		pipe_fd[2];
+	char	*line;
+
+	if (pipe(pipe_fd) == -1)
+		msh_perror_exit("Pipe open failure for heredoc.", 1);
+	line = 0;
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+			msh_perror_exit("Readline failure for heredoc.", 1);
+		}
+		if (!ft_strcmp(line, delim))
+		{
+			ft_memdel((void **)&line);
+			break ;
+		}
+		ft_putendl_fd(line, pipe_fd[1]);
+		ft_memdel((void **)&line);
+	}
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
+}
+
 static t_ast	*redirection(t_token *curr, t_token *next)
 {
 	char	*redir_op;
 	t_ast	*redir_file;
+	int		pipe_fd_read;
 	t_ast	*redir_node;
 
 	redir_op = curr->value;
-	redir_file = msh_parse_astnew("file", next->value);
+	if (!ft_strcmp(redir_op, "<<"))
+	{
+		pipe_fd_read = redirection_heredoc(next->value);
+		redir_file = msh_parse_astnew("heredoc", (char *)&pipe_fd_read);
+	}
+	else
+		redir_file = msh_parse_astnew("file", next->value);
 	redir_node = msh_parse_astnew("redirection", redir_op);
 	msh_parse_astadd_child(redir_node, redir_file);
 	return (redir_node);

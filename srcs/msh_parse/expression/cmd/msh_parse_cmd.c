@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:10 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 23:55:51 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/04 18:41:25 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static int	msh_parse_cmd_helper(
 	*redirs_node = msh_parse_astnew("redirections", 0);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
-	if (!status || \
+	if (!status || !*token_ptr ||\
 			(*token_ptr && ((t_token *)(*token_ptr)->content)->type != WORD))
 		return (0);
 	else
