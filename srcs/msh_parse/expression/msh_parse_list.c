@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:30 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:51:43 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 16:32:57 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_ast	*msh_parse_list_error(t_ast **list_root_node,
 		t_ast **pipeline_node)
 {
 	msh_parse_astfree(list_root_node);
-	msh_parse_astfree(pipeline_node);
+	if (!*pipeline_node)
+		msh_parse_astfree(pipeline_node);
 	return (0);
 }
 

@@ -26,7 +26,6 @@ HDRINC			=	-I$(HDRDIR)
 
 SRCDIR			=	srcs/
 SRC_M			=	\
-					debug/msh_print_token_list								\
 					utils/ft_arraylen										\
 					error_handling/msh_perror_exit							\
 					error_handling/msh_perror								\
@@ -49,6 +48,7 @@ SRC_M			=	\
 					msh_tokenise/msh_tokenise_insert_token					\
 					msh_tokenise/msh_tokenise_free							\
 					msh_tokenise/msh_tokenise_get_next_token				\
+					msh_tokenise/msh_tokenise_print_token_list				\
 					msh_parse/expression/msh_parse_grouping					\
 					msh_parse/expression/msh_parse_list						\
 					msh_parse/expression/msh_parse_pipeline					\

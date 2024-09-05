@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 20:27:43 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 14:29:24 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,18 @@ static char	*msh_get_input(t_list *env_list)
 	return (input);
 }
 
+static void	print_error_and_clean(char *err_str, t_list **token_list,
+		t_ast **root)
+{
+	if (*root)
+		msh_parse_astfree(root);
+	if (*token_list)
+		msh_tokenise_free(token_list);
+	if (err_str)
+		msh_perror(err_str);
+	return ;
+}
+
 static void	msh_process_input(char *input, t_list **env_list,
 		t_global *global)
 {
@@ -54,28 +66,23 @@ static void	msh_process_input(char *input, t_list **env_list,
 	t_ast	*root;
 	int		flag;
 
-	token_list = 0;
+	token_list = NULL;
 	root = 0;
 	flag = 0;
 	flag = msh_tokenise(input, &token_list);
 	if (!flag)
-	{
-		msh_perror("Tokenise_error.");
-		msh_tokenise_free(&token_list);
-		return ;
-	}
-	msh_print_token_list(token_list);
+		return (print_error_and_clean("Tokenise error.", &token_list, &root));
+	msh_tokenise_print_token_list(token_list);
 	flag = msh_parse(token_list, &root);
 	if (!flag)
-	{
-		msh_perror("Parsing_error.");
-		return ;
-	}
+		return (print_error_and_clean("Parsing error.", &token_list, &root));
 	msh_parse_astprint(root, 0);
+	puts("Parse success.");
 	msh_expansion(root, *env_list);
+	msh_parse_astprint(root, 0);
+	puts("Expansion success.");
 	msh_execute(root, env_list, global);
-	msh_parse_astfree(&root);
-	msh_tokenise_free(&token_list);
+	print_error_and_clean(NULL, &token_list, &root);
 }
 
 static void	msh_clean(t_list **env_list)
@@ -93,9 +100,9 @@ int	main(void)
 	char		*input;
 
 	global = (t_global){0};
-	input = 0;
-	env_list = 0;
+	env_list = NULL;
 	msh_init(&env_list);
+	input = NULL;
 	while (1)
 	{
 		msh_init_signal();

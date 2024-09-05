@@ -1,18 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_print_token_list.c                             :+:      :+:    :+:   */
+/*   msh_tokenise_print_token_list.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:33:53 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:34:06 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 14:23:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-void	msh_print_token_list(t_list *token_list)
+/*
+ * No checks for NULL for debugging purposes.
+ */
+void	msh_tokenise_print_token_list(t_list *token_list)
 {
 	ft_putstr_fd("Tokens:\n\t\t", 1);
 	while (token_list)

@@ -6,12 +6,15 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:56:09 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:56:17 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 14:23:11 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
+/*
+ * No checks for NULL due to debugging purposes.
+ */
 void	msh_parse_astprint(t_ast *node, int indent)
 {
 	int	i;
