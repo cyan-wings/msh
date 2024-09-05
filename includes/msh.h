@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 19:02:54 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 14:20:46 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,13 +109,11 @@ void	msh_parse_astfree(t_ast **root_node);
 int		msh_parse_token(t_list *token_list);
 int		msh_parse(t_list *token_list, t_ast **root);
 
-//DEBUG
-void	msh_print_token_list(t_list *token_list);
-
 //TOKENISE
 int		msh_tokenise(char *input, t_list **token_list);
 void	msh_tokenise_free(t_list **token_list);
 void	msh_tokenise_get_next_token(t_list **token_ptr);
+void	msh_tokenise_print_token_list(t_list *token_list);
 
 //ENV
 void	msh_env_init(t_list **env_list);

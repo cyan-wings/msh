@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:12 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:51:20 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 15:28:29 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ t_ast	*msh_parse_grouping(t_list **token_ptr)
 	grouping_node = msh_parse_astnew("grouping", 0);
 	list_node = 0;
 	list_node = msh_parse_list(token_ptr);
-	if (!list_node || \
+	if (!list_node || !*token_ptr || \
 			ft_strcmp(((t_token *)(*token_ptr)->content)->value, ")"))
 		return (msh_parse_grouping_error(&grouping_node, &list_node));
 	msh_tokenise_get_next_token(token_ptr);
