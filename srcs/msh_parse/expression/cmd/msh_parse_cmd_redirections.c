@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 18:49:22 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 22:41:42 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,7 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 	{
 		if (!((*token_ptr)->next) || \
 			((t_token *)(*token_ptr)->next->content)->type != WORD)
-		{
-			msh_parse_astfree(&redir_child_node);
 			return (0);
-		}
 		redir_child_node = redirection((t_token *)(*token_ptr)->content, \
 				(t_token *)(*token_ptr)->next->content);
 		msh_parse_astadd_child(*redirs_root_node, redir_child_node);
