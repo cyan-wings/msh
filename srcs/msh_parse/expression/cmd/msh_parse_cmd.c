@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:10 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 20:48:46 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 21:44:22 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,12 @@ static void	executable_arguments(
 		)
 {
 	executable((t_token *)(*token_ptr)->content, exec_node);
-	msh_tokenise_get_next_token(token_ptr);
-	*args_node = msh_parse_astnew("arguments", 0);
+	msh_tokenise_get_next_token(token_ptr);	
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
+	{
+		*args_node = msh_parse_astnew("arguments", 0);
 		msh_parse_cmd_arguments(token_ptr, args_node);
+	}
 }
 
 static t_ast	*msh_parse_cmd_error(
@@ -92,10 +94,9 @@ static int	msh_parse_cmd_helper(
 	*redirs_node = msh_parse_astnew("redirections", 0);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
-	if (!status || !*token_ptr || \
-			(*token_ptr && ((t_token *)(*token_ptr)->content)->type != WORD))
+	if (!status)
 		return (0);
-	else
+	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
 		executable_arguments(token_ptr, exec_node, args_node);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
@@ -132,7 +133,7 @@ t_ast	*msh_parse_cmd(t_list **token_ptr)
 	cmd_node = msh_parse_astnew("simple_command", 0);
 	status = msh_parse_cmd_helper(token_ptr, \
 			&redirs_node, &exec_node, &args_node);
-	if (exec_node && status)
+	if (status && (exec_node || redirs_node))
 	{
 		msh_parse_astadd_child(cmd_node, exec_node);
 		msh_parse_astadd_child(cmd_node, args_node);
