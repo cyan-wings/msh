@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 14:29:24 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 20:02:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,6 @@
  * env_list = env_list->next;
  * }
  */
-static void	msh_init(t_list **env_list)
-{
-	msh_load_history(HISTORY_FILE);
-	msh_env_init(env_list);
-	return ;
-}
-
 char	*msh_prompt(t_list *env_list);
 
 static char	*msh_get_input(t_list *env_list)
@@ -101,7 +94,8 @@ int	main(void)
 
 	global = (t_global){0};
 	env_list = NULL;
-	msh_init(&env_list);
+	msh_load_history(HISTORY_FILE);
+	msh_env_init(&env_list);
 	input = NULL;
 	while (1)
 	{
@@ -110,7 +104,7 @@ int	main(void)
 		if (!input)
 			exit(0);
 		msh_process_input(input, &env_list, &global);
-		free(input);
+		ft_memdel((void **)&input);
 	}
 	msh_clean(&env_list);
 	return (0);

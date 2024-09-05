@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 16:23:14 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/05 20:12:46 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
 		else if (!ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 			status = astadd_child_to_pipeline_node(token_ptr, \
 					pipeline_node, GROUP);
+		else
+			status = 0;
 	}
 	return (status);
 }
