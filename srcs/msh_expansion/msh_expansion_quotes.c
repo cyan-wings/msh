@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:20:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 16:17:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:38:25 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_mem_utils.h"
 
 void	msh_expansion_utils_strappend(char **strptr, int start, int i,
 			char **new_strptr);
@@ -34,7 +35,7 @@ void	msh_expansion_quotes(char **strptr)
 	start = 0;
 	quote_type = 0;
 	i = -1;
-	new_str = 0;
+	new_str = NULL;
 	while ((*strptr)[++i])
 	{
 		if ((*strptr)[i] == '\'' || (*strptr)[i] == '\"')

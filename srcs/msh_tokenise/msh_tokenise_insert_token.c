@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:00:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:15:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:19:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*ft_strdup_start_end(char *str, int start, int end)
 {
 	char	*new_str;
 
-	new_str = 0;
+	new_str = NULL;
 	new_str = ft_memalloc(end - start + 2);
 	return ((char *) ft_memmove(new_str, str + start, end - start + 1));
 }
@@ -57,7 +57,7 @@ void	msh_tokenise_insert_token(char *str, t_list **token_list)
 	int		i;
 	int		start_token_i;
 
-	token_val = 0;
+	token_val = NULL;
 	i = -1;
 	start_token_i = 0;
 	while (str[++i])

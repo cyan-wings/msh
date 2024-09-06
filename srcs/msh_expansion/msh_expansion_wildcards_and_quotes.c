@@ -6,12 +6,14 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:00:47 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/28 17:25:04 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:40:11 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "dirent.h"
+#include "ft_string_utils.h"
+#include "ft_mem_utils.h"
 
 void	msh_expansion_quotes(char **strptr);
 
