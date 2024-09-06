@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:58:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:12:20 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:19:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static char	*get_close_quote(char *ptr, char quote_type)
 		++ptr;
 	if (*ptr == quote_type)
 		return (ptr);
-	return (0);
+	return (NULL);
 }
 
 /*

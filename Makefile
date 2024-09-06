@@ -40,6 +40,12 @@ SRC_M			=	\
 					msh_env/msh_env_free_t_env								\
 					msh_env/msh_env_free									\
 					msh_env/msh_env_print									\
+					msh_tokenise/msh_tokenise								\
+					msh_tokenise/msh_tokenise_create_token					\
+					msh_tokenise/msh_tokenise_insert_token					\
+					msh_tokenise/msh_tokenise_free							\
+					msh_tokenise/msh_tokenise_get_next_token				\
+					msh_tokenise/msh_tokenise_print_token_list				\
 					msh_parse/msh_parse										\
 					msh_parse/token/msh_parse_token							\
 					msh_parse/token/msh_parse_token_word					\
@@ -55,17 +61,11 @@ SRC_M			=	\
 					msh_parse/expression/cmd/msh_parse_cmd					\
 					msh_parse/expression/cmd/msh_parse_cmd_arguments		\
 					msh_parse/expression/cmd/msh_parse_cmd_redirections		\
-					msh_expansion/utils/msh_expansion_utils_strappend		\
+					msh_expansion/msh_expansion								\
+					msh_expansion/msh_expansion_dollar						\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
 					msh_expansion/msh_expansion_quotes						\
-					msh_expansion/msh_expansion_dollar						\
-					msh_expansion/msh_expansion								\
-					msh_tokenise/msh_tokenise								\
-					msh_tokenise/msh_tokenise_create_token					\
-					msh_tokenise/msh_tokenise_insert_token					\
-					msh_tokenise/msh_tokenise_free							\
-					msh_tokenise/msh_tokenise_get_next_token				\
-					msh_tokenise/msh_tokenise_print_token_list				\
+					msh_expansion/utils/msh_expansion_utils_strappend		\
 					msh_builtins/msh_builtins_func_cd						\
 					msh_builtins/msh_builtins_func_echo						\
 					msh_builtins/msh_builtins_func_env						\
@@ -74,14 +74,14 @@ SRC_M			=	\
 					msh_builtins/msh_builtins_func_pwd						\
 					msh_builtins/msh_builtins_func_unset					\
 					msh_builtins/msh_builtins_get_builtin					\
+					msh_execute/msh_execute		 							\
+					msh_execute/msh_execute_traverse_nodes					\
 					msh_execute/msh_execute_util_dup2						\
 					msh_execute/msh_execute_simple_cmd_get_envp_arr			\
 					msh_execute/msh_execute_simple_cmd_redirs				\
 					msh_execute/msh_execute_simple_cmd						\
 					msh_execute/msh_execute_pipeline						\
 					msh_execute/msh_execute_grouping						\
-					msh_execute/msh_execute_traverse_nodes					\
-					msh_execute/msh_execute		 							\
 					utils/ft_arraylen										\
 
 

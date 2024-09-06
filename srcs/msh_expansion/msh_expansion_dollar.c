@@ -6,11 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/12 21:05:41 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:37:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
+#include "ft_mem_utils.h"
 
 void	msh_expansion_utils_strappend(char **strptr, int start, int i,
 			char **new_strptr);
@@ -30,9 +32,9 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	start = *i;
 	while (str[*i] && ft_ischar_identifier(str[*i]))
 		++*i;
-	key = 0;
+	key = NULL;
 	key = ft_substr(str, start, *i - start);
-	value = 0;
+	value = NULL;
 	value = msh_env_getvar(env_list, key);
 	ft_memdel((void **) &key);
 	if (value)
@@ -64,7 +66,7 @@ void	msh_expansion_dollar(char **strptr, t_list *env_list)
 	dquote_flag = 0;
 	start = 0;
 	i = -1;
-	new_str = 0;
+	new_str = NULL;
 	while ((*strptr)[++i])
 	{
 		if ((*strptr)[i] == '\"')
