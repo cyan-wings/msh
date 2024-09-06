@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:35:43 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:12:44 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:21:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	msh_env_delvar(t_list **env_list, char *k)
 
 	if (!env_list || !k)
 		return ;
-	prev = 0;
+	prev = NULL;
 	curr = *env_list;
 	while (curr)
 	{
