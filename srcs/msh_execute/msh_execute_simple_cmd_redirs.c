@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:21:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 18:21:02 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/07 00:32:08 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	handle_redirection_in(int *fd, t_ast *node)
 	if (!ft_strcmp(node->value, "<" ))
 		*fd = open(node->children[0]->value, O_RDONLY);
 	else
-		*fd = open("here_doc", O_RDONLY);
+		*fd = *(int *)node->children[0]->value;
 }
 
 static void	handle_redirection_out(int *fd, t_ast *node)
@@ -60,7 +60,8 @@ void	msh_execute_simple_cmd_redirs(t_ast *node)
 	while (++i < node->child_count)
 	{
 		current = node->children[i];
-		if (!ft_strcmp(current->value, "<<") || !ft_strcmp(current->value, "<"))
+		if (!ft_strcmp(current->value, "<<")
+			|| !ft_strcmp(current->value, "<"))
 			handle_redirection_in(&in, current);
 		else if (!ft_strcmp(current->value, ">")
 			|| !ft_strcmp(current->value, ">>"))
