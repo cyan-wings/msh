@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:28 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:53:37 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:50:29 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static t_ast	*argument(t_token *token)
 	char	*argument_string;
 
 	if (token->type != WORD)
-		return (0);
+		return (NULL);
 	argument_string = token->value;
 	return (msh_parse_astnew("argument", argument_string));
 }

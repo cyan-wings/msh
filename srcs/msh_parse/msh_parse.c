@@ -6,11 +6,14 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:46:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:46:17 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:36:08 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_print_utils.h"
+
+int	msh_parse_token(t_list *token_list);
 
 /*
  * Description:

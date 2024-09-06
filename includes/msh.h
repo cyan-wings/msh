@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:04:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:35:22 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,7 @@ void	msh_parse_astadd_child(t_ast *parent, t_ast *child);
 void	msh_parse_astprint(t_ast *node, int indent);
 void	msh_parse_astfree(t_ast **root_node);
 
-//PARSE_TOKEN
-int		msh_parse_token(t_list *token_list);
+//PARSE
 int		msh_parse(t_list *token_list, t_ast **root);
 
 //TOKENISE

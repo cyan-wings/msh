@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:55:26 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 16:43:19 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:40:02 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_mem_utils.h"
 
 void	msh_parse_astfree(t_ast **root_node)
 {

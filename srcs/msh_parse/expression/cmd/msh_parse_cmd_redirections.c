@@ -6,11 +6,15 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 22:41:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:54:19 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
+#include <unistd.h>
+#include "readline.h"
+#include "ft_mem_utils.h"
 
 /*
  * TODO: delims have to do quote expansion.
@@ -22,7 +26,7 @@ static int	redirection_heredoc(const char *delim)
 
 	if (pipe(pipe_fd) == -1)
 		msh_perror_exit("Pipe open failure for heredoc.", 1);
-	line = 0;
+	line = NULL;
 	while (1)
 	{
 		line = readline("> ");
@@ -79,7 +83,7 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 {
 	t_ast	*redir_child_node;
 
-	redir_child_node = 0;
+	redir_child_node = NULL;
 	while (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 	{
 		if (!((*token_ptr)->next) || \

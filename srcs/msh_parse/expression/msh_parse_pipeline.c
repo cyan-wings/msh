@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 20:12:46 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:00:44 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
 
 #define PIPE "|"
 #define CMD 1
@@ -21,7 +22,7 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 {
 	t_ast	*child;
 
-	child = 0;
+	child = NULL;
 	if (option == CMD)
 		child = msh_parse_cmd(token_ptr);
 	else if (option == GROUP)
@@ -70,9 +71,9 @@ t_ast	*msh_parse_pipeline(t_list **token_ptr)
 	int		status;
 
 	if (!*token_ptr)
-		return (0);
-	pipeline_node = 0;
-	pipeline_node = msh_parse_astnew("pipeline", 0);
+		return (NULL);
+	pipeline_node = NULL;
+	pipeline_node = msh_parse_astnew("pipeline", NULL);
 	status = 1;
 	if (!ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 		status = astadd_child_to_pipeline_node(token_ptr, \
@@ -83,5 +84,5 @@ t_ast	*msh_parse_pipeline(t_list **token_ptr)
 	if (status && msh_parse_pipeline_helper(token_ptr, &pipeline_node))
 		return (pipeline_node);
 	msh_parse_astfree(&pipeline_node);
-	return (0);
+	return (NULL);
 }

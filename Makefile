@@ -33,7 +33,6 @@ SRC_M			=	\
 					msh/input/msh_input_process								\
 					msh_perror/msh_perror									\
 					msh_perror/msh_perror_exit								\
-					utils/ft_arraylen										\
 					msh_env/msh_env_init									\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
@@ -41,6 +40,21 @@ SRC_M			=	\
 					msh_env/msh_env_free_t_env								\
 					msh_env/msh_env_free									\
 					msh_env/msh_env_print									\
+					msh_parse/msh_parse										\
+					msh_parse/token/msh_parse_token							\
+					msh_parse/token/msh_parse_token_word					\
+					msh_parse/token/msh_parse_token_word_string				\
+					msh_parse/token/msh_parse_token_operator				\
+					msh_parse/ast/msh_parse_astnew							\
+					msh_parse/ast/msh_parse_astadd_child					\
+					msh_parse/ast/msh_parse_astprint						\
+					msh_parse/ast/msh_parse_astfree							\
+					msh_parse/expression/msh_parse_list						\
+					msh_parse/expression/msh_parse_pipeline					\
+					msh_parse/expression/msh_parse_grouping					\
+					msh_parse/expression/cmd/msh_parse_cmd					\
+					msh_parse/expression/cmd/msh_parse_cmd_arguments		\
+					msh_parse/expression/cmd/msh_parse_cmd_redirections		\
 					msh_expansion/utils/msh_expansion_utils_strappend		\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
 					msh_expansion/msh_expansion_quotes						\
@@ -52,21 +66,6 @@ SRC_M			=	\
 					msh_tokenise/msh_tokenise_free							\
 					msh_tokenise/msh_tokenise_get_next_token				\
 					msh_tokenise/msh_tokenise_print_token_list				\
-					msh_parse/expression/msh_parse_grouping					\
-					msh_parse/expression/msh_parse_list						\
-					msh_parse/expression/msh_parse_pipeline					\
-					msh_parse/expression/cmd/msh_parse_cmd					\
-					msh_parse/expression/cmd/msh_parse_cmd_arguments		\
-					msh_parse/expression/cmd/msh_parse_cmd_redirections		\
-					msh_parse/token/msh_parse_word_string					\
-					msh_parse/token/msh_parse_word							\
-					msh_parse/token/msh_parse_operator						\
-					msh_parse/token/msh_parse_token							\
-					msh_parse/ast/msh_parse_astnew							\
-					msh_parse/ast/msh_parse_astadd_child					\
-					msh_parse/ast/msh_parse_astprint						\
-					msh_parse/ast/msh_parse_astfree							\
-					msh_parse/msh_parse										\
 					msh_builtins/msh_builtins_func_cd						\
 					msh_builtins/msh_builtins_func_echo						\
 					msh_builtins/msh_builtins_func_env						\
@@ -83,6 +82,8 @@ SRC_M			=	\
 					msh_execute/msh_execute_grouping						\
 					msh_execute/msh_execute_traverse_nodes					\
 					msh_execute/msh_execute		 							\
+					utils/ft_arraylen										\
+
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))
 
