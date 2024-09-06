@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:56 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:49:18 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/07 00:38:09 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	msh_input_process(char *input, t_list **env_list,
 	msh_expansion(root, *env_list);
 	msh_parse_astprint(root, 0);
 	ft_putendl_fd("Expansion success.", 1);
-	msh_execute(root, env_list, global);
+	(void) global;
+	msh_execute(root->children[0], env_list);
 	print_error_and_clean(NULL, &token_list, &root);
 }

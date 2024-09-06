@@ -75,7 +75,6 @@ SRC_M			=	\
 					msh_builtins/msh_builtins_func_unset					\
 					msh_builtins/msh_builtins_get_builtin					\
 					msh_execute/msh_execute		 							\
-					msh_execute/msh_execute_traverse_nodes					\
 					msh_execute/msh_execute_util_dup2						\
 					msh_execute/msh_execute_simple_cmd_get_envp_arr			\
 					msh_execute/msh_execute_simple_cmd_redirs				\

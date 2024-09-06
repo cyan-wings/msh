@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 20:26:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/07 00:46:26 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,13 +87,12 @@ static void	run_execve(t_ast *node, t_list **env_list,
 		exit(127);
 	}
 	ft_free_ft_split(path);
-	ft_free_ft_split(envp_arr);
 }
 
 /*
  * TODO: Fix the builtin_func taking the subshell flag.
  */
-void	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
+int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 {
 	char	**argv_arr;
 	char	**envp_arr;
@@ -110,4 +109,7 @@ void	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 				argv_arr, env_list, 1);
 	else
 		run_execve(node, env_list, argv_arr, envp_arr);
+	ft_free_ft_split(argv_arr);
+	ft_free_ft_split(envp_arr);
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:56:47 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/07 00:26:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,6 @@ void	msh_expansion(t_ast *node, t_list *env_list);
 t_bif	*msh_builtins_get_builtin(char *executable);
 
 //EXECUTE
-int		msh_execute(t_ast *node, t_list **env_list, t_global *global);
+int		msh_execute(t_ast *node, t_list **env_list);
 
 #endif
