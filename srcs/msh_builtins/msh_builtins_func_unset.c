@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 19:16:04 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:07:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	print_invalid_argument(char *arg_str)
 
 static int	check_restricted(char *identifier)
 {
-	const char	*lst[] = {"HOME", "PWD", "OLDPWD"};
+	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER"};
 	int			i;
 
 	i = -1;

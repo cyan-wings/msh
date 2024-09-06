@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 14:20:46 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:26:29 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 
 # include <stdio.h>
 # include <stdlib.h>
-# include <signal.h>
-# include <errno.h>
-# include <termios.h>
 # include "readline.h"
 # include "history.h"
 # include "libft.h"
@@ -122,10 +119,6 @@ void	msh_env_setvar(t_list **env_list, char *k, char *v);
 void	msh_env_delvar(t_list **env_list, char *k);
 void	msh_env_free(t_list **env_list);
 void	msh_env_print(t_list *env_list);
-
-//HISTORY
-void	msh_load_history(const char *filename);
-void	msh_save_history(char *input, const char *filename);
 
 //ERROR_HANDLING
 void	msh_perror(char *error_msg);

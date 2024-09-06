@@ -6,84 +6,49 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 20:02:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:48:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
-#include "ft_lst_utils.h"
-#include "ft_string_utils.h"
-#include <stdio.h>
+#include <termios.h>
+#include <errno.h>
+#include <signal.h>
+#include "ft_print_utils.h"
+#include <unistd.h>
+#include "readline.h"
+#include <stdlib.h>
+#include "ft_mem_utils.h"
 
-/*
- * while (env_list)
- *
- * printf("%s\n", ((t_env *) env_list->content)->val);
- * env_list = env_list->next;
- * }
- */
-char	*msh_prompt(t_list *env_list);
+void	msh_history_load(const char *filename);
 
-static char	*msh_get_input(t_list *env_list)
+static void	sigint_handler(int sig)
 {
-	char	*prompt;
-	char	*input;
-
-	prompt = msh_prompt(env_list);
-	input = readline(prompt);
-	if (!input)
-		return (0);
-	if (*input)
-		msh_save_history(input, HISTORY_FILE);
-	printf("The input was: %s\n", input);
-	ft_memdel((void **) &prompt);
-	return (input);
+	if (sig != SIGINT)
+		return ;
+	ft_putchar_fd('\n', STDIN_FILENO);
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-static void	print_error_and_clean(char *err_str, t_list **token_list,
-		t_ast **root)
+void	init_signal(void)
 {
-	if (*root)
-		msh_parse_astfree(root);
-	if (*token_list)
-		msh_tokenise_free(token_list);
-	if (err_str)
-		msh_perror(err_str);
-	return ;
+	struct termios	term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+		msh_perror_exit("tcgetattr\n", errno);
+	term.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
+		msh_perror_exit("tcsetattr\n", errno);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_DFL);
 }
 
-static void	msh_process_input(char *input, t_list **env_list,
-		t_global *global)
-{
-	t_list	*token_list;
-	t_ast	*root;
-	int		flag;
+char	*msh_input_get(t_list *env_list);
 
-	token_list = NULL;
-	root = 0;
-	flag = 0;
-	flag = msh_tokenise(input, &token_list);
-	if (!flag)
-		return (print_error_and_clean("Tokenise error.", &token_list, &root));
-	msh_tokenise_print_token_list(token_list);
-	flag = msh_parse(token_list, &root);
-	if (!flag)
-		return (print_error_and_clean("Parsing error.", &token_list, &root));
-	msh_parse_astprint(root, 0);
-	puts("Parse success.");
-	msh_expansion(root, *env_list);
-	msh_parse_astprint(root, 0);
-	puts("Expansion success.");
-	msh_execute(root, env_list, global);
-	print_error_and_clean(NULL, &token_list, &root);
-}
-
-static void	msh_clean(t_list **env_list)
-{
-	msh_env_free(env_list);
-}
-
-void	msh_init_signal(void);
+void	msh_input_process(char *input, t_list **env_list,
+		t_global *global);
 
 //system("leaks msh -q");
 int	main(void)
@@ -94,18 +59,18 @@ int	main(void)
 
 	global = (t_global){0};
 	env_list = NULL;
-	msh_load_history(HISTORY_FILE);
+	msh_history_load(HISTORY_FILE);
 	msh_env_init(&env_list);
 	input = NULL;
 	while (1)
 	{
-		msh_init_signal();
-		input = msh_get_input(env_list);
+		init_signal();
+		input = msh_input_get(env_list);
 		if (!input)
-			exit(0);
-		msh_process_input(input, &env_list, &global);
+			exit(EXIT_SUCCESS);
+		msh_input_process(input, &env_list, &global);
 		ft_memdel((void **)&input);
 	}
-	msh_clean(&env_list);
+	msh_env_free(&env_list);
 	return (0);
 }

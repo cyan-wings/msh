@@ -26,6 +26,11 @@ HDRINC			=	-I$(HDRDIR)
 
 SRCDIR			=	srcs/
 SRC_M			=	\
+					msh/msh													\
+					msh/history/msh_history_load							\
+					msh/history/msh_history_save							\
+					msh/input/msh_input_get									\
+					msh/input/msh_input_process								\
 					utils/ft_arraylen										\
 					error_handling/msh_perror_exit							\
 					error_handling/msh_perror								\
@@ -41,8 +46,6 @@ SRC_M			=	\
 					msh_expansion/msh_expansion_quotes						\
 					msh_expansion/msh_expansion_dollar						\
 					msh_expansion/msh_expansion								\
-					msh_history/msh_load_history							\
-					msh_history/msh_save_history							\
 					msh_tokenise/msh_tokenise								\
 					msh_tokenise/msh_tokenise_create_token					\
 					msh_tokenise/msh_tokenise_insert_token					\
@@ -80,9 +83,6 @@ SRC_M			=	\
 					msh_execute/msh_execute_grouping						\
 					msh_execute/msh_execute_traverse_nodes					\
 					msh_execute/msh_execute		 							\
-					msh/msh_init_signal										\
-					msh/msh_prompt											\
-					msh/msh													\
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))
 

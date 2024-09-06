@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:34:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 19:33:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:54:50 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "ft_print_utils.h"
+#include <unistd.h>
 
 /*
  * This prints an error message but does not terminate the shell.
@@ -23,6 +24,6 @@
  */
 void	msh_perror(char *error_msg)
 {
-	ft_putendl_fd(error_msg, 2);
+	ft_putendl_fd(error_msg, STDERR_FILENO);
 	return ;
 }
