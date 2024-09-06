@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:48:53 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:03:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include "ft_mem_utils.h"
 
 void	msh_history_load(const char *filename);
+
+void	msh_env_init(t_list **env_list);
 
 static void	sigint_handler(int sig)
 {
@@ -48,7 +50,7 @@ void	init_signal(void)
 char	*msh_input_get(t_list *env_list);
 
 void	msh_input_process(char *input, t_list **env_list,
-		t_global *global);
+			t_global *global);
 
 //system("leaks msh -q");
 int	main(void)

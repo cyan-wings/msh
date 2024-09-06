@@ -6,11 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 16:45:23 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 16:45:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:14:35 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_mem_utils.h"
+#include <stdlib.h>
 
 void	msh_env_free_t_env(void *content)
 {
@@ -18,7 +20,7 @@ void	msh_env_free_t_env(void *content)
 	char	*k;
 	char	*v;
 
-	env_var = (t_env *) content;
+	env_var = (t_env *)content;
 	k = env_var->key;
 	v = env_var->val;
 	ft_memdel((void **) &k);
