@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:35:57 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 17:57:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,3 @@ char	*msh_input_get(t_list *env_list)
 	ft_memdel((void **) &prompt);
 	return (input);
 }
-

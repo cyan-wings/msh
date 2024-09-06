@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:41:49 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:41:52 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:11:12 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
 
 char	*msh_env_getvar(t_list *env_list, char *k)
 {

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:26:29 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:04:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,14 +113,13 @@ void	msh_tokenise_get_next_token(t_list **token_ptr);
 void	msh_tokenise_print_token_list(t_list *token_list);
 
 //ENV
-void	msh_env_init(t_list **env_list);
 char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_setvar(t_list **env_list, char *k, char *v);
 void	msh_env_delvar(t_list **env_list, char *k);
 void	msh_env_free(t_list **env_list);
 void	msh_env_print(t_list *env_list);
 
-//ERROR_HANDLING
+//PERROR
 void	msh_perror(char *error_msg);
 void	msh_perror_exit(char *error_msg, int status);
 

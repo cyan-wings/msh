@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:57:05 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 19:02:24 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:12:01 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_print_utils.h"
 
 void	msh_env_print(t_list *env_list)
 {

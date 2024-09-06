@@ -31,9 +31,9 @@ SRC_M			=	\
 					msh/history/msh_history_save							\
 					msh/input/msh_input_get									\
 					msh/input/msh_input_process								\
+					msh_perror/msh_perror									\
+					msh_perror/msh_perror_exit								\
 					utils/ft_arraylen										\
-					error_handling/msh_perror_exit							\
-					error_handling/msh_perror								\
 					msh_env/msh_env_init									\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
