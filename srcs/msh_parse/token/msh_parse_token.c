@@ -6,15 +6,15 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:47:42 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:47:51 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:07:51 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 
-int		msh_parse_word(t_token *token);
+int	msh_parse_token_word(t_token *token);
 
-int		msh_parse_operator(t_token *token, t_operator_type type);
+int	msh_parse_token_operator(t_token *token, t_operator_type type);
 
 int	msh_parse_token(t_list *token_list)
 {
@@ -27,8 +27,8 @@ int	msh_parse_token(t_list *token_list)
 	while (token_list)
 	{
 		curr = (t_token *) token_list->content;
-		word_flag = msh_parse_word(curr);
-		op_flag = msh_parse_operator(curr, DEFAULT);
+		word_flag = msh_parse_token_word(curr);
+		op_flag = msh_parse_token_operator(curr, DEFAULT);
 		if (word_flag + op_flag == 0)
 			return (0);
 		token_list = token_list->next;

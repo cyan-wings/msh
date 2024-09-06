@@ -6,11 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:00:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/08/27 16:34:17 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 19:15:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
+#include "ft_mem_utils.h"
 
 t_token	*msh_tokenise_create_token(char *str);
 

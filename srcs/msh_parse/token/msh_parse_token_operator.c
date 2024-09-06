@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_operator.c                               :+:      :+:    :+:   */
+/*   msh_parse_token_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:47:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/09 13:47:34 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:30:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	contains(t_token *token, const char **ops, t_token_type token_type)
 	return (0);
 }
 
-int	msh_parse_operator(t_token *token, t_operator_type type)
+int	msh_parse_token_operator(t_token *token, t_operator_type type)
 {
 	static const char	*redir_ops[5] = {"<", ">", "<<", ">>", NULL};
 	static const char	*ctrl_ops[6] = {"&&", "||", "|", "(", ")", NULL};

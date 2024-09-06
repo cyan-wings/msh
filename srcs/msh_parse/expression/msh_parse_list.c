@@ -6,11 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:30 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/05 17:11:51 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/06 18:58:55 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
+#include "ft_string_utils.h"
 
 #define AND "&&"
 #define OR "||"
@@ -23,8 +24,9 @@ static void	astadd_list_op_node(t_list **token_ptr, t_ast **list_root_node)
 	char	*list_op;
 	t_ast	*list_op_node;
 
+	list_op = NULL;
 	list_op = ((t_token *)(*token_ptr)->content)->value;
-	list_op_node = 0;
+	list_op_node = NULL;
 	list_op_node = msh_parse_astnew("list_op", list_op);
 	msh_parse_astadd_child(*list_root_node, list_op_node);
 }
@@ -38,7 +40,7 @@ static void	astadd_list_op_node(t_list **token_ptr, t_ast **list_root_node)
 t_ast	*msh_parse_list_error(t_ast **list_root_node)
 {
 	msh_parse_astfree(list_root_node);
-	return (0);
+	return (NULL);
 }
 
 t_ast	*msh_parse_list(t_list **token_ptr)
@@ -46,9 +48,9 @@ t_ast	*msh_parse_list(t_list **token_ptr)
 	t_ast	*list_root_node;
 	t_ast	*pipeline_node;
 
-	list_root_node = 0;
-	list_root_node = msh_parse_astnew("list", 0);
-	pipeline_node = 0;
+	list_root_node = NULL;
+	list_root_node = msh_parse_astnew("list", NULL);
+	pipeline_node = NULL;
 	pipeline_node = msh_parse_pipeline(token_ptr);
 	if (!pipeline_node)
 		return (msh_parse_list_error(&list_root_node));
