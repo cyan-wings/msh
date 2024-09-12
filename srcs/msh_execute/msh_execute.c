@@ -48,11 +48,12 @@ static int	msh_execute_list(t_ast *node, t_list **env_list)
 }
 
 
-static int	msh_execute_grouping(t_ast *node, t_list **env_list)
-{
-	return (msh_execute(node->children[0], env_list));
-}
+// static int	msh_execute_grouping(t_ast *node, t_list **env_list)
+// {
+// 	return (msh_execute(node->children[0], env_list));
+// }
 
+int	msh_execute_grouping(t_ast *node, t_list **env_list, int flag_fork);
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list);
 
 int	msh_execute_pipeline(t_ast *node, t_list **env_list);

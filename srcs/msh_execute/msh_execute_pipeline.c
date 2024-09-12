@@ -75,19 +75,18 @@ static void	child_handle_pipes(int pipe_fd[2][2], int current, int total)
 	close(pipe_fd[0][1]);
 }
 
+int	msh_execute_grouping(t_ast *node, t_list **env_list);
+
 /*
  * Function runs when there is at least 1 pipe.
  */
-static int	execute_multi_simple_cmd(t_ast *node, pid_t *pid,
+static void	execute_multi_simple_cmd(t_ast *node, pid_t *pid,
 		t_list **env_list)
 {
 	int	pipe_fd[2][2];
 	int	i;
-	int	status;
 
 	i = -1;
-	status = 0;
-	(void)status;
 	while (++i < node->child_count)
 	{
 		if (pipe(pipe_fd[0]) == -1)
@@ -99,13 +98,14 @@ static int	execute_multi_simple_cmd(t_ast *node, pid_t *pid,
 		if (pid[i] == 0)
 		{
 			child_handle_pipes(pipe_fd, i, node->child_count);
-			msh_execute(node->children[i], env_list);
-			break ;
+			if (ft_strcmp(node->type, "grouping"))
+				msh_execute(node, env_list);
+			else
+				msh_execute(node->children[i], env_list);
 		}
 		else
 			parent_handle_pipes(pipe_fd, i, node->child_count);
 	}
-	return (-1);
 }
 
 /*
@@ -117,10 +117,12 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list)
 	int		i;
 	pid_t	*pid_list;
 	int		status;
+	int 	should_wait;
 
 	pid_list = ft_calloc(node->child_count, sizeof(pid_t));
+	should_wait = 0
 	if (node->child_count <= 1)
-		execute_single_simple_cmd(node, pid_list, env_list);
+		should_wait = execute_single_simple_cmd(node, pid_list, env_list);
 	else
 		execute_multi_simple_cmd(node, pid_list, env_list);
 	i = -1;
@@ -129,10 +131,7 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list)
 		if (waitpid(pid_list[i], &status, 0) == -1)
 			perror("waitpid failed");
 		if (WIFEXITED(status))
-		{
-			//global->status = WEXITSTATUS(status);
 			return (WEXITSTATUS(status));
-		}
 		else
 			return (-1);
 	}

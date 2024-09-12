@@ -15,23 +15,21 @@
 //int	msh_execute_traverse_nodes(t_ast *node, t_list **env_list,
 //		t_global *global);
 
-void	msh_execute_grouping(t_ast *node, t_list **env_list,
-		t_global *global)
+int	msh_execute_grouping(t_ast *node, t_list **env_list)
 {
-	(void)node;
-	(void)env_list;
 	pid_t	pid;
 	int		status;
 
 	pid = fork();
 	if (pid == 0)
-		return ;
-		//msh_execute_traverse_nodes(node->children[0], env_list, global);
+		status = msh_execute(node->children[0], env_list);
 	else
 	{
 		if (waitpid(pid, &status, 0) == -1)
 			perror("waitpid failed in subshell");
 		if (WIFEXITED(status))
-			global->status = WEXITSTATUS(status);
+			WEXITSTATUS(status);
 	}
+	return ( status );
 }
+
