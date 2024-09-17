@@ -24,6 +24,10 @@
 # include "ft_mem_utils.h"
 # include "ft_string_utils.h"
 
+# if defined(__linux__)
+#  define OPEN_MAX 256
+# endif
+
 char	*ft_strjoin_read(char *s1, char *s2);
 char	*get_next_line(int fd);
 
