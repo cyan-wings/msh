@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <stdarg.h>
 # include <stdlib.h>
+# include <stdint.h>
 
 # define FLAGS "-0# +"
 # define SPECIFIERS "cspdiuxX"
