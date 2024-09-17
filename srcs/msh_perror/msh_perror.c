@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:34:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:54:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/17 16:26:01 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
  * 		(3) Open or close dir error during wildcards expansion.
  *
  * May want to include functionality to free up certain stuff.
+ * TODO:
+ * 		Consider having 4 arguments.
  */
 void	msh_perror(char *error_msg)
 {

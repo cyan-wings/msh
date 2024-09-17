@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/07 01:30:09 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/17 15:35:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,8 @@ static int	msh_execute_list(t_ast *node, t_list **env_list)
 	{
 		child = node->children[i];
 		op = (char *)child->value;
-		if (!ft_strcmp(op, "&&") && status)
-		{
-			++i;
-			continue ;
-		}
-		if (!ft_strcmp(op, "||") && !status)
+		if ((!ft_strcmp(op, "&&") && status)
+			|| (!ft_strcmp(op, "||") && !status))
 		{
 			++i;
 			continue ;
@@ -47,13 +43,12 @@ static int	msh_execute_list(t_ast *node, t_list **env_list)
 	return (status);
 }
 
-
 // static int	msh_execute_grouping(t_ast *node, t_list **env_list)
 // {
 // 	return (msh_execute(node->children[0], env_list));
 // }
-
-int	msh_execute_grouping(t_ast *node, t_list **env_list, int flag_fork);
+//int	msh_execute_grouping(t_ast *node, t_list **env_list, int flag_fork);
+int	msh_execute_grouping(t_ast *node, t_list **env_list);
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list);
 
 int	msh_execute_pipeline(t_ast *node, t_list **env_list);
