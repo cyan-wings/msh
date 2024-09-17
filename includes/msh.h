@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/07 00:26:06 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/17 15:54:42 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,13 @@
 
 # include <stdio.h>
 # include <stdlib.h>
-# include "readline.h"
-# include "history.h"
+# ifdef ARCH_X86_64
+#  include "readline.h"
+#  include "history.h"
+# else
+#  include <readline.h>
+#  include <history.h>
+# endif
 # include "libft.h"
 # include "get_next_line.h"
 

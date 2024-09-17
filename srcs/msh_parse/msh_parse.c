@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:46:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 20:23:01 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/17 15:35:12 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	msh_parse(t_list *token_list, t_ast **root)
 	if (!child_node)
 		return (0);
 	if (token_list && (((t_token *)token_list->content)->type == WORD
-		|| !ft_strcmp(((t_token *)token_list->content)->value, "(")
-		|| !ft_strcmp(((t_token *)token_list->content)->value, ")")))
+			|| !ft_strcmp(((t_token *)token_list->content)->value, "(")
+			|| !ft_strcmp(((t_token *)token_list->content)->value, ")")))
 		return (msh_parse_error(&child_node));
 	expression_root_node = msh_parse_astnew("expression", 0);
 	msh_parse_astadd_child(expression_root_node, child_node);

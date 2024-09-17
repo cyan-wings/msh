@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/07 01:20:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/17 16:05:53 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list)
 	int 	should_wait;
 
 	pid_list = ft_calloc(node->child_count, sizeof(pid_t));
-	should_wait = 0
+	should_wait = 0;
 	if (node->child_count <= 1)
 		should_wait = execute_single_simple_cmd(node, pid_list, env_list);
 	else

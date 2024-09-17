@@ -2,18 +2,21 @@
 ###LIBS									######
 ##############################################
 
-LIBFTDIR		=	libft
-LIBFTINC		=	-I$(LIBFTDIR)/includes/
-LIBFTLD			=	-L$(LIBFTDIR) -lft
-LIBFT			=	$(LIBFTDIR)/libft.a
+LIBFTDIR			=	libft
+LIBFTINC			=	-I$(LIBFTDIR)/includes/
+LIBFTLD				=	-L$(LIBFTDIR) -lft
+LIBFT				=	$(LIBFTDIR)/libft.a
 
-# READLINEDIR		=	readline
-READLINEDIR		=	/opt/homebrew/Cellar/readline/8.2.13/lib/
-READLINEIDIR		=	/opt/homebrew/Cellar/readline/8.2.13/include/readline
-READLINEINC		=	-I$(READLINEDIR)/
-# READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
-READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses 
-
+ARCH				:=	$(shell uname -m)
+ifeq ($(ARCH), x86_64)
+	READLINEDIR		=	readline
+	READLINEINC		=	-I$(READLINEDIR)/
+	READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
+else
+	READLINEDIR		=	/opt/homebrew/Cellar/readline/8.2.13/lib/
+	READLINEINC		=	-I/opt/homebrew/Cellar/readline/8.2.13/include/readline/
+	READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses
+endif
 
 
 ##############################################
@@ -85,6 +88,7 @@ SRC_M			=	\
 					msh_execute/msh_execute_simple_cmd						\
 					msh_execute/msh_execute_pipeline						\
 					msh_execute/msh_execute_grouping						\
+					msh_execute/msh_execute_wait_pid						\
 					utils/ft_arraylen										\
 
 
@@ -106,7 +110,10 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 
 NAME			=	msh
 CC				=	cc
-CFLAGS			=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
+CFLAGS			:=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
+ifeq ($(ARCH), x86_64)
+	CFLAGS		+=	-DARCH_X86_64
+endif
 FSANITIZE		=	-fsanitize=address -g
 
 IFLAGS			=	$(READLINEINC) $(LIBFTINC) $(HDRINC)
