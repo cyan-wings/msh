@@ -1,24 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_signal_ctrl_c.c                                :+:      :+:    :+:   */
+/*   msh_perror_exit_int.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/22 15:25:20 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:25:22 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/22 16:41:46 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/22 16:44:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <signal.h>
+#include "msh_perror.h"
 
-void	msh_signal_ctrl_c(int sig)
+/*
+ * This function's purpose to mainly to serve clarity in returning functions.
+ */
+int	msh_perror_exit_int(char *s1, char *s2, char *msg, int status)
 {
-	if (sig != SIGINT)
-		return ;
-	ft_putchar_fd('\n', STDERR_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	msh_perror_exit(s1, s2, msg, status);
+	return (ERROR);
 }

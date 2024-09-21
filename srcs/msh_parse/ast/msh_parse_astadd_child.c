@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:55:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:43:37 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:27:20 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 	new_children = (t_ast **)malloc(sizeof(t_ast *) * child_count);
 	if (!new_children)
 	{
-		msh_perror_exit("msh_parse_astadd_child", NULL, "malloc fail.", EXIT_FAILURE);
+		msh_perror_exit("msh_parse_astadd_child", NULL,
+			"malloc fail.", EXIT_FAILURE);
 		return (NULL);
 	}
 	i = -1;

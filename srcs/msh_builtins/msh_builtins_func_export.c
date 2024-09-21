@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 22:44:13 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:22:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	key = ft_strdup(arg_str);
 	if (!key)
 	{
-		msh_perror_exit("msh_builtins_func_export", "get_key: key", "malloc fail.", EXIT_FAILURE);
+		msh_perror_exit("msh_builtins_func_export", "get_key: key",
+			"malloc fail.", EXIT_FAILURE);
 		return (0);
 	}
 	if (!check_identifier(key))

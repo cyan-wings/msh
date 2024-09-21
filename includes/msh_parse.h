@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_parse.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/22 15:07:15 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/22 15:07:39 by myeow            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MSH_PARSE_H
 # define MSH_PARSE_H
 
@@ -40,6 +52,5 @@ t_ast	*msh_parse_grouping(t_list **token_ptr);
 t_ast	*msh_parse_list(t_list **token_ptr);
 t_ast	*msh_parse_pipeline(t_list **token_ptr);
 t_ast	*msh_parse_cmd(t_list **token_ptr);
-
 
 #endif

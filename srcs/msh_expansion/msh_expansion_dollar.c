@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:37:00 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:28:40 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	key = NULL;
 	key = ft_substr(str, start, *i - start);
 	if (!key)
-		msh_perror_exit("msh_expansion_dollar", "process_identifier: key", "malloc fail.", EXIT_FAILURE);
+		msh_perror_exit("msh_expansion_dollar", "process_identifier: key",
+			"malloc fail.", EXIT_FAILURE);
 	value = NULL;
 	value = msh_env_getvar(env_list, key);
 	ft_memdel((void **) &key);
@@ -39,7 +40,9 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	else
 		ft_strappend(new_strptr, "");
 	if (!*new_strptr)
-		msh_perror_exit("msh_expansion_dollar", "process_identifier: new_strptr", "malloc fail.", EXIT_FAILURE);
+		msh_perror_exit("msh_expansion_dollar",
+			"process_identifier: new_strptr",
+			"malloc fail.", EXIT_FAILURE);
 }
 
 static void	msh_expansion_dollar_helper(char **strptr, int start, int i,

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:50:19 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 19:05:28 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 17:25:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t	ft_strlen(const char *s);
 char	*ft_strmapi(char const *s, char (*f) (unsigned int, char));
 int		ft_strmatch_pattern(char *str, char *pattern);
+void	ft_strnappend(size_t n, char **strptr, ...);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strnew(size_t size);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);

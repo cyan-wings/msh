@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:00:47 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:40:11 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:30:08 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ static void	append_to_new_str_if_match(char *pattern, char **new_strptr,
 			ft_strappend(new_strptr, " ");
 		ft_strappend(new_strptr, entry->d_name);
 		if (!*new_strptr)
-			msh_perror_exit("msh_expansion_wildcards_and_quotes", "append_to_new_str_if_match", "malloc fail.", EXIT_FAILURE);
+			msh_perror_exit("msh_expansion_wildcards_and_quotes",
+				"append_to_new_str_if_match", "malloc fail.", EXIT_FAILURE);
 		++*n;
 	}
 }
@@ -71,7 +72,8 @@ static int	get_matched_files(char *pattern, char **new_strptr)
 
 	dir = opendir(".");
 	if (!dir)
-		msh_perror_exit("msh_expansion_wildcards_and_quotes", "get_matched_files: opendir", strerror(errno), EXIT_FAILURE);
+		msh_perror_exit("msh_expansion_wildcards_and_quotes",
+			"get_matched_files: opendir", strerror(errno), EXIT_FAILURE);
 	entry = readdir(dir);
 	n = 0;
 	while (entry)
@@ -80,7 +82,8 @@ static int	get_matched_files(char *pattern, char **new_strptr)
 		entry = readdir(dir);
 	}
 	if (closedir(dir) == -1)
-		msh_perror_exit("msh_expansion_wildcards_and_quotes", "get_matched_files: closedir", strerror(errno), EXIT_FAILURE);
+		msh_perror_exit("msh_expansion_wildcards_and_quotes",
+			"get_matched_files: closedir", strerror(errno), EXIT_FAILURE);
 	return (n);
 }
 
@@ -129,7 +132,8 @@ void	msh_expansion_wildcards_and_quotes(char **strptr)
 	int		n;
 
 	if (!strptr)
-		msh_perror("debug", "msh_expansion_wildcards_and_quotes", "strptr is NULL.");
+		msh_perror("debug", "msh_expansion_wildcards_and_quotes",
+			"strptr is NULL.");
 	flag = -1;
 	flag = check_and_replace_wildcards(strptr);
 	msh_expansion_quotes(strptr);

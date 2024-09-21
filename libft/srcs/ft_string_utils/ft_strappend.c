@@ -6,27 +6,37 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 15:10:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/07/11 19:09:45 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 17:24:59 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string_utils.h"
 #include "ft_mem_utils.h"
-#include <stdio.h>
 
-void	ft_strappend(char **ptr, char const *add)
+/*
+ * @params:
+ * 		strptr: Pointer to the string. This string must be heap allocated.
+ * 				This ptr will hold the buffer and collect the result.
+ * 		suffix: The suffix to append. (Stack allocated)
+ */
+void	ft_strappend(char **strptr, char const *suffix)
 {
 	char	*new;
 
-	if (!add || !ptr)
+	if (!suffix || !strptr)
 		return ;
-	if (!*ptr)
+	new = NULL;
+	if (!*strptr)
 	{
-		new = ft_strdup(add);
-		*ptr = new;
+		new = ft_strdup(suffix);
+		if (!new)
+			return ;
+		*strptr = new;
 		return ;
 	}
-	new = ft_strjoin(*ptr, add);
-	ft_memdel((void **) ptr);
-	*ptr = new;
+	new = ft_strjoin(*strptr, suffix);
+	ft_memdel((void **)strptr);
+	if (!new)
+		return ;
+	*strptr = new;
 }

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:42:25 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:20:55 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:23:12 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	msh_env_init(t_list **env_list)
 		return ;
 	}
 	if (!environ)
-		msh_perror_exit("msh_env_init", NULL, "No environment variable.", EXIT_FAILURE);
+		msh_perror_exit("msh_env_init", NULL,
+			"No environment variable.", EXIT_FAILURE);
 	while (*environ)
 	{
 		equals_symbol = find_equals(*environ);

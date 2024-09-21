@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 15:54:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:06:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-#include <fcntl.h>
-#include <string.h>
+# include <fcntl.h>
+# include <string.h>
 
 # ifdef ARCH_X86_64
 #  include "readline.h"

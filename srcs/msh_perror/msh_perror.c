@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:34:50 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 16:26:01 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 16:16:36 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
  * 		(2) Parsing error.
  * 		(3) Open or close dir error during wildcards expansion.
  */
-int	msh_perror(char *s1, char *s2, char *msg)
+void	msh_perror(char *s1, char *s2, char *msg)
 {
 	ft_putstr_fd("msh: ", STDERR_FILENO);
 	if (s1)
@@ -39,5 +39,4 @@ int	msh_perror(char *s1, char *s2, char *msg)
 		ft_putstr_fd(msg, STDERR_FILENO);
 	}
 	ft_putchar_fd('\n', STDERR_FILENO);
-	return (ERROR);
 }

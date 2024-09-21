@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:00:44 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:24:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 	else if (option == GROUP)
 		child = msh_parse_grouping(token_ptr);
 	else
-		msh_perror("debug", "msh_parse_pipeline: astadd_child_to_pipeline_node", "undefined option");
+		msh_perror("debug",
+			"msh_parse_pipeline: astadd_child_to_pipeline_node",
+			"undefined option");
 	if (!child)
 		return (0);
 	msh_parse_astadd_child(*pipeline_node, child);

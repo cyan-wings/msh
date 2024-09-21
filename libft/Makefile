@@ -53,6 +53,7 @@ STRSRC			=		\
 						strlen				\
 						strmapi				\
 						strmatch_pattern	\
+						strnappend			\
 						strncmp				\
 						strnew				\
 						strnstr				\

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 17:57:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 17:36:47 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /*
  * Prompt must be freed.
  */
-static char	*get_prompt(t_list *env_list)
+static char	*create_prompt(t_list *env_list)
 {
 	char	*user_str;
 	char	*pwd_str;
@@ -26,7 +26,8 @@ static char	*get_prompt(t_list *env_list)
 	pwd_str = msh_env_getvar(env_list, "PWD");
 	prompt = ft_memalloc(ft_strlen(user_str) + ft_strlen(pwd_str) + 6);
 	if (!prompt)
-		msh_perror_exit("msh_input_get", "get_prompt", "malloc fail.", EXIT_FAILURE);
+		msh_perror_exit("msh_input_get", "get_prompt",
+			"malloc fail.", EXIT_FAILURE);
 	ft_memcpy(prompt, user_str, ft_strlen(user_str));
 	i = ft_strlen(user_str);
 	ft_memcpy(prompt + i++, "@", 1);
@@ -34,6 +35,20 @@ static char	*get_prompt(t_list *env_list)
 	i += ft_strlen(pwd_str);
 	ft_memcpy(prompt + i, " $> ", 4);
 	return (prompt);
+}
+
+void	get_prompt(char **prompt)
+{
+	*prompt = msh_env_getvar(env_list, "PS1");
+	if (*prompt)
+	{
+		*prompt = ft_strdup(prompt);
+		if (!*prompt)
+			msh_perror_exit("msh_input_get", NULL,
+				"malloc fail.", EXIT_FAILURE);
+	}
+	else
+		*prompt = create_prompt(env_list);
 }
 
 void	msh_history_save(char *input, const char *filename);
@@ -49,15 +64,7 @@ char	*msh_input_get(t_list *env_list)
 		return (NULL);
 	}
 	prompt = NULL;
-	prompt = msh_env_getvar(env_list, "PS1");
-	if (prompt)
-	{
-		prompt = ft_strdup(prompt);
-		if (!prompt)
-			msh_perror_exit("msh_input_get", NULL, "malloc fail.", EXIT_FAILURE);
-	}
-	else
-		prompt = get_prompt(env_list);
+	get_prompt(&prompt);
 	input = NULL;
 	if (isatty(STDIN_FILENO))
 		input = readline(prompt);

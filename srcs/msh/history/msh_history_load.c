@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:44:45 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:07:14 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/22 15:10:02 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ void	msh_history_load(const char *filename)
 	fd = -1;
 	fd = open(filename, O_RDONLY | O_CREAT, 0644);
 	if (fd == -1)
-		msh_perror_exit("msh_history_load", HISTORY_FILE, strerror(errno), EXIT_FAILURE);
+		msh_perror_exit("msh_history_load", HISTORY_FILE,
+			strerror(errno), EXIT_FAILURE);
 	line = NULL;
 	line = get_next_line(fd);
 	while (line)
