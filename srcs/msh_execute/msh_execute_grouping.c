@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <errno.h>
+#include "msh_execution.h"
 
 int	msh_execute_wait_pid(int prev_pid, char *name);
 

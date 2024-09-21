@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_parse.h"
 
 int	msh_parse_token_word(t_token *token);
 
@@ -22,6 +22,11 @@ int	msh_parse_token(t_list *token_list)
 	int		word_flag;
 	int		op_flag;
 
+	if (!token_list)
+	{
+		msh_perror("debug", "msh_parse_token", "token_list is NULL.");
+		return (0);
+	}
 	word_flag = 0;
 	op_flag = 0;
 	while (token_list)

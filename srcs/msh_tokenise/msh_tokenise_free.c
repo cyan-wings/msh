@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_mem_utils.h"
-#include <stdlib.h>
+#include "msh_tokenise.h"
 
 static void	msh_t_token_clear(void *content)
 {

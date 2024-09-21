@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_builtins.h"
 
 int	msh_builtins_func_echo(
 		int argc __attribute((unused)),

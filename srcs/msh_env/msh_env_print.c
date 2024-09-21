@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_print_utils.h"
+#include "msh_env.h"
 
 void	msh_env_print(t_list *env_list)
 {
@@ -20,7 +19,7 @@ void	msh_env_print(t_list *env_list)
 
 	curr = env_list;
 	if (!curr)
-		ft_putendl_fd("env list unavailable.", STDIN_FILENO);
+		msh_perror("debug", "msh_env_print", "env_list is NULL.");
 	while (curr)
 	{
 		curr_env = (t_env *)curr->content;

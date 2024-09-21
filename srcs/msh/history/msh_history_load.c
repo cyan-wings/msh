@@ -10,23 +10,22 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <fcntl.h>
 #include "msh.h"
-#include "get_next_line.h"
-#include "history.h"
-#include "ft_mem_utils.h"
-
-void	msh_perror_exit(char *error_msg, int status);
 
 void	msh_history_load(const char *filename)
 {
 	int		fd;
 	char	*line;
 
+	if (!filename)
+	{
+		msh_perror("debug", "msh_history_load", "filename is NULL.");
+		return ;
+	}
 	fd = -1;
 	fd = open(filename, O_RDONLY | O_CREAT, 0644);
 	if (fd == -1)
-		msh_perror_exit("Open .msh_history", EXIT_FAILURE);
+		msh_perror_exit("msh_history_load", HISTORY_FILE, strerror(errno), EXIT_FAILURE);
 	line = NULL;
 	line = get_next_line(fd);
 	while (line)

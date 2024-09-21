@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_utils.h"
-#include "msh.h"
+#include <limits.h>
+#include "msh_builtins.h"
 
 /*
  * Actual pwd runs without any arguments.

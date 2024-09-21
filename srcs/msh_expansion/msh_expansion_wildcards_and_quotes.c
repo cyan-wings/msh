@@ -10,10 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_expansion.h"
 #include "dirent.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
 
 void	msh_expansion_quotes(char **strptr);
 
@@ -56,6 +54,8 @@ static void	append_to_new_str_if_match(char *pattern, char **new_strptr,
 		if (*n)
 			ft_strappend(new_strptr, " ");
 		ft_strappend(new_strptr, entry->d_name);
+		if (!*new_strptr)
+			msh_perror_exit("msh_expansion_wildcards_and_quotes", "append_to_new_str_if_match", "malloc fail.", EXIT_FAILURE);
 		++*n;
 	}
 }
@@ -71,7 +71,7 @@ static int	get_matched_files(char *pattern, char **new_strptr)
 
 	dir = opendir(".");
 	if (!dir)
-		msh_perror_exit("opendir error", 1);
+		msh_perror_exit("msh_expansion_wildcards_and_quotes", "get_matched_files: opendir", strerror(errno), EXIT_FAILURE);
 	entry = readdir(dir);
 	n = 0;
 	while (entry)
@@ -80,7 +80,7 @@ static int	get_matched_files(char *pattern, char **new_strptr)
 		entry = readdir(dir);
 	}
 	if (closedir(dir) == -1)
-		msh_perror_exit("closedir error", 1);
+		msh_perror_exit("msh_expansion_wildcards_and_quotes", "get_matched_files: closedir", strerror(errno), EXIT_FAILURE);
 	return (n);
 }
 
@@ -128,6 +128,8 @@ void	msh_expansion_wildcards_and_quotes(char **strptr)
 	char	*new_str;
 	int		n;
 
+	if (!strptr)
+		msh_perror("debug", "msh_expansion_wildcards_and_quotes", "strptr is NULL.");
 	flag = -1;
 	flag = check_and_replace_wildcards(strptr);
 	msh_expansion_quotes(strptr);

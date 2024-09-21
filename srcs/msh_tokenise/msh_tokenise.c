@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_tokenise.h"
 
 void	msh_tokenise_insert_token(char *str, t_list **token_list);
 

@@ -11,10 +11,6 @@
 /* ************************************************************************** */
 
 #include "msh.h"
-#include "readline.h"
-#include "ft_mem_utils.h"
-#include "ft_string_utils.h"
-#include <stdlib.h>
 
 /*
  * Prompt must be freed.
@@ -30,7 +26,7 @@ static char	*get_prompt(t_list *env_list)
 	pwd_str = msh_env_getvar(env_list, "PWD");
 	prompt = ft_memalloc(ft_strlen(user_str) + ft_strlen(pwd_str) + 6);
 	if (!prompt)
-		msh_perror_exit("Prompt memalloc", EXIT_FAILURE);
+		msh_perror_exit("msh_input_get", "get_prompt", "malloc fail.", EXIT_FAILURE);
 	ft_memcpy(prompt, user_str, ft_strlen(user_str));
 	i = ft_strlen(user_str);
 	ft_memcpy(prompt + i++, "@", 1);
@@ -47,11 +43,29 @@ char	*msh_input_get(t_list *env_list)
 	char	*prompt;
 	char	*input;
 
-	prompt = get_prompt(env_list);
-	input = readline(prompt);
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_input_get", "env_list is NULL.");
+		return (NULL);
+	}
+	prompt = NULL;
+	prompt = msh_env_getvar(env_list, "PS1");
+	if (prompt)
+	{
+		prompt = ft_strdup(prompt);
+		if (!prompt)
+			msh_perror_exit("msh_input_get", NULL, "malloc fail.", EXIT_FAILURE);
+	}
+	else
+		prompt = get_prompt(env_list);
+	input = NULL;
+	if (isatty(STDIN_FILENO))
+		input = readline(prompt);
+	else
+		input = get_next_line(STDIN_FILENO);
 	if (!input)
 		return (NULL);
-	if (*input)
+	else if (isatty(STDIN_FILENO) && *input)
 		msh_history_save(input, HISTORY_FILE);
 	ft_memdel((void **) &prompt);
 	return (input);

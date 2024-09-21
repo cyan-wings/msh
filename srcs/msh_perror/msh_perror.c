@@ -12,6 +12,7 @@
 
 #include "ft_print_utils.h"
 #include <unistd.h>
+#include "msh_perror.h"
 
 /*
  * This prints an error message but does not terminate the shell.
@@ -19,13 +20,24 @@
  * 		(1) Tokenise error.
  * 		(2) Parsing error.
  * 		(3) Open or close dir error during wildcards expansion.
- *
- * May want to include functionality to free up certain stuff.
- * TODO:
- * 		Consider having 4 arguments.
  */
-void	msh_perror(char *error_msg)
+int	msh_perror(char *s1, char *s2, char *msg)
 {
-	ft_putendl_fd(error_msg, STDERR_FILENO);
-	return ;
+	ft_putstr_fd("msh: ", STDERR_FILENO);
+	if (s1)
+		ft_putstr_fd(s1, STDERR_FILENO);
+	if (s2)
+	{
+		if (s1)
+			ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(s2, STDERR_FILENO);
+	}
+	if (msg)
+	{
+		if (s1 || s2)
+			ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putstr_fd(msg, STDERR_FILENO);
+	}
+	ft_putchar_fd('\n', STDERR_FILENO);
+	return (ERROR);
 }

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_parse.h"
 
 #define PIPE "|"
 #define CMD 1
@@ -27,6 +26,8 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 		child = msh_parse_cmd(token_ptr);
 	else if (option == GROUP)
 		child = msh_parse_grouping(token_ptr);
+	else
+		msh_perror("debug", "msh_parse_pipeline: astadd_child_to_pipeline_node", "undefined option");
 	if (!child)
 		return (0);
 	msh_parse_astadd_child(*pipeline_node, child);
@@ -70,6 +71,8 @@ t_ast	*msh_parse_pipeline(t_list **token_ptr)
 	t_ast	*pipeline_node;
 	int		status;
 
+	if (!token_ptr)
+		msh_perror("debug", "msh_parse_pipeline", "token_ptr is NULL.");
 	if (!*token_ptr)
 		return (NULL);
 	pipeline_node = NULL;

@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_utils.h"
-#include "msh.h"
+#include "msh_builtins.h"
 
 static void	too_many_args_error(int argc)
 {

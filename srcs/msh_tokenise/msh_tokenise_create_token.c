@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_mem_utils.h"
-#include <stdlib.h>
+#include "msh_tokenise.h"
 
 t_token	*msh_tokenise_create_token(char *str)
 {
@@ -20,7 +18,7 @@ t_token	*msh_tokenise_create_token(char *str)
 
 	token = (t_token *)ft_memalloc(sizeof(t_token));
 	if (!token)
-		msh_perror_exit("Token no mem", EXIT_FAILURE);
+		msh_perror_exit("msh_tokenise_create_token", NULL, "malloc fail.", EXIT_FAILURE);
 	token->value = str;
 	return (token);
 }

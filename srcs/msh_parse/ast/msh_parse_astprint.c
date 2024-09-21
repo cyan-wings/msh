@@ -10,19 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <unistd.h>
+#include "msh_parse.h"
 
-/*
- * No checks for NULL due to debugging purposes.
- */
 void	msh_parse_astprint(t_ast *node, int indent)
 {
 	int	i;
 	int	j;
 
 	if (!node)
-		return ;
+		msh_perror("debug", "msh_parse_astprint", "node is NULL");
 	i = -1;
 	while (++i < indent)
 		ft_putstr_fd("\t", STDIN_FILENO);

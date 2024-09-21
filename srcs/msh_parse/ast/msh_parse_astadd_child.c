@@ -10,9 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <stdlib.h>
-#include "ft_mem_utils.h"
+#include "msh_parse.h"
+
+static int	check_null_param(t_ast *parent, t_ast *child)
+{
+	int	flag;
+
+	flag = 1;
+	if (!parent)
+	{
+		msh_perror("debug", "msh_parse_astadd_child", "parent is NULL.");
+		flag = 0;
+	}
+	if (!child)
+	{
+		msh_perror("debug", "msh_parse_astadd_child", "child is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 /*
  * Last space remain empty for the new child to be added.
@@ -30,7 +46,7 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 	new_children = (t_ast **)malloc(sizeof(t_ast *) * child_count);
 	if (!new_children)
 	{
-		msh_perror_exit("New ast child malloc error.", EXIT_FAILURE);
+		msh_perror_exit("msh_parse_astadd_child", NULL, "malloc fail.", EXIT_FAILURE);
 		return (NULL);
 	}
 	i = -1;
@@ -42,7 +58,7 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 
 void	msh_parse_astadd_child(t_ast *parent, t_ast *child)
 {
-	if (!child)
+	if (!check_null_param(parent, child))
 		return ;
 	parent->child_count++;
 	parent->children = children_realloc(&(parent->children), \

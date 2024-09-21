@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_char_utils.h"
-#include "msh.h"
+#include "msh_env.h"
+#include "msh_builtins.h"
 
 #define RESTRICTED_ENV_VARS 3
 

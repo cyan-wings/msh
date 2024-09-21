@@ -10,11 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_parse.h"
 
 #define AND "&&"
 #define OR "||"
+
+/*
+ * 2 scenarios:
+ * 	(1)	when pipeline_node is NULL which means there is parsing error.
+ *	(2)	when current is AND or OR token but no token following it.
+ *	
+ *	Only free the list node as all pipeline_nodes and list_op_nodes are
+ *	attached to the list_root_node.
+ */
+static t_ast	*msh_parse_list_error(t_ast **list_root_node)
+{
+	msh_parse_astfree(list_root_node);
+	return (NULL);
+}
 
 /*
  * There are only 2 list operations: && and ||.
@@ -31,30 +44,28 @@ static void	astadd_list_op_node(t_list **token_ptr, t_ast **list_root_node)
 	msh_parse_astadd_child(*list_root_node, list_op_node);
 }
 
-/*
- * 2 scenarios:
- * 	(1)	when pipeline_node is NULL which means there is parsing error.
- *	(2)	when current is AND or OR token but no token following it.
- *		Requires freeing of both nodes for this scenario.
- */
-t_ast	*msh_parse_list_error(t_ast **list_root_node)
+static int	astadd_pipeline_node(t_list **token_ptr, t_ast **list_root_node)
 {
-	msh_parse_astfree(list_root_node);
-	return (NULL);
+	t_ast	*pipeline_node;
+
+	pipeline_node = NULL;
+	pipeline_node = msh_parse_pipeline(token_ptr);
+	if (!pipeline_node)
+		return (0);
+	msh_parse_astadd_child(*list_root_node, pipeline_node);
+	return (1);
 }
 
 t_ast	*msh_parse_list(t_list **token_ptr)
 {
 	t_ast	*list_root_node;
-	t_ast	*pipeline_node;
 
+	if (!token_ptr)
+		msh_perror("debug", "msh_parse_list", "token_ptr is NULL.");
 	list_root_node = NULL;
 	list_root_node = msh_parse_astnew("list", NULL);
-	pipeline_node = NULL;
-	pipeline_node = msh_parse_pipeline(token_ptr);
-	if (!pipeline_node)
+	if (!astadd_pipeline_node(token_ptr, &list_root_node))
 		return (msh_parse_list_error(&list_root_node));
-	msh_parse_astadd_child(list_root_node, pipeline_node);
 	while (*token_ptr && \
 			(!ft_strcmp(((t_token *)(*token_ptr)->content)->value, AND) || \
 			!ft_strcmp(((t_token *)(*token_ptr)->content)->value, OR)))
@@ -63,10 +74,8 @@ t_ast	*msh_parse_list(t_list **token_ptr)
 			return (msh_parse_list_error(&list_root_node));
 		astadd_list_op_node(token_ptr, &list_root_node);
 		msh_tokenise_get_next_token(token_ptr);
-		pipeline_node = msh_parse_pipeline(token_ptr);
-		if (!pipeline_node)
+		if (!astadd_pipeline_node(token_ptr, &list_root_node))
 			return (msh_parse_list_error(&list_root_node));
-		msh_parse_astadd_child(list_root_node, pipeline_node);
 	}
 	return (list_root_node);
 }

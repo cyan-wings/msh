@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_mem_utils.h"
-#include <stdlib.h>
+#include "msh_env.h"
 
 void	msh_env_free_t_env(void *content)
 {
@@ -20,6 +18,11 @@ void	msh_env_free_t_env(void *content)
 	char	*k;
 	char	*v;
 
+	if (!content)
+	{
+		msh_perror("debug", "msh_env_free_t_env", "content is NULL.");
+		return ;
+	}
 	env_var = (t_env *)content;
 	k = env_var->key;
 	v = env_var->val;

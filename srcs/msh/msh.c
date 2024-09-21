@@ -11,68 +11,42 @@
 /* ************************************************************************** */
 
 #include "msh.h"
-#include <termios.h>
-#include <errno.h>
-#include <signal.h>
 #include "ft_print_utils.h"
-#include <unistd.h>
-#include "readline.h"
-#include <stdlib.h>
-#include "ft_mem_utils.h"
 
 void	msh_history_load(const char *filename);
 
-void	msh_env_init(t_list **env_list);
-
-static void	sigint_handler(int sig)
-{
-	if (sig != SIGINT)
-		return ;
-	ft_putchar_fd('\n', STDIN_FILENO);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
-
-void	init_signal(void)
-{
-	struct termios	term;
-
-	if (tcgetattr(STDIN_FILENO, &term) == -1)
-		msh_perror_exit("tcgetattr\n", errno);
-	term.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSANOW, &term) == -1)
-		msh_perror_exit("tcsetattr\n", errno);
-	signal(SIGINT, sigint_handler);
-	signal(SIGQUIT, SIG_DFL);
-}
-
 char	*msh_input_get(t_list *env_list);
 
-void	msh_input_process(char *input, t_list **env_list,
-			t_global *global);
+void	msh_input_process(char *input, t_list **env_list);
 
+//Better to register signal handler before modifying terminal settings.
 //system("leaks msh -q");
 int	main(void)
 {
-	t_global	global;
 	t_list		*env_list;
 	char		*input;
 
-	global = (t_global){0};
+	signal(SIGQUIT, SIG_IGN);
 	env_list = NULL;
-	msh_history_load(HISTORY_FILE);
 	msh_env_init(&env_list);
+	msh_history_load(HISTORY_FILE);
 	input = NULL;
 	while (1)
 	{
-		init_signal();
+		signal(SIGINT, msh_signal_ctrl_c);
+		msh_signal_conf_term(0);
 		input = msh_input_get(env_list);
 		if (!input)
-			exit(EXIT_SUCCESS);
-		msh_input_process(input, &env_list, &global);
+		{
+			if (isatty(STDERR_FILENO))
+				ft_putendl_fd("exit", STDERR_FILENO);
+			msh_signal_conf_term(1);
+			break;
+		}
+		msh_input_process(input, &env_list);
 		ft_memdel((void **)&input);
 	}
+	rl_clear_history();
 	msh_env_free(&env_list);
 	return (0);
 }

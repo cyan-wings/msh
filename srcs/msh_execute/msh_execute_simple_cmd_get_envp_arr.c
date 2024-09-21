@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_mem_utils.h"
-#include "ft_string_utils.h"
+#include "msh_execution.h"
 #include "msh.h"
 
 static int	get_arr_length(t_list *env_list)

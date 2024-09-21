@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_mem_utils.h"
-
-void	msh_expansion_utils_strappend(char **strptr, int start, int i,
-			char **new_strptr);
+#include "msh_expansion.h"
 
 static void	find_closing_quotes(char **strptr, char quote_type, int *i)
 {

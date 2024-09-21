@@ -10,31 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <stdlib.h>
-#include "ft_string_utils.h"
+#include "msh_parse.h"
 
-/*
- * Kill the whole msh processe if malloc error.
- *
- * type check is for debugging purposes.
- */
+static t_ast	*malloc_fail(char *name)
+{
+	msh_perror_exit("msh_parse_astnew", name, "malloc fail.", EXIT_FAILURE);
+	return (NULL);
+}
+
+//value can be NULL
 t_ast	*msh_parse_astnew(char *type, char *value)
 {
 	t_ast	*node;
 
 	if (!type)
-		msh_perror("AST type must be specified.");
+		msh_perror("debug", "msh_parse_astnew", "type is NULL");
 	node = (t_ast *)malloc(sizeof(t_ast));
 	if (!node)
-	{
-		msh_perror_exit("AST node malloc error.", EXIT_FAILURE);
-		return (NULL);
-	}
+		return (malloc_fail("node"));
 	node->type = ft_strdup(type);
+	if (!node->type)
+		return (malloc_fail("node->type"));
 	node->value = NULL;
 	if (value)
+	{
 		node->value = ft_strdup(value);
+		if (!node->value)
+			return (malloc_fail("node->value"));
+	}
 	node->children = NULL;
 	node->child_count = 0;
 	return (node);

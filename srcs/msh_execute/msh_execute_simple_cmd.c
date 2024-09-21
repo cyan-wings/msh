@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh_execution.h"
 #include "msh.h"
 
 void	msh_execute_simple_cmd_redirs(t_ast *node);
@@ -28,7 +29,7 @@ static void	get_argv_arr(t_ast *node, char ***argv_arr)
 	int		i;
 	t_ast	*arguments;
 
-	arguments = node->children[1];
+	arguments = node->children[0];
 	if (ft_strcmp(arguments->type, "arguments"))
 		return ;
 	*argv_arr = (char **)ft_calloc(arguments->child_count + 2, sizeof(char *));

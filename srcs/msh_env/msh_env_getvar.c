@@ -10,13 +10,32 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_env.h"
+
+static int	check_null_param(t_list *env_list, char *k)
+{
+	int	flag;
+
+	flag = 1;
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_env_getvar", "env_list is NULL.");
+		flag = 0;
+	}
+	if (!k)
+	{
+		msh_perror("debug", "msh_env_getvar", "k is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 char	*msh_env_getvar(t_list *env_list, char *k)
 {
 	t_env	*env_var;
 
+	if (!check_null_param(env_list, k))
+		return (NULL);
 	env_var = NULL;
 	while (env_list)
 	{

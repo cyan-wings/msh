@@ -10,8 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <limits.h>
 #include <sys/stat.h>
-#include "msh.h"
+#include <fcntl.h>
+#include "msh_env.h"
+#include "msh_builtins.h"
 
 static int	print_invalid_argument(char *arg_str)
 {

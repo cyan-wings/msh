@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "msh_execution.h"
 #include "msh.h"
-#include "ft_string_utils.h"
 
 void	msh_execute_simple_cmd(t_ast *node, t_list **env_list);
 
@@ -117,7 +117,7 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list)
 	int		i;
 	pid_t	*pid_list;
 	int		status;
-	int 	should_wait;
+	int 	should_wait __attribute__((unused));
 
 	pid_list = ft_calloc(node->child_count, sizeof(pid_t));
 	should_wait = 0;

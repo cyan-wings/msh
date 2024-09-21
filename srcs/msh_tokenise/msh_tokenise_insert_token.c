@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_tokenise.h"
 
 t_token	*msh_tokenise_create_token(char *str);
 

@@ -38,6 +38,8 @@ SRC_M			=	\
 					msh/history/msh_history_save							\
 					msh/input/msh_input_get									\
 					msh/input/msh_input_process								\
+					msh_signal/msh_signal_ctrl_c							\
+					msh_signal/msh_signal_conf_term							\
 					msh_perror/msh_perror									\
 					msh_perror/msh_perror_exit								\
 					msh_env/msh_env_init									\
@@ -65,9 +67,8 @@ SRC_M			=	\
 					msh_parse/expression/msh_parse_list						\
 					msh_parse/expression/msh_parse_pipeline					\
 					msh_parse/expression/msh_parse_grouping					\
-					msh_parse/expression/cmd/msh_parse_cmd					\
-					msh_parse/expression/cmd/msh_parse_cmd_arguments		\
-					msh_parse/expression/cmd/msh_parse_cmd_redirections		\
+					msh_parse/expression/msh_parse_cmd						\
+					msh_parse/expression/msh_parse_cmd_redirections			\
 					msh_expansion/msh_expansion								\
 					msh_expansion/msh_expansion_dollar						\
 					msh_expansion/msh_expansion_wildcards_and_quotes		\
@@ -138,7 +139,7 @@ all: $(NAME)
 bonus: all
 
 $(NAME): $(LIBFT) $(OBJDIRS) $(OBJS)
-	$(CC) $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
+	$(CC) -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
 
 $(LIBFT):
 	$(MAKE_C) $(LIBFTDIR)

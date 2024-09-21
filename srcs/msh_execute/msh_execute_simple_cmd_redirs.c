@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_execution.h"
 
 static void	handle_redirection_in(int *fd, t_ast *node)
 {

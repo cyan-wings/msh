@@ -10,8 +10,26 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_parse.h"
 #include "ft_print_utils.h"
+
+static int	check_null_param(t_list *token_list, t_ast **root)
+{
+	int	flag;
+
+	flag = 1;
+	if (!token_list)
+	{
+		msh_perror("debug", "msh_parse", "token_list is NULL.");
+		flag = 0;
+	}
+	if (!root)
+	{
+		msh_perror("debug", "msh_parse", "root is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 int	msh_parse_token(t_list *token_list);
 
@@ -48,6 +66,8 @@ int	msh_parse(t_list *token_list, t_ast **root)
 	t_ast	*expression_root_node;
 	t_ast	*child_node;
 
+	if (!check_null_param(token_list, root))
+		return (0);
 	if (!msh_parse_token(token_list))
 		return (0);
 	else

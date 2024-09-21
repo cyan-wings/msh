@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_utils.h"
-#include "msh.h"
+#include "msh_builtins.h"
 
 #define NO_OF_BUILTINS 7
 

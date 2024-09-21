@@ -10,16 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_env.h"
+
+static int	check_null_param(t_list **env_list, char *k, char *v)
+{
+	int	flag;
+
+	flag = 1;
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_env_setvar", "env_list is NULL.");
+		flag = 0;
+	}
+	if (!k)
+	{
+		msh_perror("debug", "msh_env_setvar", "k is NULL.");
+		flag = 0;
+	}
+	if (!v)
+	{
+		msh_perror("debug", "msh_env_setvar", "v is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 void	msh_env_setvar(t_list **env_list, char *k, char *v)
 {
 	t_list	*curr;
 	t_env	*env_var;
 
-	if (!env_list)
+	if (!check_null_param(env_list, k, v))
 		return ;
 	curr = *env_list;
 	while (curr)
@@ -35,7 +56,7 @@ void	msh_env_setvar(t_list **env_list, char *k, char *v)
 	}
 	env_var = (t_env *) ft_memalloc(sizeof(t_env));
 	if (!env_var)
-		return (msh_perror_exit("Env var no mem", EXIT_FAILURE));
+		msh_perror_exit("msh_env_setvar", NULL, "malloc fail.", EXIT_FAILURE);
 	env_var->key = k;
 	env_var->val = v;
 	ft_lstadd_back(env_list, ft_lstnew(env_var));

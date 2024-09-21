@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_execution.h"
 
 void	msh_execute_util_dup2(int oldfd, int newfd)
 {

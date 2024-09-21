@@ -10,7 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_env.h"
+#include "msh_builtins.h"
 
 static int	check_identifier(char *identifier)
 {
@@ -42,7 +43,7 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	key = ft_strdup(arg_str);
 	if (!key)
 	{
-		msh_perror_exit("Export key no mem", EXIT_FAILURE);
+		msh_perror_exit("msh_builtins_func_export", "get_key: key", "malloc fail.", EXIT_FAILURE);
 		return (0);
 	}
 	if (!check_identifier(key))
@@ -86,7 +87,7 @@ int	msh_builtins_func_export(
 		}
 		value = ft_strdup(++value);
 		if (!value)
-			msh_perror_exit("Export value no mem", EXIT_FAILURE);
+			msh_perror_exit("msh_builtins_func_export", "value", "malloc fail.", EXIT_FAILURE);
 		msh_env_setvar(env_list, key, value);
 	}
 	msh_env_print(*env_list);

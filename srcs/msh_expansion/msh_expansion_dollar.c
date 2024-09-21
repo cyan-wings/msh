@@ -10,14 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_expansion.h"
 
-void	msh_expansion_utils_strappend(char **strptr, int start, int i,
-			char **new_strptr);
-
-int	ft_ischar_identifier(char c)
+static int	ft_ischar_identifier(char c)
 {
 	return (c == '_' || ft_isalnum(c));
 }
@@ -34,6 +29,8 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 		++*i;
 	key = NULL;
 	key = ft_substr(str, start, *i - start);
+	if (!key)
+		msh_perror_exit("msh_expansion_dollar", "process_identifier: key", "malloc fail.", EXIT_FAILURE);
 	value = NULL;
 	value = msh_env_getvar(env_list, key);
 	ft_memdel((void **) &key);
@@ -41,9 +38,11 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 		ft_strappend(new_strptr, value);
 	else
 		ft_strappend(new_strptr, "");
+	if (!*new_strptr)
+		msh_perror_exit("msh_expansion_dollar", "process_identifier: new_strptr", "malloc fail.", EXIT_FAILURE);
 }
 
-void	msh_expansion_dollar_helper(char **strptr, int start, int i,
+static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
 		char **new_strptr)
 {
 	msh_expansion_utils_strappend(strptr, start, i, new_strptr);

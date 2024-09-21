@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_expansion.h"
 
 void	msh_expansion_utils_strappend(char **strptr, int start, int i,
 		char **new_strptr)
@@ -23,6 +21,10 @@ void	msh_expansion_utils_strappend(char **strptr, int start, int i,
 		return ;
 	temp = NULL;
 	temp = ft_substr(*strptr, start, i - start);
+	if (!temp)
+		msh_perror_exit("msh_expansion_utils_strappend", NULL, "malloc fail.", EXIT_FAILURE);
 	ft_strappend(new_strptr, temp);
+	if (!*new_strptr)
+		msh_perror_exit("msh_expansion_utils_strappend", NULL, "malloc fail.", EXIT_FAILURE);
 	ft_memdel((void **) &temp);
 }

@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_print_utils.h"
-#include <unistd.h>
+#include "msh_expansion.h"
 
 void	msh_expansion_wildcards_and_quotes(char **strptr);
 
@@ -34,6 +32,10 @@ static void	msh_expansion_aux(t_ast *node, t_list *env_list)
 
 void	msh_expansion(t_ast *node, t_list *env_list)
 {
+	if (!node)
+		msh_perror("debug", "msh_expansion", "node is NULL.");
+	if (!env_list)
+		msh_perror("debug", "msh_expansion", "env_list is NULL.");
 	msh_expansion_aux(node, env_list);
 	return ;
 }

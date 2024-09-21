@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_parse.h"
 #define SQUOTE '\''
 #define DQUOTE '\"'
 

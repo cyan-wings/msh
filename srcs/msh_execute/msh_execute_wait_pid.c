@@ -10,9 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include <signal.h>
-#include <sys/wait.h>
+#include "msh_execution.h"
 
 static void	print_error_signal_helper(char *name, char *msg)
 {

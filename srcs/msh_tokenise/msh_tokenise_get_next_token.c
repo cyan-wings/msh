@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_tokenise.h"
 
 /*
  * This is the consume function to iterate through the token_list.

@@ -10,18 +10,18 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include <stdlib.h>
+
+int	msh_perror(char *s1, char *s2, char *msg);
 
 /*
  * Terminates the entire shell with an error message.
  *
- * Usually used when malloc error.
- *
- * Consider to exit with errno.
+ * Usually used when malloc error or file not found.
  */
-void	msh_perror_exit(char *error_msg, int status)
+int	msh_perror_exit(char *s1, char *s2, char *msg, int status)
 {
-	perror(error_msg);
+	msh_perror(s1, s2, msg);
 	exit(status);
+	return (0);
 }

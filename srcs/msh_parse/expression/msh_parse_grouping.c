@@ -10,20 +10,21 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
+#include "msh_parse.h"
 
 /*
  * 2 scenarios:
  *
  * 1st: list node is NULL means grammar is wrong.
- * 2nd: No closing bracket found. Hence, list_node has to be freed.
+ * 2nd: No closing bracket found. Hence, list_node has to be freed also.
  */
-t_ast	*msh_parse_grouping_error(t_ast **grouping_node,
+static t_ast	*msh_parse_grouping_error(t_ast **grouping_node,
 		t_ast **list_node)
 {
-	msh_parse_astfree(grouping_node);
-	msh_parse_astfree(list_node);
+	if (grouping_node)
+		msh_parse_astfree(grouping_node);
+	if (list_node)
+		msh_parse_astfree(list_node);
 	return (NULL);
 }
 
@@ -36,15 +37,18 @@ t_ast	*msh_parse_grouping(t_list **token_ptr)
 	t_ast	*grouping_node;
 	t_ast	*list_node;
 
+	if (!token_ptr)
+		msh_perror("debug", "msh_parse_grouping", "token_ptr is NULL.");
 	if (ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 		return (NULL);
-	//printf("first: [%s]\n", ((t_token *)(*token_ptr)->content)->value);
 	msh_tokenise_get_next_token(token_ptr);
 	grouping_node = NULL;
 	grouping_node = msh_parse_astnew("grouping", NULL);
 	list_node = NULL;
 	list_node = msh_parse_list(token_ptr);
-	if (!list_node || !*token_ptr || \
+	if (!list_node)
+		return (msh_parse_grouping_error(&grouping_node, NULL));
+	else if( !*token_ptr || \
 			ft_strcmp(((t_token *)(*token_ptr)->content)->value, ")"))
 		return (msh_parse_grouping_error(&grouping_node, &list_node));
 	msh_tokenise_get_next_token(token_ptr);

@@ -10,11 +10,27 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_env.h"
 
 void	msh_env_free_t_env(void *content);
+
+static int	check_null_param(t_list **env_list, char *k)
+{
+	int	flag;
+
+	flag = 1;
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_env_delvar", "env_list is NULL.");
+		flag = 0;
+	}
+	if (!k)
+	{
+		msh_perror("debug", "msh_env_delvar", "k is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 /*
  * @params:
@@ -25,7 +41,7 @@ void	msh_env_delvar(t_list **env_list, char *k)
 	t_list	*prev;
 	t_list	*curr;
 
-	if (!env_list || !k)
+	if (!check_null_param(env_list, k))
 		return ;
 	prev = NULL;
 	curr = *env_list;

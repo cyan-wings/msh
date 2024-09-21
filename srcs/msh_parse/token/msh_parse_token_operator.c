@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh.h"
+#include "msh_parse.h"
 
 static int	contains(t_token *token, const char **ops, t_token_type token_type)
 {
@@ -31,6 +31,8 @@ int	msh_parse_token_operator(t_token *token, t_operator_type type)
 	static const char	*redir_ops[5] = {"<", ">", "<<", ">>", NULL};
 	static const char	*ctrl_ops[6] = {"&&", "||", "|", "(", ")", NULL};
 
+	if (!token)
+		msh_perror("debug", "msh_parse_token_operator", "token is NULL.");
 	if (type == DEFAULT)
 		return (contains(token, redir_ops, REDIR_OP) + \
 				contains(token, ctrl_ops, CTRL_OP));

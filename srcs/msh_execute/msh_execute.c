@@ -10,11 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_mem_utils.h"
-#include "ft_string_utils.h"
-#include "msh.h"
-#include <stdio.h>
-#include <sys/wait.h>
+#include "msh_execution.h"
 
 static int	msh_execute_list(t_ast *node, t_list **env_list)
 {
