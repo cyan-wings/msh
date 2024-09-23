@@ -6,9 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:35:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 17:32:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/23 01:31:15 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "msh_parse.h"
+#include "msh_signal.h"
+#include "get_next_line.h"
 
 static void	heredoc_readline(const char *delim, char **heredoc_contents)
 {
@@ -21,7 +25,7 @@ static void	heredoc_readline(const char *delim, char **heredoc_contents)
 	read_str = readline("> ");
 	while (read_str && ft_strcmp(read_str, delim))
 	{
-		ft_strnappend(2, &here_str, read_str, "\n");
+		ft_strvappend(&here_str, read_str, "\n", NULL);
 		ft_memdel((void **)&read_str);
 		if (!here_str)
 			return (msh_perror_exit("msh_parse_cmd_redirections_heredoc",
@@ -39,7 +43,8 @@ static void	heredoc_gnl(const char *delim, char **heredoc_contents)
 	char	*read_str;
 
 	signal(SIGINT, msh_signal_ctrl_c);
-	delim_nl = ft_strappend(delim, "\n");
+	delim_nl = NULL;
+	ft_strvappend(&delim_nl, delim, "\n", NULL);
 	if (!delim_nl)
 		msh_perror_exit("msh_parse_cmd_redirections", "heredoc_gnl: delim_nl",
 			"malloc fail.", EXIT_FAILURE);
@@ -48,11 +53,11 @@ static void	heredoc_gnl(const char *delim, char **heredoc_contents)
 	read_str = get_next_line(STDIN_FILENO);
 	while (read_str && ft_strcmp(read_str, delim_nl))
 	{
-		ft_strappend(here_str, read_str);
+		ft_strappend(&here_str, read_str);
 		ft_memdel((void **)&read_str);
 		if (!here_str)
 			msh_perror_exit("msh_parse_cmd_redirections",
-				"heredoc_readline: temp", "malloc fail.", EXIT_FAILURE);
+				"heredoc_gnl: here_str", "malloc fail.", EXIT_FAILURE);
 		read_str = get_next_line(STDIN_FILENO);
 	}
 	ft_memdel((void **)&delim_nl);

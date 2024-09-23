@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:11:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 16:33:36 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/23 16:38:17 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static void	print_error_signal_helper(char *name, char *msg)
 {
 	if (name)
-		msh_perror(name);
+		msh_perror("msh_execute_wait_pid", NULL, "name");
 	if (msg)
-		msh_perror(msg);
+		msh_perror("msh_execute_wait_pid", NULL, "msg");
 }
 
 static void	print_error_signal(int signal, char *name)

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 17:36:47 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/23 01:21:51 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ static char	*create_prompt(t_list *env_list)
 	return (prompt);
 }
 
-void	get_prompt(char **prompt)
+void	get_prompt(char **prompt, t_list *env_list)
 {
 	*prompt = msh_env_getvar(env_list, "PS1");
 	if (*prompt)
 	{
-		*prompt = ft_strdup(prompt);
+		*prompt = ft_strdup(*prompt);
 		if (!*prompt)
 			msh_perror_exit("msh_input_get", NULL,
 				"malloc fail.", EXIT_FAILURE);
@@ -64,7 +64,7 @@ char	*msh_input_get(t_list *env_list)
 		return (NULL);
 	}
 	prompt = NULL;
-	get_prompt(&prompt);
+	get_prompt(&prompt, env_list);
 	input = NULL;
 	if (isatty(STDIN_FILENO))
 		input = readline(prompt);

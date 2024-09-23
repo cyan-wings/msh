@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memdel.c                                        :+:      :+:    :+:   */
+/*   ft_strvappend.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/25 18:28:07 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 01:43:51 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/22 21:40:28 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/23 01:28:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
+#include <stdarg.h>
+#include "ft_string_utils.h"
 
-void	ft_memdel(void **ap)
+/*
+ * Like ft_strnappend but without the n param, but the final param has to be
+ * NULL.
+ */
+void	ft_strvappend(char **strptr, ...)
 {
-	if (!ap)
+	va_list	argv;
+	char	*suffix;
+
+	if (!strptr)
 		return ;
-	if (*ap)
+	va_start(argv, strptr);
+	suffix = NULL;
+	suffix = va_arg(argv, char *);
+	while (suffix)
 	{
-		free(*ap);
-		*ap = NULL;
+		ft_strappend(strptr, suffix);
+		suffix = va_arg(argv, char *);
 	}
+	va_end(argv);
 }

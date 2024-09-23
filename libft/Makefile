@@ -61,6 +61,7 @@ STRSRC			=		\
 						strtrim				\
 						strtok				\
 						strtok_r			\
+						strvappend			\
 						substr				\
 						tolower				\
 						toupper				\

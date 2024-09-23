@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:24:31 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 16:48:38 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/23 16:22:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	msh_execute_grouping(t_ast *node, t_list **env_list)
 	pid = fork();
 	if (pid == -1)
 	{
-		msh_perror(strerror(errno));
+		msh_perror_exit("msh_execute_grouping", NULL, strerror(errno), 1);
 		errno = 0;
 		return (-1);
 	}

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/07 00:46:26 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/23 16:20:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void	get_argv_arr(t_ast *node, char ***argv_arr)
 		return ;
 	*argv_arr = (char **)ft_calloc(arguments->child_count + 2, sizeof(char *));
 	if (!*argv_arr)
-		return (msh_perror_exit("Malloc argv array failure.", 1));
+		return (msh_perror_exit("get_argv_arr", NULL, "malloc fail.", 1));
 	i = 0;
 	(*argv_arr)[i--] = ft_strdup(node->children[0]->value);
 	while (++i < arguments->child_count)
