@@ -6,11 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 16:05:53 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:27:40 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 #include "msh.h"
 
 void	msh_execute_simple_cmd(t_ast *node, t_list **env_list);

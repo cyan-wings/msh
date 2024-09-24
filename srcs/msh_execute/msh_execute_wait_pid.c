@@ -6,46 +6,61 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:11:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 16:38:17 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 21:39:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 
-static void	print_error_signal_helper(char *name, char *msg)
+static void	print_error_sig(int sig, char *name)
 {
-	if (name)
-		msh_perror("msh_execute_wait_pid", NULL, "name");
-	if (msg)
-		msh_perror("msh_execute_wait_pid", NULL, "msg");
+	char	*sig_str;
+
+	if (sig == SIGABRT)
+		msh_perror(name, "Abort program", "6");
+	else if (sig == SIGBUS)
+		msh_perror(name, "Bus error", "10");
+	else if (sig == SIGSEGV)
+		msh_perror(name, "Segmentation fault", "11");
+	else if (sig == SIGTERM)
+		msh_perror(name, "Terminated", "15");
+	else
+	{
+		sig_str = NULL;
+		sig_str = ft_itoa(sig);
+		if (!sig_str)
+			msh_perror_exit("msh_execute_wait_pid", "print_error_sig",
+				"malloc fail.", EXIT_FAILURE);
+		msh_perror(name, "Unknown", sig_str);
+		ft_memdel((void **)&sig_str);
+	}
 }
 
-static void	print_error_signal(int signal, char *name)
-{
-	if (signal == SIGABRT)
-		print_error_signal_helper(name, ": Abort program: 6");
-	else if (signal == SIGBUS)
-		print_error_signal_helper(name, ": Bus error: 10");
-	else if (signal == SIGSEGV)
-		print_error_signal_helper(name, ": Segmentation fault: 11");
-	else if (signal == SIGTERM)
-		print_error_signal_helper(name, ":Terminated: 15");
-}
-
+/*
+ * WTERMSIG(status) = 3, terminated using SIGQUIT
+ * WTERMSIG(status) = 2, terminated using SIGINT
+ * When a process is terminated by a signal,
+ * the exit status is conventionally set to 128 + signal_number.
+ * This is done here to reflect that the process was killed by a signal.
+ */
 int	msh_execute_wait_pid(int prev_pid, char *name)
 {
 	int	status;
+	int	sig;
 
 	status = 0;
-	waitpid(prev_pid, &status, 0);
+	if (waitpid(prev_pid, &status, 0) == -1)
+		return (msh_perror_exit_int("msh_execute_wait_pid", "waitpid",
+				"-1", EXIT_FAILURE));
 	if (WIFSIGNALED(status))
 	{
-		if (WTERMSIG(status) == 3)
+		sig = WTERMSIG(status);
+		if (sig == SIGQUIT)
 			ft_putendl_fd("Quit: 3", STDERR_FILENO);
-		else if (WTERMSIG(status) == 2)
+		else if (sig == SIGINT)
 			ft_putchar_fd('\n', STDERR_FILENO);
-		print_error_signal(WTERMSIG(status), name);
-		status = 128 + WTERMSIG(status);
+		print_error_sig(sig, name);
+		status = 128 + sig;
 	}
 	else if (WIFEXITED(status))
 		status = WEXITSTATUS(status);

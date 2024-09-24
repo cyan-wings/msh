@@ -6,14 +6,16 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:24:31 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 16:22:18 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:27:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 
 int	msh_execute_wait_pid(int prev_pid, char *name);
 
+//May want to free everything before exit.
+//May want to add subshell flag for exit builtin.
 int	msh_execute_grouping(t_ast *node, t_list **env_list)
 {
 	pid_t	pid;
@@ -24,7 +26,7 @@ int	msh_execute_grouping(t_ast *node, t_list **env_list)
 	{
 		msh_perror_exit("msh_execute_grouping", NULL, strerror(errno), 1);
 		errno = 0;
-		return (-1);
+		return (ERROR);
 	}
 	if (pid == 0)
 	{
@@ -33,12 +35,3 @@ int	msh_execute_grouping(t_ast *node, t_list **env_list)
 	}
 	return (msh_execute_wait_pid(pid, NULL));
 }
-/*
-	else
-	{
-		if (waitpid(pid, &status, 0) == -1)
-			perror("waitpid failed in subshell");
-		if (WIFEXITED(status))
-			WEXITSTATUS(status);
-	}
-*/

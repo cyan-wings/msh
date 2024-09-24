@@ -6,11 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:29:42 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 01:32:31 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:27:57 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 
 void	msh_execute_util_dup2(int oldfd, int newfd)
 {

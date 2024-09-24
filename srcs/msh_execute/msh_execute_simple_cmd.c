@@ -6,11 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 16:20:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 21:40:42 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 #include "msh.h"
 
 void	msh_execute_simple_cmd_redirs(t_ast *node);
@@ -31,14 +31,20 @@ static void	get_argv_arr(t_ast *node, char ***argv_arr)
 
 	arguments = node->children[0];
 	if (ft_strcmp(arguments->type, "arguments"))
-		return ;
-	*argv_arr = (char **)ft_calloc(arguments->child_count + 2, sizeof(char *));
+		msh_perror_exit("debug", "msh_execute_simple_cmd: get_argv_arr",
+			"Node is not arguments.", EXIT_FAILURE);
+	*argv_arr = (char **)ft_calloc(arguments->child_count + 1, sizeof(char *));
 	if (!*argv_arr)
-		return (msh_perror_exit("get_argv_arr", NULL, "malloc fail.", 1));
-	i = 0;
-	(*argv_arr)[i--] = ft_strdup(node->children[0]->value);
+		return (msh_perror_exit("get_argv_arr", "argv_arr",
+				"malloc fail.", EXIT_FAILURE));
+	i = -1;
 	while (++i < arguments->child_count)
-		(*argv_arr)[i + 1] = ft_strdup(arguments->children[i]->value);
+	{
+		(*argv_arr)[i] = ft_strdup(arguments->children[i]->value);
+		if ((*argv_arr)[i] == NULL)
+			return (msh_perror_exit("get_argv_arr", "argv",
+					"malloc fail.", EXIT_FAILURE));
+	}
 }
 
 char	**msh_execute_simple_cmd_get_envp_arr(t_list *env_list);

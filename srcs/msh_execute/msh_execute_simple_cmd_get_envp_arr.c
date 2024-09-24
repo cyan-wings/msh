@@ -6,11 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 00:41:07 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 00:44:52 by myeow            ###   ########.fr       */
+/*   Updated: 2024/09/24 20:27:45 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_execution.h"
+#include "msh_execute.h"
 #include "msh.h"
 
 static int	get_arr_length(t_list *env_list)
