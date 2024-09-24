@@ -36,6 +36,12 @@ typedef enum e_redirection_type
     REDIR_APP = 4,
 }	t_redir_type;
 
+typedef struct s_redirections_state
+{
+	int fd_new;
+    int fd_backup;
+}	t_redir_st;
+
 int		msh_execute(t_ast *node, t_list **env_list);
 
 #endif

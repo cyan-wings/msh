@@ -101,6 +101,7 @@ static void	run_execve(t_ast *node, t_list **env_list,
  */
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 {
+	t_list	*redir_st_list;
 	char	**argv_arr;
 	char	**envp_arr;
 	t_bif	*builtin_func;
