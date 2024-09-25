@@ -13,7 +13,7 @@
 #include "msh_execute.h"
 #include "msh.h"
 
-static int	get_arr_length(t_list *env_list)
+static int	get_env_list_len(t_list *env_list)
 {
 	int	i;
 
@@ -47,18 +47,22 @@ static char	*get_current_var(t_list *env_list)
  * env_list must be converted into an array to run execve.
  * TODO: Make this return void.
  */
-char	**msh_execute_simple_cmd_get_envp_arr(t_list *env_list)
+void msh_execute_simple_cmd_get_envp_arr(t_list *env_list, char ***envp_arr)
 {
-	char	**env_arr;
 	int		i;
 
-	env_arr = (char **)malloc(sizeof(char *) * (get_arr_length(env_list) + 1));
+	if (!envp_arr)
+		msh_perror_exit("debug", "msh_execute_simple_cmd_get_envp_arr",
+			"envp_arr is NULL", EXIT_FAILURE);
+	*envp_arr = (char **)ft_calloc((get_env_list_len(env_list) + 1),
+				sizeof(char *));
+	if (!*envp_arr)
+		return (msh_perror_exit("msh_execute_simple_cmd_get_envp_arr",
+				"envp_arr", "malloc fail.", EXIT_FAILURE));
 	i = 0;
 	while (env_list)
 	{
-		env_arr[i++] = get_current_var(env_list);
+		(*envp_arr)[i++] = get_current_var(env_list);
 		env_list = env_list->next;
 	}
-	env_arr[i] = 0;
-	return (env_arr);
 }

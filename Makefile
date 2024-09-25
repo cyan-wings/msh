@@ -41,7 +41,9 @@ SRC_M			=	\
 					msh_signal/msh_signal_ctrl_c							\
 					msh_signal/msh_signal_conf_term							\
 					msh_perror/msh_perror									\
+					msh_perror/msh_perror_int								\
 					msh_perror/msh_perror_exit								\
+					msh_perror/msh_perror_exit_int							\
 					msh_env/msh_env_init									\
 					msh_env/msh_env_getvar									\
 					msh_env/msh_env_setvar									\
@@ -84,11 +86,13 @@ SRC_M			=	\
 					msh_builtins/msh_builtins_func_unset					\
 					msh_builtins/msh_builtins_get_builtin					\
 					msh_execute/msh_execute		 							\
-					msh_execute/msh_execute_util_dup2						\
+					msh_execute/msh_execute_simple_cmd						\
 					msh_execute/msh_execute_simple_cmd_get_envp_arr			\
 					msh_execute/msh_execute_simple_cmd_redirs				\
-					msh_execute/msh_execute_simple_cmd						\
+					msh_execute/msh_execute_simple_cmd_redirs_process		\
+					msh_execute/msh_execute_simple_cmd_redirs_restore		\
 					msh_execute/msh_execute_pipeline						\
+					msh_execute/msh_execute_list							\
 					msh_execute/msh_execute_grouping						\
 					msh_execute/msh_execute_wait_pid						\
 					utils/ft_arraylen										\

@@ -24,30 +24,30 @@ void	msh_execute_simple_cmd_redirs(t_ast *node);
  * 		i is not incremented in the while loop becauase first index
  * 		of the arguments' child array is 0.
  */
-static void	get_argv_arr(t_ast *node, char ***argv_arr)
+static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
 {
 	int		i;
-	t_ast	*arguments;
 
-	arguments = node->children[0];
-	if (ft_strcmp(arguments->type, "arguments"))
-		msh_perror_exit("debug", "msh_execute_simple_cmd: get_argv_arr",
-			"Node is not arguments.", EXIT_FAILURE);
-	*argv_arr = (char **)ft_calloc(arguments->child_count + 1, sizeof(char *));
+	if (ft_strcmp(arguments_node->type, "arguments"))
+		return (msh_perror_exit("debug",
+			"msh_execute_simple_cmd: get_argv_arr", "Node is not arguments.",
+			EXIT_FAILURE));
+	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
+					sizeof(char *));
 	if (!*argv_arr)
-		return (msh_perror_exit("get_argv_arr", "argv_arr",
-				"malloc fail.", EXIT_FAILURE));
+		return (msh_perror_exit("msh_execute_simple_cmd: get_argv_arr",
+				"argv_arr", "malloc fail.", EXIT_FAILURE));
 	i = -1;
-	while (++i < arguments->child_count)
+	while (++i < arguments_node->child_count)
 	{
-		(*argv_arr)[i] = ft_strdup(arguments->children[i]->value);
+		(*argv_arr)[i] = ft_strdup(arguments_node->children[i]->value);
 		if ((*argv_arr)[i] == NULL)
 			return (msh_perror_exit("get_argv_arr", "argv",
 					"malloc fail.", EXIT_FAILURE));
 	}
 }
 
-char	**msh_execute_simple_cmd_get_envp_arr(t_list *env_list);
+void msh_execute_simple_cmd_get_envp_arr(t_list *env_list, char ***envp_arr);
 
 static void	signal_reset(void)
 {
@@ -101,20 +101,20 @@ static void	run_execve(t_ast *node, t_list **env_list,
  */
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 {
-	t_list	*redir_st_list;
+	int		argc;
 	char	**argv_arr;
 	char	**envp_arr;
 	t_bif	*builtin_func;
 
-	if (node->children[2]->child_count > 0)
-		msh_execute_simple_cmd_redirs(node->children[2]);
-	argv_arr = 0;
-	get_argv_arr(node, &argv_arr);
-	envp_arr = msh_execute_simple_cmd_get_envp_arr(*env_list);
-	builtin_func = msh_builtins_get_builtin(node->children[0]->value);
+	if (node->children[1]->child_count > 0)
+		msh_execute_simple_cmd_redirs(node->children[1]);
+	argc = node->children[0]->child_count;
+	argv_arr = NULL;
+	get_argv_arr(node->children[0], &argv_arr);
+	msh_execute_simple_cmd_get_envp_arr(*env_list, &envp_arr);
+	builtin_func = msh_builtins_get_builtin(argv_arr[0]);
 	if (builtin_func)
-		(*builtin_func)(node->children[1]->child_count + 1,
-				argv_arr, env_list, 1);
+		(*builtin_func)(argc, argv_arr, env_list, 1);
 	else
 		run_execve(node, env_list, argv_arr, envp_arr);
 	ft_free_ft_split(argv_arr);
