@@ -70,6 +70,6 @@ void	msh_input_process(char *input, t_list **env_list)
 	msh_expansion(root, *env_list);
 	msh_parse_astprint(root, 0);
 	ft_putendl_fd("Expansion success.", 1);
-	msh_execute(root->children[0], env_list);
+	msh_execute(root->children[0], env_list, 0);
 	print_error_and_clean(NULL, &token_list, &root);
 }

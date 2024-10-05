@@ -13,111 +13,105 @@
 #include "msh_execute.h"
 #include "msh.h"
 
-void	msh_execute_simple_cmd_redirs(t_ast *node);
-
-/*
- * Builds the argv for the execve function.
- * First element in the array must be the executable.
- * Note:
- * 		argv is always NULL terminated.
- * 		+ 2 due to the executable and the NULL terminator.
- * 		i is not incremented in the while loop becauase first index
- * 		of the arguments' child array is 0.
- */
-static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
-{
-	int		i;
-
-	if (ft_strcmp(arguments_node->type, "arguments"))
-		return (msh_perror_exit("debug",
-			"msh_execute_simple_cmd: get_argv_arr", "Node is not arguments.",
-			EXIT_FAILURE));
-	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
-					sizeof(char *));
-	if (!*argv_arr)
-		return (msh_perror_exit("msh_execute_simple_cmd: get_argv_arr",
-				"argv_arr", "malloc fail.", EXIT_FAILURE));
-	i = -1;
-	while (++i < arguments_node->child_count)
-	{
-		(*argv_arr)[i] = ft_strdup(arguments_node->children[i]->value);
-		if ((*argv_arr)[i] == NULL)
-			return (msh_perror_exit("get_argv_arr", "argv",
-					"malloc fail.", EXIT_FAILURE));
-	}
-}
-
 void msh_execute_simple_cmd_get_envp_arr(t_list *env_list, char ***envp_arr);
 
 static void	signal_reset(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+	msh_signal_conf_term(1);
 }
 
-char	*generate_filepath(char *command, char *path)
+int	exec_scmd_search_path(char **argv)
 {
-	char	*res;
-	char	*temp;
+	char	**path_split;
 
-	temp = ft_strjoin(path, "/");
-	res = ft_strjoin(temp, command);
-	free(temp);
-	return (res);
+	path_split = NULL;
+	if (env_get_value("PATH") && argv[0][0] != '\0')
+	{
+		path_split = path_split_get();
+		if (path_split == NULL)
+			return (ERROR);
+		if (path_find(path_split, argv) == 0)
+		{
+			ft_free_split(&path_split);
+			return (0);
+		}
+	}
+	if (path_split)
+		ft_free_split(&path_split);
+	return (ERROR);
 }
 
-/*
- * TODO: rename ft_free_ft_split to be more generic.
- */
-static void	run_execve(t_ast *node, t_list **env_list,
+int	simple_cmd_execute(char **argv, char **envp_arr, t_list **env_list)
+{
+	int	status;
+
+	signal_reset();
+	if (!ft_strchr(argv[0], '/') && msh_env_getvar(*env_list, "PATH"))
+	{
+		if (exec_scmd_search_path(argv) == ERROR)
+		{
+			msh_perror(argv[0], NULL, "command not found");
+			errno = 0;
+			return (127);
+		}
+	}
+	execve(argv[0], argv, envp_arr);
+	if (errno == ENOENT)
+		status = 127;
+	else
+		status = 126;
+	msh_perror(argv[0], NULL, strerror(errno));
+	errno = 0;
+	return (status);
+}
+
+int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
 		char **argv_arr, char **envp_arr)
 {
-	int		i;
-	char	**path;
-	char	*filepath;
-	int		res;
+	int		status;
+	int		pid;
 
-	i = -1;
-	signal_reset();
-	path = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
-	while (path[++i])
+	status = 0;
+	pid = fork();
+	if (pid == -1)
+		return (msh_perror_exit_int("msh_execute_pipeline",
+				"pipeline_pipe_fork: pid", strerror(errno), EXIT_FAILURE));
+	if (!pid)
 	{
-		filepath = generate_filepath(node->children[0]->value, path[i]);
-		res = execve(filepath, argv_arr, envp_arr);
-		free(filepath);
-		if (res != -1)
-			break ;
+		if (msh_execute_simple_cmd_redirs(node->children[1], NULL) == ERROR)
+			exit(EXIT_FAILURE);
+		status = simple_cmd_execute(argv_arr, envp_arr);
+		exit(status);
 	}
-	if (!path[i])
-	{
-		perror("Command not found");
-		exit(127);
-	}
-	ft_free_ft_split(path);
+	status = msh_execute_wait_pid(pid, argv_arr[0]);
 }
 
-/*
- * TODO: Fix the builtin_func taking the subshell flag.
- */
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 {
-	int		argc;
 	char	**argv_arr;
 	char	**envp_arr;
 	t_bif	*builtin_func;
+	int		status;
 
-	if (node->children[1]->child_count > 0)
-		msh_execute_simple_cmd_redirs(node->children[1]);
-	argc = node->children[0]->child_count;
 	argv_arr = NULL;
-	get_argv_arr(node->children[0], &argv_arr);
-	msh_execute_simple_cmd_get_envp_arr(*env_list, &envp_arr);
+	envp_arr = NULL;
+	if (msh_execute_simple_cmd_init(node, &argv_arr, *env_list,
+			&envp_arr) == ERROR)
+	{
+		msh_execute_free(argv_arr, envp_arr);
+		return (EXIT_FAILURE);
+	}
+	if (!argv_arr)
+	{
+		msh_execute_free(argv_arr, envp_arr);
+		return (EXIT_SUCCESS);
+	}
 	builtin_func = msh_builtins_get_builtin(argv_arr[0]);
 	if (builtin_func)
-		(*builtin_func)(argc, argv_arr, env_list, 1);
-	else
-		run_execve(node, env_list, argv_arr, envp_arr);
-	ft_free_ft_split(argv_arr);
-	ft_free_ft_split(envp_arr);
-	return (0);
+		return (msh_execute_simple_cmd_builtin(node, builtin_func, argv_arr, envp_arr));
+	status = msh_exeucte_simple_cmd_helper(node, env_list, argv_arr, envp_arr);
+	msh_execute_free(argv_arr, envp_arr);
+	return (status);
 }

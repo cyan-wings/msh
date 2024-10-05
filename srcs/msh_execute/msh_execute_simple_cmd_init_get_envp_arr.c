@@ -47,7 +47,7 @@ static char	*get_current_var(t_list *env_list)
  * env_list must be converted into an array to run execve.
  * TODO: Make this return void.
  */
-void msh_execute_simple_cmd_get_envp_arr(t_list *env_list, char ***envp_arr)
+void msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list, char ***envp_arr)
 {
 	int		i;
 

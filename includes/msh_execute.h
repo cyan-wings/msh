@@ -30,6 +30,7 @@
 
 typedef enum e_redirection_type
 {
+    REDIR_ERR = 0,
     REDIR_IN = 1,
     REDIR_OUT = 2,
     REDIR_HERE = 3,
@@ -42,6 +43,10 @@ typedef struct s_redirections_state
     int fd_backup;
 }	t_redir_st;
 
-int		msh_execute(t_ast *node, t_list **env_list);
+int     msh_execute(t_ast *node, t_list **env_list, int subshell_flag);
+int     msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr, t_list *env_list, char ***envp_arr);
+int	    msh_execute_simple_cmd_redirs(t_ast *redirs_node,
+	    t_redir_st ***redir_st_arr);
+void	msh_execute_simple_cmd_redirs_restore(t_redir_st ***redir_st_arr)
 
 #endif

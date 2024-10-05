@@ -12,7 +12,7 @@
 
 #include "msh_execute.h"
 
-int	msh_execute_list(t_ast *node, t_list **env_list)
+int	msh_execute_list(t_ast *node, t_list **env_list, int subshell_flag)
 {
 	t_ast	*child;
 	int		i;
@@ -22,7 +22,7 @@ int	msh_execute_list(t_ast *node, t_list **env_list)
 	child = NULL;
 	i = 0;
 	child = node->children[i];
-	status = msh_execute(child, env_list);
+	status = msh_execute(child, env_list, subshell_flag);
 	while (++i < node->child_count)
 	{
 		child = node->children[i];
@@ -34,7 +34,7 @@ int	msh_execute_list(t_ast *node, t_list **env_list)
 			continue ;
 		}
 		child = node->children[++i];
-		status = msh_execute(child, env_list);
+		status = msh_execute(child, env_list, subshell_flag);
 	}
 	return (status);
 }

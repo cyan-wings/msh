@@ -1,0 +1,101 @@
+#include "msh_execute.h"
+
+static int	check_null_param(t_ast *node, char ***argv_arr,
+				t_list *env_list, char ***envp_arr)
+{
+	if (!node)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_init",
+                    "node is NULL.");
+		return (0);
+	}
+	if (!argv_arr)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_init",
+                    "argv_arr is NULL.");
+		return (0);
+	}
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_init",
+					"env_list is NULL.");
+		return (0);
+	}
+	if (!envp_arr)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_init",
+					"envp_arr is NULL.");
+		return (0);
+	}
+	return (1);
+}
+
+/*
+ * Builds the argv for the execve function.
+ * First element in the array must be the executable.
+ * Note:
+ * 		argv is always NULL terminated.
+ * 		+ 2 due to the executable and the NULL terminator.
+ * 		i is not incremented in the while loop becauase first index
+ * 		of the arguments' child array is 0.
+ */
+static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
+{
+	int		i;
+
+	if (ft_strcmp(arguments_node->type, "arguments"))
+		return (msh_perror_exit("debug",
+			"msh_execute_simple_cmd_init: get_argv_arr", "Node is not arguments.",
+			EXIT_FAILURE));
+	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
+					sizeof(char *));
+	if (!*argv_arr)
+		return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
+				"argv_arr", "malloc fail.", EXIT_FAILURE));
+	i = -1;
+	while (++i < arguments_node->child_count)
+	{
+		(*argv_arr)[i] = ft_strdup(arguments_node->children[i]->value);
+		if ((*argv_arr)[i] == NULL)
+			return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
+                    "argv_arr[i]", "malloc fail.", EXIT_FAILURE));
+	}
+}
+
+static void	free_redir_st_arr(t_redir_st **redir_st_arr)
+{
+	int	i;
+
+	i = -1;
+	if (redir_st_arr)
+	{
+		while (redir_st_arr[++i])
+			ft_memdel((void **) &redir_st_arr[i]);
+		ft_memdel((void **) &redir_st_arr);
+	}
+}
+
+void msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list, char ***envp_arr);
+
+int    msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
+		t_list *env_list, char ***envp_arr)
+{
+    t_redir_st  **redir_st_arr;
+    int         status;
+
+    if (!check_null_param(node, argv_arr, env_list, envp_arr))
+        return (ERROR);
+    status = 0;
+    if (node->children[0]->child_count)
+        get_argv_arr(node->children[0], argv_arr);
+    redir_st_arr = NULL;
+    if (node->children[1]->child_count)
+    {
+        status = msh_execute_simple_cmd_redirs(node->children[1], &redir_st_arr);
+        msh_execute_simple_cmd_redirs_restore(&redir_st_arr);
+        free_redir_st_arr(redir_st_arr);
+    }
+	if (status != ERROR)
+		msh_execute_simple_cmd_init_get_envp_arr(env_list, envp_arr);
+    return (status);
+}
