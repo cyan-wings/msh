@@ -1,0 +1,80 @@
+#include "msh_execute.h"
+
+static void	signal_reset(void)
+{
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
+	msh_signal_conf_term(1);
+}
+
+static int find_path_access(char **path_split, char **argv_arr)
+{
+    int         i;
+    struct stat s;
+    char        *tmp;
+
+    tmp = NULL;
+    i = -1;
+    while (path_split[++i])
+    {
+        if (path_split[i][ft_strlen(path_split[i]) - 1] != '/')
+            ft_strvappend(&tmp, path_split[i], "/", argv_arr[0], NULL);
+        else
+            ft_strvappend(&tmp, path_split[i], argv_arr[0], NULL);
+        if (!access(tmp, F_OK) && (!stat(tmp, &s) && !S_ISDIR(s.st_mode)))
+        {
+            ft_memdel((void **)&argv_arr[0]);
+            argv_arr[0] = tmp;
+            return (0);
+        }
+        ft_memdel((void **)&tmp);
+    }
+    return (ERROR);
+}
+
+
+static int	search_path(char **argv_arr, t_list **env_list)
+{
+	char	**path_split;
+
+    check_null_param(argv_arr, env_list);
+	path_split = NULL;
+	if (argv_arr[0] && argv_arr[0][0])
+	{
+		path_split = ft_split(msh_env_getvar("PATH"), ':');
+        if (!path_split)
+            return (msh_perror_exit_int("msh_execute_simple_cmd_path",
+                    "get_path_split: path_split", "malloc fail.", EXIT_FAILURE));
+		if (!find_path_access(path_split, argv_arr))
+		{
+			ft_free_ft_split(path_split);
+			return (0);
+		}
+	}
+	ft_free_ft_split(path_split);
+	return (ERROR);
+}
+
+int	msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr, t_list **env_list)
+{
+	int	status;
+
+	signal_reset();
+	if (!ft_strchr(argv_arr[0], '/') && msh_env_getvar(*env_list, "PATH"))
+	{
+		if (search_path(argv_arr, env_list) == ERROR)
+		{
+			msh_perror(argv_arr[0], NULL, "command not found");
+			errno = 0;
+			return (127);
+		}
+	}
+	execve(argv_arr[0], argv_arr, envp_arr);
+	if (errno == ENOENT)
+		status = 127;
+	else
+		status = 126;
+	msh_perror(argv_arr[0], NULL, strerror(errno));
+	errno = 0;
+	return (status);
+}
