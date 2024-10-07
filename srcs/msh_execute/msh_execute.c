@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:27:17 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/24 20:29:47 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/07 07:58:10 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	msh_execute(t_ast *node, t_list **env_list, int subshell_flag)
 	const char	*types[] = {
 		"list", "pipeline", "grouping"};
 	static int	(*exec_node_f[])(t_ast *node, t_list **env_list,
-					int subshell_flag) = {msh_execute_list,
-					msh_execute_pipeline, msh_execute_grouping};
+			int subshell_flag) = {msh_execute_list,
+		msh_execute_pipeline, msh_execute_grouping};
 	int			i;
 
 	if (!node)

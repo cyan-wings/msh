@@ -1,9 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_execute_pipeline_simple_cmd.c                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/07 08:02:19 by myeow             #+#    #+#             */
+/*   Updated: 2024/10/07 08:02:51 by myeow            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "msh_execute.h"
 
-int    msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr, t_list *env_list, char ***envp_arr);
+int    msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
+		t_list *env_list, char ***envp_arr);
 
 // Method returns int to enhance readability and match msh_execute_free_exit return value.
-int	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
+int	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
+		int subshell_flag)
 {
 	char	**argv_arr;
 	char	**envp_arr;

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 18:37:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/30 14:33:31 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/07 08:00:49 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	init_pipeline(int pipes[2][2])
 }
 
 int	msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
-				t_list **env_list);
+		t_list **env_list);
 
 static int	pipeline_wait_pid(int last_pid)
 {
