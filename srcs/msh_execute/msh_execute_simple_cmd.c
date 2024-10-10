@@ -37,11 +37,10 @@ int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
 	return (status);
 }
 
-int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
+int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 {
 	char	**argv_arr;
 	char	**envp_arr;
-	t_bif	*builtin_func;
 	int		status;
 
 	argv_arr = NULL;
@@ -57,10 +56,13 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list)
 		msh_execute_free(argv_arr, envp_arr);
 		return (EXIT_SUCCESS);
 	}
-	builtin_func = msh_builtins_get_builtin(argv_arr[0]);
-	if (builtin_func)
-		return (msh_execute_simple_cmd_builtin(node, builtin_func, argv_arr, envp_arr));
-	status = msh_exeucte_simple_cmd_helper(node, env_list, argv_arr, envp_arr);
+	if (msh_builtins_get_builtin(argv_arr[0]))
+	{
+		msh_execute_free(NULL, envp_arr);
+		return (msh_execute_simple_cmd_builtin(node, env_list,
+				argv_arr, subshell_flag));
+	}
+	status = msh_execute_simple_cmd_helper(node, env_list, argv_arr, envp_arr);
 	msh_execute_free(argv_arr, envp_arr);
 	return (status);
 }
