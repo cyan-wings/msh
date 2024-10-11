@@ -49,8 +49,8 @@ static void	init_pipeline(int pipes[2][2])
 	pipes[1][1] = -1;
 }
 
-int	msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
-		t_list **env_list);
+int		msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
+				t_list **env_list);
 
 void	msh_execute_pipeline_close(int pipes[2][2], int i, int last);
 

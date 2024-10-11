@@ -40,12 +40,10 @@ static void	set_pipes(int fd[2], int pipes[2][2], int i, int last)
 
 void	msh_execute_pipeline_close(int pipes[2][2], int i, int last);
 
-int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
-		char ***envp_arr, char ***argv_arr);
+int		msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
+				char ***envp_arr, char ***argv_arr);
 
-// Method returns int to enhance readability and match
-// msh_execute_free_exit return value.
-int	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
+void	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
 		int subshell_flag)
 {
 	char	**argv_arr;
@@ -55,7 +53,8 @@ int	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
 
 	argv_arr = NULL;
 	envp_arr = NULL;
-	if (msh_execute_simple_cmd_init(node, env_list, &envp_arr, &argv_arr) == ERROR)
+	if (msh_execute_simple_cmd_init(node, env_list, &envp_arr, &argv_arr)
+		== ERROR)
 		return (msh_execute_free_exit(EXIT_FAILURE, argv_arr, envp_arr));
 	if (!argv_arr)
 		return (msh_execute_free_exit(EXIT_SUCCESS, NULL, envp_arr));
@@ -73,7 +72,7 @@ int	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
 	return (msh_execute_free_exit(status, argv_arr, envp_arr));
 }
 
-int	msh_execute_grouping(t_ast *node, t_list **env_list, int subshell_flag);
+int		msh_execute_grouping(t_ast *node, t_list **env_list, int subshell_flag);
 
 //Check leak before exit
 static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
@@ -85,9 +84,9 @@ static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 	set_pipes(fd, pipes, i, (i == node->child_count - 1));
 	if (dup2(fd[0], STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
 		return (msh_perror_exit_int(
-					"msh_execute_pipeline_pipe_fork: pipeline_execute",
-					"dup2",
-					strerror(errno), EXIT_FAILURE));
+				"msh_execute_pipeline_pipe_fork: pipeline_execute",
+				"dup2",
+				strerror(errno), EXIT_FAILURE));
 	msh_execute_pipeline_close(pipes, -1, 0);
 	if (!ft_strcmp(node->children[i]->type, "simple_command"))
 		msh_execute_pipeline_simple_cmd(node->children[i], env_list, 0);

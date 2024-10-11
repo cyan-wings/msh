@@ -47,12 +47,14 @@ int	msh_execute(t_ast *node, t_list **env_list, int subshell_flag)
 		return (ERROR);
 	i = -1;
 	while (++i < 3)
+	{
 		if (!ft_strcmp(node->type, node_types[i]))
 		{
 			msh_execute_exit_status_set(exec_node_f[i](node, env_list,
-				subshell_flag));
+					subshell_flag));
 			return (msh_execute_exit_status_get());
 		}
+	}
 	return (msh_perror_int("debug: msh_execute", "Unknown AST node type",
-		node->type));
+			node->type));
 }
