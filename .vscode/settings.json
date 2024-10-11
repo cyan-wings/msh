@@ -46,6 +46,7 @@
         "__tuple": "c",
         "array": "c",
         "utility": "c",
-        "cstdlib": "c"
+        "cstdlib": "c",
+        "msh_tokenise.h": "c"
     }
 }

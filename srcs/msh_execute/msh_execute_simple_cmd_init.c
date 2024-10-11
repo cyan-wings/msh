@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh_execute.h"
+#include "msh_env.h"
 
 static int	check_null_param(t_ast *node, char ***argv_arr,
 				t_list *env_list, char ***envp_arr)
@@ -74,20 +75,52 @@ static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
 	}
 }
 
-void	msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list,
-				char ***envp_arr);
+static char	*get_env_var(t_list *env_list)
+{
+	t_env	*current_env;
+	char	*res;
+	size_t	key_len;
+	size_t	val_len;
 
-int	msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
-		t_list *env_list, char ***envp_arr)
+	current_env = (t_env *)env_list->content;
+	key_len = ft_strlen(current_env->key);
+	val_len = ft_strlen(current_env->val);
+	res = ft_memalloc(key_len + val_len + 2);
+	ft_strlcpy(res, current_env->key, key_len + 1);
+	res[key_len] = '=';
+	ft_strlcpy(res + key_len + 1, current_env->val, val_len + 1);
+	return (res);
+}
+
+void	get_envp_arr(t_list **env_list, char ***envp_arr)
+{
+	int		i;
+
+	*envp_arr = (char **)ft_calloc((ft_lstsize(*env_list) + 1),
+			sizeof(char *));
+	if (!*envp_arr)
+		return (msh_perror_exit("msh_execute_simple_cmd_init: get_envp_arr",
+				"envp_arr", "malloc fail.", EXIT_FAILURE));
+	i = 0;
+	while (*env_list)
+	{
+		(*envp_arr)[i++] = get_env_var(*env_list);
+		*env_list = (*env_list)->next;
+	}
+}
+
+int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
+		char ***envp_arr, char ***argv_arr)
 {
 	t_redir_st	**redir_st_arr;
 	int			status;
 
 	if (!check_null_param(node, argv_arr, env_list, envp_arr))
 		return (ERROR);
-	status = 0;
+	get_envp_arr(env_list, envp_arr);
 	if (node->children[0]->child_count)
 		get_argv_arr(node->children[0], argv_arr);
+	status = 0;
 	redir_st_arr = NULL;
 	if (node->children[1]->child_count)
 	{
@@ -95,7 +128,5 @@ int	msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
 				&redir_st_arr);
 		msh_execute_simple_cmd_redirs_restore(&redir_st_arr);
 	}
-	if (status != ERROR)
-		msh_execute_simple_cmd_init_get_envp_arr(env_list, envp_arr);
 	return (status);
 }

@@ -13,6 +13,35 @@
 #include "msh_execute.h"
 #include "msh.h"
 
+static int	check_param(t_ast *node, t_list **env_list)
+{
+	int	flag;
+
+	flag = 1;
+	if (!node)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd", "node is NULL.");
+		flag = 0;
+	}
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd", "env_list is NULL.");
+		flag = 0;
+	}
+	if (node && !node->child_count)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd",
+			"No child nodes in simple_command.");
+		flag = 0;
+	}
+	if (node && ft_strcmp(node->type, "msh_execute_simple_cmd"))
+	{
+		msh_perror("debug", "msh_execute_simple_cmd", "type is incorrect.");
+		flag = 0;
+	}
+	return (flag);
+}
+
 int		msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
 			t_list *env_list, char ***envp_arr);
 
@@ -59,6 +88,8 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 	char	**envp_arr;
 	int		status;
 
+	if (!check_param(node, env_list))
+		return (ERROR);
 	argv_arr = NULL;
 	envp_arr = NULL;
 	if (msh_execute_simple_cmd_init(node, &argv_arr, *env_list,

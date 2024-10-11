@@ -11,9 +11,35 @@
 /* ************************************************************************** */
 
 #include "msh_execute.h"
-#include "msh.h"
 
-int	msh_execute(t_ast *node, t_list **env_list);
+static int	check_param(t_ast *node, t_list **env_list)
+{
+	int	flag;
+
+	flag = 1;
+	if (!node)
+	{
+		msh_perror("debug", "msh_execute_pipeline", "node is NULL.");
+		flag = 0;
+	}
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_execute_pipeline", "env_list is NULL.");
+		flag = 0;
+	}
+	if (node && !node->child_count)
+	{
+		msh_perror("debug", "msh_execute_pipeline",
+			"No child nodes in pipeline.");
+		flag = 0;
+	}
+	if (node && ft_strcmp(node->type, "pipeline"))
+	{
+		msh_perror("debug", "msh_execute_pipeline", "node is not pipeline.");
+		flag = 0;
+	}
+	return (flag);
+}
 
 static void	init_pipeline(int pipes[2][2])
 {
@@ -25,6 +51,8 @@ static void	init_pipeline(int pipes[2][2])
 
 int	msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
 		t_list **env_list);
+
+void	msh_execute_pipeline_close(int pipes[2][2], int i, int last);
 
 static int	pipeline_wait_pid(int last_pid)
 {
@@ -39,15 +67,15 @@ static int	pipeline_wait_pid(int last_pid)
 	return (status);
 }
 
-int	msh_execute_pipeline(t_ast *node, t_list **env_list, int subshell_flag)
+int	msh_execute_pipeline(t_ast *node, t_list **env_list,
+		int subshell_flag __attribute((unused)))
 {
 	int	pipes[2][2];
 	int	pid;
 	int	i;
 
-	if (!node->child_count)
-		return (msh_perror_exit_int("debug", "msh_execute_pipeline",
-				"No child nodes in pipeline.", EXIT_FAILURE));
+	if (!check_param(node, env_list))
+		return (ERROR);
 	if (node->child_count == 1)
 		return (msh_execute_simple_cmd(node->children[0], env_list));
 	init_pipeline(pipes);
@@ -56,7 +84,12 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list, int subshell_flag)
 	while (++i < node->child_count)
 	{
 		pid = pipeline_pipe_fork(node, pipes, i, env_list);
-		close_pipes(pipes, i, (i == node->child_count - 1));
+		if (pid == ERROR)
+		{
+			msh_execute_pipeline_close(pipes, i, 0);
+			break ;
+		}
+		msh_execute_pipeline_close(pipes, i, (i == node->child_count - 1));
 	}
 	return (pipeline_wait_pid(pid));
 }

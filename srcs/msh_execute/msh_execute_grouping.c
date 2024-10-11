@@ -14,14 +14,37 @@
 
 int	msh_execute_wait_pid(int prev_pid, char *name);
 
-//May want to free everything before exit.
-//May want to add subshell flag for exit builtin.
+static int	check_param(t_ast *node, t_list **env_list)
+{
+	int	flag;
+
+	flag = 1;
+	if (!node)
+	{
+		msh_perror("debug", "msh_execute_grouping", "node is NULL.");
+		flag = 0;
+	}
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_execute_grouping", "env_list is NULL.");
+		flag = 0;
+	}
+	if (node && ft_strcmp(node->type, "grouping"))
+	{
+		msh_perror("debug", "msh_execute_grouping", "node is not grouping");
+		flag = 0;
+	}
+	return (flag);
+}
+
 int	msh_execute_grouping(t_ast *node, t_list **env_list,
 		int subshell_flag __attribute((unused)))
 {
 	pid_t	pid;
 	int		status;
 
+	if (!check_param(node, env_list))
+		return (ERROR);
 	pid = fork();
 	if (pid == -1)
 	{
@@ -32,7 +55,7 @@ int	msh_execute_grouping(t_ast *node, t_list **env_list,
 	}
 	if (pid == 0)
 	{
-		status = msh_execute(node->children[0], env_list, 0);
+		status = msh_execute(node->children[0], env_list, 1);
 		exit(status);
 	}
 	return (msh_execute_wait_pid(pid, NULL));
