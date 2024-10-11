@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_execute_simple_cmd.c                           :+:      :+:    :+:   */
+/*   msh_execute_simple_cmd_redirs_restore.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/24 21:40:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/11 07:13:36 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,19 @@ static void	msh_execute_simple_cmd_redirs_restore_helper(int fd_new,
 	}
 }
 
+static void	free_redir_st_arr(t_redir_st **redir_st_arr)
+{
+	int	i;
+
+	i = -1;
+	if (redir_st_arr)
+	{
+		while (redir_st_arr[++i])
+			ft_memdel((void **) &redir_st_arr[i]);
+		ft_memdel((void **) &redir_st_arr);
+	}
+}
+
 void	msh_execute_simple_cmd_redirs_restore(t_redir_st ***redir_st_arr)
 {
 	int	i;
@@ -46,4 +59,5 @@ void	msh_execute_simple_cmd_redirs_restore(t_redir_st ***redir_st_arr)
 		fd_backup = (*redir_st_arr)[i]->fd_backup;
 		msh_execute_simple_cmd_redirs_restore_helper(fd_new, fd_backup);
 	}
+	free_redir_st_arr(*redir_st_arr);
 }

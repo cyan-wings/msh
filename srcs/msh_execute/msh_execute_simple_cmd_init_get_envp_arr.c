@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_execute_simple_cmd_get_envp_arr.c              :+:      :+:    :+:   */
+/*   msh_execute_simple_cmd_init_get_envp_arr.c         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 00:41:07 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/24 20:27:45 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/11 07:22:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ static char	*get_current_var(t_list *env_list)
  * env_list must be converted into an array to run execve.
  * TODO: Make this return void.
  */
-void msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list, char ***envp_arr)
+void	msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list,
+		char ***envp_arr)
 {
 	int		i;
 
@@ -55,7 +56,7 @@ void msh_execute_simple_cmd_init_get_envp_arr(t_list *env_list, char ***envp_arr
 		msh_perror_exit("debug", "msh_execute_simple_cmd_get_envp_arr",
 			"envp_arr is NULL", EXIT_FAILURE);
 	*envp_arr = (char **)ft_calloc((get_env_list_len(env_list) + 1),
-				sizeof(char *));
+			sizeof(char *));
 	if (!*envp_arr)
 		return (msh_perror_exit("msh_execute_simple_cmd_get_envp_arr",
 				"envp_arr", "malloc fail.", EXIT_FAILURE));

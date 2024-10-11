@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:22:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/11 07:41:34 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int	msh_builtins_func_export(
 		}
 		value = ft_strdup(++value);
 		if (!value)
-			msh_perror_exit("msh_builtins_func_export", "value", "malloc fail.", EXIT_FAILURE);
+			msh_perror_exit("msh_builtins_func_export", "value",
+				"malloc fail.", EXIT_FAILURE);
 		msh_env_setvar(env_list, key, value);
 	}
 	msh_env_print(*env_list);

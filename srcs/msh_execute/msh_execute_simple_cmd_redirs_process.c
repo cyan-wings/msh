@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_execute_simple_cmd_redirs.c                    :+:      :+:    :+:   */
+/*   msh_execute_simple_cmd_redirs_process.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:42:13 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/24 21:43:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/11 07:19:39 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,28 +74,28 @@ static int	get_redir_out(t_redir_type redir_type)
 
 void	add_redir_st(t_redir_st ***redir_st_arr, int fd)
 {
-    int         i;
-	int		    tmp;
-    t_redir_st  *redir_st_elem;
+	int			i;
+	int			tmp;
+	t_redir_st	*redir_st_elem;
 
-    i = -1;
+	i = -1;
 	while ((*redir_st_arr)[++i])
 		if ((*redir_st_arr)[i]->fd_new == fd)
 			return ;
 	tmp = dup(fd);
 	if (tmp == -1 && errno != EBADF)
 		return (msh_perror_exit("msh_execute_simple_cmd_redirs_process",
-                "add_redir_st: dup(fd)", strerror(errno), EXIT_FAILURE));
+				"add_redir_st: dup(fd)", strerror(errno), EXIT_FAILURE));
 	else
-    {
-        redir_st_elem = (t_redir_st *)ft_memalloc(sizeof(t_redir_st));
-	    if (!redir_st_elem)
-            return (msh_perror_exit("msh_execute_simple_cmd_redirs_process",
+	{
+		redir_st_elem = (t_redir_st *)ft_memalloc(sizeof(t_redir_st));
+		if (!redir_st_elem)
+			return (msh_perror_exit("msh_execute_simple_cmd_redirs_process",
 					"add_redir_st", "malloc fail.", EXIT_FAILURE));
-	    redir_st_elem->fd_new = fd;
-	    redir_st_elem->fd_backup = tmp;
-        (*redir_st_arr)[i] = redir_st_elem;
-    }
+		redir_st_elem->fd_new = fd;
+		redir_st_elem->fd_backup = tmp;
+		(*redir_st_arr)[i] = redir_st_elem;
+	}
 }
 
 int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
@@ -105,7 +105,7 @@ int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
 	int	fd[2];
 
 	redir_type = get_redir_type(op);
-	if (redir_type = REDIR_ERR)
+	if (redir_type == REDIR_ERR)
 		return (msh_perror_int("debug", "msh_execute_simple_cmd_redirs_process",
 				"Unknown redir op"));
 	fd[0] = get_redir_in(file, redir_type);

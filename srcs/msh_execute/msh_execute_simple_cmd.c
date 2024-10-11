@@ -6,14 +6,30 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/24 21:40:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/11 08:19:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_execute.h"
 #include "msh.h"
 
-void msh_execute_simple_cmd_get_envp_arr(t_list *env_list, char ***envp_arr);
+int		msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
+			t_list *env_list, char ***envp_arr);
+
+void	msh_execute_free(char **argv_arr, char **envp_arr);
+
+int		msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
+			char **argv_arr, int subshell_flag);
+
+int		msh_execute_simple_cmd_redirs(t_ast *redirs_node,
+			t_redir_st ***redir_st_arr);
+
+void	msh_execute_free_exit(int status, char **argv_arr, char **envp_arr);
+
+int		msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
+			t_list **env_list);
+
+int		msh_execute_wait_pid(int prev_pid, char *name);
 
 int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
 		char **argv_arr, char **envp_arr)
@@ -29,9 +45,9 @@ int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
 	if (!pid)
 	{
 		if (msh_execute_simple_cmd_redirs(node->children[1], NULL) == ERROR)
-			return (msh_execute_free_exit(EXIT_FAILURE, argv_arr, envp_arr));
+			msh_execute_free_exit(EXIT_FAILURE, argv_arr, envp_arr);
 		status = msh_execute_simple_cmd_execute(argv_arr, envp_arr, env_list);
-		return (msh_execute_free_exit(status, argv_arr, envp_arr));
+		msh_execute_free_exit(status, argv_arr, envp_arr);
 	}
 	status = msh_execute_wait_pid(pid, argv_arr[0]);
 	return (status);

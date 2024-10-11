@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_execute_simple_cmd_execute.c                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/11 07:27:51 by myeow             #+#    #+#             */
+/*   Updated: 2024/10/11 07:31:16 by myeow            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "msh_execute.h"
 
 static void	signal_reset(void)
@@ -7,44 +19,44 @@ static void	signal_reset(void)
 	msh_signal_conf_term(1);
 }
 
-static int find_path_access(char **path_split, char **argv_arr)
+static int	find_path_access(char **path_split, char **argv_arr)
 {
-    int         i;
-    struct stat s;
-    char        *tmp;
+	int			i;
+	struct stat	s;
+	char		*tmp;
 
-    tmp = NULL;
-    i = -1;
-    while (path_split[++i])
-    {
-        if (path_split[i][ft_strlen(path_split[i]) - 1] != '/')
-            ft_strvappend(&tmp, path_split[i], "/", argv_arr[0], NULL);
-        else
-            ft_strvappend(&tmp, path_split[i], argv_arr[0], NULL);
-        if (!access(tmp, F_OK) && (!stat(tmp, &s) && !S_ISDIR(s.st_mode)))
-        {
-            ft_memdel((void **)&argv_arr[0]);
-            argv_arr[0] = tmp;
-            return (0);
-        }
-        ft_memdel((void **)&tmp);
-    }
-    return (ERROR);
+	tmp = NULL;
+	i = -1;
+	while (path_split[++i])
+	{
+		if (path_split[i][ft_strlen(path_split[i]) - 1] != '/')
+			ft_strvappend(&tmp, path_split[i], "/", argv_arr[0], NULL);
+		else
+			ft_strvappend(&tmp, path_split[i], argv_arr[0], NULL);
+		if (!access(tmp, F_OK) && (!stat(tmp, &s) && !S_ISDIR(s.st_mode)))
+		{
+			ft_memdel((void **)&argv_arr[0]);
+			argv_arr[0] = tmp;
+			return (0);
+		}
+		ft_memdel((void **)&tmp);
+	}
+	return (ERROR);
 }
-
 
 static int	search_path(char **argv_arr, t_list **env_list)
 {
 	char	**path_split;
 
-    check_null_param(argv_arr, env_list);
+	check_null_param(argv_arr, env_list);
 	path_split = NULL;
 	if (argv_arr[0] && argv_arr[0][0])
 	{
 		path_split = ft_split(msh_env_getvar("PATH"), ':');
-        if (!path_split)
-            return (msh_perror_exit_int("msh_execute_simple_cmd_path",
-                    "get_path_split: path_split", "malloc fail.", EXIT_FAILURE));
+		if (!path_split)
+			return (msh_perror_exit_int("msh_execute_simple_cmd_path",
+					"get_path_split: path_split", "malloc fail.",
+					EXIT_FAILURE));
 		if (!find_path_access(path_split, argv_arr))
 		{
 			ft_free_ft_split(path_split);
@@ -55,7 +67,8 @@ static int	search_path(char **argv_arr, t_list **env_list)
 	return (ERROR);
 }
 
-int	msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr, t_list **env_list)
+int	msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
+		t_list **env_list)
 {
 	int	status;
 
