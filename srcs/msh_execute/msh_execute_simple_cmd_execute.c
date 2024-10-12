@@ -12,6 +12,33 @@
 
 #include "msh_execute.h"
 
+static int	check_null_param(char **argv_arr, char **envp_arr,
+		t_list **env_list)
+{
+	int	flag;
+
+	flag = 1;
+	if (!argv_arr)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_execute",
+			"argv_arr is NULL.");
+		flag = 0;
+	}
+	if (!envp_arr)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_execute",
+			"envp_arr is NULL.");
+		flag = 0;
+	}
+	if (!env_list)
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_execute",
+			"env_list is NULL.");
+		flag = 0;
+	}
+	return (flag);
+}
+
 static void	signal_reset(void)
 {
 	signal(SIGINT, SIG_DFL);
@@ -48,7 +75,6 @@ static int	search_path(char **argv_arr, t_list **env_list)
 {
 	char	**path_split;
 
-	check_null_param(argv_arr, env_list);
 	path_split = NULL;
 	if (argv_arr[0] && argv_arr[0][0])
 	{
@@ -72,6 +98,8 @@ int	msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
 {
 	int	status;
 
+	if (!check_null_param(argv_arr, envp_arr, env_list))
+		return (ERROR);
 	signal_reset();
 	if (!ft_strchr(argv_arr[0], '/') && msh_env_getvar(*env_list, "PATH"))
 	{

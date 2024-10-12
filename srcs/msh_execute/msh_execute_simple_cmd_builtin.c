@@ -36,6 +36,7 @@ static int	check_null_param(t_ast *node, char **argv_arr,
 	return (1);
 }
 
+//free
 int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		char **argv_arr, int subshell_flag)
 {
@@ -45,6 +46,7 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 
 	if (!check_null_param(node, argv_arr, env_list))
 		return (ERROR);
+	status = ERROR;
 	builtin_func = msh_builtins_get_builtin(argv_arr[0]);
 	if (builtin_func)
 	{
@@ -54,7 +56,6 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 			status = (*builtin_func)(node->children[0]->child_count,
 					argv_arr, env_list, subshell_flag);
 		msh_execute_simple_cmd_redirs_restore(&redir_st_arr);
-		return (status);
 	}
-	return (ERROR);
+	return (status);
 }

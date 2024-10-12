@@ -13,8 +13,8 @@
 #include "msh_execute.h"
 #include "msh_env.h"
 
-static int	check_null_param(t_ast *node, char ***argv_arr,
-				t_list *env_list, char ***envp_arr)
+static int	check_null_param(t_ast *node, t_list *env_list,
+				char ***envp_arr, char ***argv_arr)
 {
 	if (!node)
 	{
@@ -115,7 +115,7 @@ int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 	t_redir_st	**redir_st_arr;
 	int			status;
 
-	if (!check_null_param(node, argv_arr, env_list, envp_arr))
+	if (!check_null_param(node, env_list, envp_arr, argv_arr))
 		return (ERROR);
 	get_envp_arr(env_list, envp_arr);
 	if (node->children[0]->child_count)

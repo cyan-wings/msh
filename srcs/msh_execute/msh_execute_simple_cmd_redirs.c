@@ -13,17 +13,28 @@
 #include "limits.h"
 #include "msh_execute.h"
 
-static void	check_params(t_ast *redirs_node, t_redir_st ***redir_st_arr)
+static int	check_params(t_ast *redirs_node, t_redir_st ***redir_st_arr)
+
 {
 	if (!redirs_node)
-		return (msh_perror_exit("debug", "msh_execute_simple_cmd_redirs",
-				"redirs_node is NULL.", EXIT_FAILURE));
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_redirs",
+			"redirs_node is NULL.");
+		return (0);
+	}
 	if (!redir_st_arr)
-		return (msh_perror_exit("debug", "msh_execute_simple_cmd_redirs",
-				"redir_st_arr is NULL.", EXIT_FAILURE));
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_redirs",
+			"redir_st_arr is NULL.");
+		return (0);
+	}
 	if (ft_strcmp(redirs_node->type, "redirections"))
-		return (msh_perror_exit("debug", "msh_execute_simple_cmd_redirs",
-				"redirs_node is incorrect", EXIT_FAILURE));
+	{
+		msh_perror("debug", "msh_execute_simple_cmd_redirs",
+			"node type is incorrect.");
+		return (0);
+	}
+	return (1);
 }
 
 int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
@@ -34,7 +45,8 @@ int	msh_execute_simple_cmd_redirs(t_ast *redirs_node,
 {
 	int		i;
 
-	check_params(redirs_node, redir_st_arr);
+	if (!check_params(redirs_node, redir_st_arr))
+		return (ERROR);
 	if (!redirs_node->child_count)
 		return (0);
 	if (redir_st_arr)

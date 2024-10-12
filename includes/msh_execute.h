@@ -51,6 +51,12 @@ void	msh_execute_free_exit(int status, char **argv_arr, char **envp_arr);
 int		msh_execute_simple_cmd_redirs(t_ast *redirs_node,
 			t_redir_st ***redir_st_arr);
 void	msh_execute_simple_cmd_redirs_restore(t_redir_st ***redir_st_arr);
-
+int		msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
+			char ***envp_arr, char ***argv_arr);
+int		msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
+			char **argv_arr, int subshell_flag);
+int		msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
+			t_list **env_list);
+int		msh_execute_wait_pid(int prev_pid, char *name);
 
 #endif

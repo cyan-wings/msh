@@ -34,7 +34,7 @@ static int	check_param(t_ast *node, t_list **env_list)
 			"No child nodes in simple_command.");
 		flag = 0;
 	}
-	if (node && ft_strcmp(node->type, "msh_execute_simple_cmd"))
+	if (node && ft_strcmp(node->type, "simple_command"))
 	{
 		msh_perror("debug", "msh_execute_simple_cmd", "type is incorrect.");
 		flag = 0;
@@ -42,26 +42,14 @@ static int	check_param(t_ast *node, t_list **env_list)
 	return (flag);
 }
 
-int		msh_execute_simple_cmd_init(t_ast *node, char ***argv_arr,
-			t_list *env_list, char ***envp_arr);
-
-void	msh_execute_free(char **argv_arr, char **envp_arr);
-
-int		msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
-			char **argv_arr, int subshell_flag);
-
-int		msh_execute_simple_cmd_redirs(t_ast *redirs_node,
-			t_redir_st ***redir_st_arr);
-
-void	msh_execute_free_exit(int status, char **argv_arr, char **envp_arr);
-
-int		msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
-			t_list **env_list);
-
-int		msh_execute_wait_pid(int prev_pid, char *name);
+static int	ret_func(char **argv_arr, char **envp_arr, int status)
+{
+	msh_execute_free(argv_arr, envp_arr);
+	return (status);
+}
 
 int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
-		char **argv_arr, char **envp_arr)
+		char **envp_arr, char **argv_arr)
 {
 	int		status;
 	int		pid;
@@ -92,24 +80,20 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 		return (ERROR);
 	argv_arr = NULL;
 	envp_arr = NULL;
-	if (msh_execute_simple_cmd_init(node, &argv_arr, *env_list,
-			&envp_arr) == ERROR)
-	{
-		msh_execute_free(argv_arr, envp_arr);
-		return (EXIT_FAILURE);
-	}
+	if (msh_execute_simple_cmd_init(node, env_list, &envp_arr, &argv_arr)
+		== ERROR)
+		return (ret_func(argv_arr, envp_arr, ERROR));
 	if (!argv_arr)
-	{
-		msh_execute_free(argv_arr, envp_arr);
-		return (EXIT_SUCCESS);
-	}
+		return (ret_func(NULL, envp_arr, EXIT_SUCCESS));
+	status = 0;
 	if (msh_builtins_get_builtin(argv_arr[0]))
 	{
-		msh_execute_free(NULL, envp_arr);
-		return (msh_execute_simple_cmd_builtin(node, env_list,
-				argv_arr, subshell_flag));
+		status = msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
+			subshell_flag);
+		msh_execute_free(argv_arr, envp_arr);
+		return (status);
 	}
-	status = msh_execute_simple_cmd_helper(node, env_list, argv_arr, envp_arr);
+	status = msh_execute_simple_cmd_helper(node, env_list, envp_arr, argv_arr);
 	msh_execute_free(argv_arr, envp_arr);
 	return (status);
 }

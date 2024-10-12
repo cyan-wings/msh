@@ -35,7 +35,7 @@ int	msh_builtins_func_pwd(int argc, char **argv, t_list **env_list,
 int	msh_builtins_func_unset(int argc, char **argv, t_list **env_list,
 		int subshell_flag);
 
-t_bif	*get_builtin_func(int i)
+static t_bif	*get_builtin_func(int i)
 {
 	static t_bif	builtin_func[NO_OF_BUILTINS] = {
 		msh_builtins_func_cd,

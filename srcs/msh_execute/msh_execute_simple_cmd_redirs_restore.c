@@ -49,7 +49,7 @@ void	msh_execute_simple_cmd_redirs_restore(t_redir_st ***redir_st_arr)
 	int	fd_new;
 	int	fd_backup;
 
-	if (!redir_st_arr)
+	if (!redir_st_arr || !*redir_st_arr)
 		return (msh_perror("debug", "msh_execute_simple_cmd_redirs_restore",
 				"redir_st_arr is NULL."));
 	i = -1;

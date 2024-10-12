@@ -67,9 +67,8 @@ static int	get_redir_out(t_redir_type redir_type)
 		return (STDOUT_FILENO);
 	if (redir_type == REDIR_IN || redir_type == REDIR_HERE)
 		return (STDIN_FILENO);
-	return (msh_perror_exit_int("debug",
-			"msh_execute_simple_cmd_redirs_process",
-			"get_redir_out: Invalid redir_type", EXIT_FAILURE));
+	return (msh_perror_int("debug", "msh_execute_simple_cmd_redirs_process",
+			"get_redir_out: Invalid redir_type"));
 }
 
 void	add_redir_st(t_redir_st ***redir_st_arr, int fd)
@@ -109,9 +108,9 @@ int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
 		return (msh_perror_int("debug", "msh_execute_simple_cmd_redirs_process",
 				"Unknown redir op"));
 	fd[0] = get_redir_in(file, redir_type);
-	if (fd[0] == -1)
-		return (ERROR);
 	fd[1] = get_redir_out(redir_type);
+	if (fd[0] == ERROR || fd[1] == ERROR)
+		return (ERROR);
 	if (redir_st_arr)
 		add_redir_st(redir_st_arr, fd[1]);
 	if (dup2(fd[0], fd[1]) == -1)

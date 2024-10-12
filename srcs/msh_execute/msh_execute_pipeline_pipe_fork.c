@@ -40,10 +40,7 @@ static void	set_pipes(int fd[2], int pipes[2][2], int i, int last)
 
 void	msh_execute_pipeline_close(int pipes[2][2], int i, int last);
 
-int		msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
-				char ***envp_arr, char ***argv_arr);
-
-void	msh_execute_pipeline_simple_cmd(t_ast *node, t_list **env_list,
+static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 		int subshell_flag)
 {
 	char	**argv_arr;
@@ -89,7 +86,7 @@ static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 				strerror(errno), EXIT_FAILURE));
 	msh_execute_pipeline_close(pipes, -1, 0);
 	if (!ft_strcmp(node->children[i]->type, "simple_command"))
-		msh_execute_pipeline_simple_cmd(node->children[i], env_list, 0);
+		execute_simple_cmd(node->children[i], env_list, 0);
 	else if (!ft_strcmp(node->children[i]->type, "grouping"))
 	{
 		status = msh_execute_grouping(node->children[i], env_list, 1);

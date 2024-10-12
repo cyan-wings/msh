@@ -12,8 +12,6 @@
 
 #include "msh_execute.h"
 
-int	msh_execute_wait_pid(int prev_pid, char *name);
-
 static int	check_param(t_ast *node, t_list **env_list)
 {
 	int	flag;
