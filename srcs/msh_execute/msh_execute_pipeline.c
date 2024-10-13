@@ -41,7 +41,8 @@ static int	check_param(t_ast *node, t_list **env_list)
 	return (flag);
 }
 
-int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag);
+int		msh_execute_simple_cmd(t_ast *node, t_list **env_list,
+				int subshell_flag);
 
 static void	init_pipeline(int pipes[2][2])
 {
