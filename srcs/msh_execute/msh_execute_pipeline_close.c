@@ -24,9 +24,9 @@ static void	close_end(int pipe_end)
 void	msh_execute_pipeline_close(int pipes[2][2], int i, int last)
 {
 	if (!i)
-		close_pipe(pipes[0][1]);
+		close_end(pipes[0][1]);
 	else if (last)
-		close_pipe(pipes[(i + 1) % 2][0]);
+		close_end(pipes[(i + 1) % 2][0]);
 	else if (i == -1)
 	{
 		close_end(pipes[0][0]);

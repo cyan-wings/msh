@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh_execute.h"
+#include "msh_env.h"
 
 static int	check_null_param(char **argv_arr, char **envp_arr,
 		t_list **env_list)
@@ -78,7 +79,7 @@ static int	search_path(char **argv_arr, t_list **env_list)
 	path_split = NULL;
 	if (argv_arr[0] && argv_arr[0][0])
 	{
-		path_split = ft_split(msh_env_getvar("PATH"), ':');
+		path_split = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
 		if (!path_split)
 			return (msh_perror_exit_int("msh_execute_simple_cmd_path",
 					"get_path_split: path_split", "malloc fail.",

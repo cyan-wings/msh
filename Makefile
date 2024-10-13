@@ -91,7 +91,6 @@ SRC_M			=	\
 					msh_execute/msh_execute_exit_status/msh_execute_exit_status_set		\
 					msh_execute/msh_execute_simple_cmd									\
 					msh_execute/msh_execute_simple_cmd_init								\
-					msh_execute/msh_execute_simple_cmd_init_get_envp_arr				\
 					msh_execute/msh_execute_simple_cmd_redirs							\
 					msh_execute/msh_execute_simple_cmd_redirs_process					\
 					msh_execute/msh_execute_simple_cmd_redirs_restore					\
@@ -99,7 +98,6 @@ SRC_M			=	\
 					msh_execute/msh_execute_simple_cmd_execute							\
 					msh_execute/msh_execute_pipeline									\
 					msh_execute/msh_execute_pipeline_pipe_fork							\
-					msh_execute/msh_execute_pipeline_simple_cmd							\
 					msh_execute/msh_execute_pipeline_close								\
 					msh_execute/msh_execute_list										\
 					msh_execute/msh_execute_grouping									\

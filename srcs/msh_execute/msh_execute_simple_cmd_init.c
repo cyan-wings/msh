@@ -13,7 +13,7 @@
 #include "msh_execute.h"
 #include "msh_env.h"
 
-static int	check_null_param(t_ast *node, t_list *env_list,
+static int	check_null_param(t_ast *node, t_list **env_list,
 				char ***envp_arr, char ***argv_arr)
 {
 	if (!node)
@@ -95,6 +95,7 @@ static char	*get_env_var(t_list *env_list)
 void	get_envp_arr(t_list **env_list, char ***envp_arr)
 {
 	int		i;
+	t_list	*curr;
 
 	*envp_arr = (char **)ft_calloc((ft_lstsize(*env_list) + 1),
 			sizeof(char *));
@@ -102,10 +103,11 @@ void	get_envp_arr(t_list **env_list, char ***envp_arr)
 		return (msh_perror_exit("msh_execute_simple_cmd_init: get_envp_arr",
 				"envp_arr", "malloc fail.", EXIT_FAILURE));
 	i = 0;
-	while (*env_list)
+	curr = *env_list;
+	while (curr)
 	{
-		(*envp_arr)[i++] = get_env_var(*env_list);
-		*env_list = (*env_list)->next;
+		(*envp_arr)[i++] = get_env_var(curr);
+		curr = curr->next;
 	}
 }
 

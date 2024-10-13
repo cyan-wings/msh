@@ -12,8 +12,8 @@
 
 #include "msh_execute.h"
 
-static int	check_null_param(t_ast *node, char **argv_arr,
-				t_list *env_list)
+static int	check_null_param(t_ast *node, t_list **env_list,
+				char **argv_arr)
 {
 	if (!node)
 	{
@@ -36,7 +36,6 @@ static int	check_null_param(t_ast *node, char **argv_arr,
 	return (1);
 }
 
-//free
 int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		char **argv_arr, int subshell_flag)
 {
@@ -44,7 +43,7 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 	int			status;
 	t_redir_st	**redir_st_arr;
 
-	if (!check_null_param(node, argv_arr, env_list))
+	if (!check_null_param(node, env_list, argv_arr))
 		return (ERROR);
 	status = ERROR;
 	builtin_func = msh_builtins_get_builtin(argv_arr[0]);

@@ -46,7 +46,6 @@ static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 	char	**argv_arr;
 	char	**envp_arr;
 	int		status;
-	t_bif	*builtin_func;
 
 	argv_arr = NULL;
 	envp_arr = NULL;
@@ -56,10 +55,9 @@ static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 	if (!argv_arr)
 		return (msh_execute_free_exit(EXIT_SUCCESS, NULL, envp_arr));
 	status = 0;
-	builtin_func = msh_builtins_get_builtin(argv_arr[0]);
-	if (builtin_func)
-		status = msh_execute_simple_cmd_builtin(node, builtin_func, argv_arr,
-				envp_arr);
+	if (msh_builtins_get_builtin(argv_arr[0]))
+		status = msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
+				subshell_flag);
 	else
 	{
 		if (msh_execute_simple_cmd_redirs(node->children[1], NULL) == ERROR)

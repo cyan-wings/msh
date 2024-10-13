@@ -13,19 +13,13 @@
 #include "limits.h"
 #include "msh_execute.h"
 
-static int	check_params(t_ast *redirs_node, t_redir_st ***redir_st_arr)
+static int	check_params(t_ast *redirs_node)
 
 {
 	if (!redirs_node)
 	{
 		msh_perror("debug", "msh_execute_simple_cmd_redirs",
 			"redirs_node is NULL.");
-		return (0);
-	}
-	if (!redir_st_arr)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd_redirs",
-			"redir_st_arr is NULL.");
 		return (0);
 	}
 	if (ft_strcmp(redirs_node->type, "redirections"))
@@ -40,12 +34,13 @@ static int	check_params(t_ast *redirs_node, t_redir_st ***redir_st_arr)
 int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
 				t_redir_st ***redir_st_arr);
 
+//redir_st_arr can be NULL if no fd restoration is needed.
 int	msh_execute_simple_cmd_redirs(t_ast *redirs_node,
 	t_redir_st ***redir_st_arr)
 {
 	int		i;
 
-	if (!check_params(redirs_node, redir_st_arr))
+	if (!check_params(redirs_node))
 		return (ERROR);
 	if (!redirs_node->child_count)
 		return (0);

@@ -41,6 +41,8 @@ static int	check_param(t_ast *node, t_list **env_list)
 	return (flag);
 }
 
+int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag);
+
 static void	init_pipeline(int pipes[2][2])
 {
 	pipes[0][0] = -1;
@@ -68,7 +70,7 @@ static int	pipeline_wait_pid(int last_pid)
 }
 
 int	msh_execute_pipeline(t_ast *node, t_list **env_list,
-		int subshell_flag __attribute((unused)))
+		int subshell_flag)
 {
 	int	pipes[2][2];
 	int	pid;
@@ -77,13 +79,14 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list,
 	if (!check_param(node, env_list))
 		return (ERROR);
 	if (node->child_count == 1)
-		return (msh_execute_simple_cmd(node->children[0], env_list));
+		return (msh_execute_simple_cmd(node->children[0], env_list,
+				subshell_flag));
 	init_pipeline(pipes);
 	pid = -1;
 	i = -1;
 	while (++i < node->child_count)
 	{
-		pid = pipeline_pipe_fork(node, pipes, i, env_list);
+		pid = msh_execute_pipeline_pipe_fork(node, pipes, i, env_list);
 		if (pid == ERROR)
 		{
 			msh_execute_pipeline_close(pipes, i, 0);

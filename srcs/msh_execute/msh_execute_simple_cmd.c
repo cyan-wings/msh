@@ -89,7 +89,7 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 	if (msh_builtins_get_builtin(argv_arr[0]))
 	{
 		status = msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
-			subshell_flag);
+				subshell_flag);
 		msh_execute_free(argv_arr, envp_arr);
 		return (status);
 	}
