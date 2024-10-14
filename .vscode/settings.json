@@ -47,6 +47,7 @@
         "array": "c",
         "utility": "c",
         "cstdlib": "c",
-        "msh_tokenise.h": "c"
+        "msh_tokenise.h": "c",
+        "msh_signal.h": "c"
     }
 }

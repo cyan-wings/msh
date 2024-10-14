@@ -17,6 +17,21 @@ static int	ft_ischar_identifier(char c)
 	return (c == '_' || ft_isalnum(c));
 }
 
+int	msh_execute_exit_status_get(void);
+
+static void	process_question(char **new_strptr)
+{
+	char	*buf;
+
+	buf = NULL;
+	buf = ft_itoa(msh_execute_exit_status_get());
+	if (!buf)
+		msh_perror_exit("msh_expansion_dollar", "process_question",
+			"malloc fail.", EXIT_FAILURE);
+	ft_strappend(new_strptr, buf);
+	ft_memdel((void **)&buf);
+}
+
 static void	process_identifier(t_list *env_list, char *str, int *i,
 		char **new_strptr)
 {
@@ -24,6 +39,8 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	char	*key;
 	char	*value;
 
+	if (str[(*i)++] == '?')
+		return (process_question(new_strptr));
 	start = *i;
 	while (str[*i] && ft_ischar_identifier(str[*i]))
 		++*i;

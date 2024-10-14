@@ -44,6 +44,24 @@ static int	check_param(t_ast *node, t_list **env_list)
 int		msh_execute_simple_cmd(t_ast *node, t_list **env_list,
 				int subshell_flag);
 
+int		msh_execute_grouping(t_ast *node, t_list **env_list,
+				int subshell_flag);
+
+static int	execute_pipeline_single(t_ast *child_node, t_list **env_list,
+		int subshell_flag)
+{
+	if (!ft_strcmp(child_node->type, "simple_command"))
+		return (msh_execute_simple_cmd(child_node, env_list,
+				subshell_flag));
+	else if (!ft_strcmp(child_node->type, "grouping"))
+		return (msh_execute_grouping(child_node, env_list,
+				subshell_flag));
+	else
+		return (msh_perror_exit_int("debug",
+				"msh_execute_pipeline: execute_pipeline_single",
+				"Unknown node type", EXIT_FAILURE));
+}
+
 static void	init_pipeline(int pipes[2][2])
 {
 	pipes[0][0] = -1;
@@ -80,7 +98,7 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list,
 	if (!check_param(node, env_list))
 		return (ERROR);
 	if (node->child_count == 1)
-		return (msh_execute_simple_cmd(node->children[0], env_list,
+		return (execute_pipeline_single(node->children[0], env_list,
 				subshell_flag));
 	init_pipeline(pipes);
 	pid = -1;
@@ -90,7 +108,7 @@ int	msh_execute_pipeline(t_ast *node, t_list **env_list,
 		pid = msh_execute_pipeline_pipe_fork(node, pipes, i, env_list);
 		if (pid == ERROR)
 		{
-			msh_execute_pipeline_close(pipes, i, 0);
+			msh_execute_pipeline_close(pipes, -1, 0);
 			break ;
 		}
 		msh_execute_pipeline_close(pipes, i, (i == node->child_count - 1));

@@ -14,24 +14,22 @@
 
 static void	set_pipes(int fd[2], int pipes[2][2], int i, int last)
 {
-	if (!i)
+	if (i == 0)
 	{
 		fd[0] = STDIN_FILENO;
 		fd[1] = pipes[0][1];
-		return ;
 	}
-	if (last)
+	else if (last)
 	{
 		fd[0] = pipes[(i + 1) % 2][0];
 		fd[1] = STDOUT_FILENO;
-		return ;
 	}
-	if (i % 2 == 1)
+	else if (i % 2 == 1)
 	{
 		fd[0] = pipes[0][0];
 		fd[1] = pipes[1][1];
 	}
-	else
+	else if (i % 2 == 0)
 	{
 		fd[0] = pipes[1][0];
 		fd[1] = pipes[0][1];
@@ -70,7 +68,7 @@ static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 int		msh_execute_grouping(t_ast *node, t_list **env_list, int subshell_flag);
 
 //Check leak before exit
-static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
+static void	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 		t_list **env_list)
 {
 	int	fd[2];
@@ -78,7 +76,7 @@ static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 
 	set_pipes(fd, pipes, i, (i == node->child_count - 1));
 	if (dup2(fd[0], STDIN_FILENO) == -1 || dup2(fd[1], STDOUT_FILENO) == -1)
-		return (msh_perror_exit_int(
+		return (msh_perror_exit(
 				"msh_execute_pipeline_pipe_fork: pipeline_execute",
 				"dup2",
 				strerror(errno), EXIT_FAILURE));
@@ -93,7 +91,6 @@ static int	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 	else
 		msh_perror("debug: msh_execute_pipeline_pipe_fork: pipeline_execute",
 			"Unknown AST node type", node->children[i]->type);
-	return (0);
 }
 
 int	msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
@@ -114,9 +111,6 @@ int	msh_execute_pipeline_pipe_fork(t_ast *node, int pipes[2][2], int i,
 		return (ERROR);
 	}
 	if (!pid)
-	{
-		if (pipeline_execute(node, pipes, i, env_list) == -1)
-			return (ERROR);
-	}
+		pipeline_execute(node, pipes, i, env_list);
 	return (pid);
 }
