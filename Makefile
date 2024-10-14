@@ -153,7 +153,7 @@ all: $(NAME)
 bonus: all
 
 $(NAME): $(LIBFT) $(OBJDIRS) $(OBJS)
-	$(CC) -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
+	$(CC) -g -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
 
 $(LIBFT):
 	$(MAKE_C) $(LIBFTDIR)
@@ -162,7 +162,7 @@ $(OBJDIRS):
 	mkdir -p $@
 
 $(OBJDIR)%.o: $(SRCDIR)%.c
-	$(CC) $(CFLAGS) $(IFLAGS) -c $< -o $@
+	$(CC) -g $(CFLAGS) $(IFLAGS) -c $< -o $@
 
 clean:
 	$(RM) $(OBJDIR)
