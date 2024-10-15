@@ -71,7 +71,10 @@ char	*msh_input_get(t_list *env_list)
 	else
 		input = get_next_line(STDIN_FILENO);
 	if (!input)
+	{
+		ft_memdel((void **) &prompt);
 		return (NULL);
+	}
 	else if (isatty(STDIN_FILENO) && *input)
 		msh_history_save(input, HISTORY_FILE);
 	ft_memdel((void **) &prompt);

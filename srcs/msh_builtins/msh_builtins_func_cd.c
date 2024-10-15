@@ -18,11 +18,17 @@
 
 static int	print_invalid_argument(char *arg_str)
 {
-	ft_putstr_fd("msh: cd: ", 2);
-	ft_putchar_fd(arg_str[0], 2);
-	ft_putchar_fd(arg_str[1], 2);
-	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("cd: usage: cd [dir, -]", 2);
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = ft_memalloc(3);
+	if (!tmp)
+		return (msh_perror_exit_int("msh_builtins_func_cd",
+				"print_invalid_argument", "malloc fail.", EXIT_FAILURE));
+	tmp[0] = arg_str[0];
+	tmp[1] = arg_str[1];
+	msh_perror("cd", tmp, "invalid option\ncd: usage: cd [dir, -]");
+	ft_memdel((void **)&tmp);
 	return (1);
 }
 
@@ -38,13 +44,13 @@ static void	get_dir(char **argv, t_list **env_list, char **dir, int *is_home)
 	{
 		*dir = msh_env_getvar(*env_list, "HOME");
 		if (!*dir)
-			ft_putendl_fd("msh: cd: HOME not set", 2);
+			msh_perror("cd", NULL, "HOME not set");
 	}
 	else if (argv[1] && !ft_strcmp(argv[1], "-"))
 	{
 		*dir = msh_env_getvar(*env_list, "OLDPWD");
 		if (!*dir)
-			ft_putendl_fd("msh: cd: OLDPWD not set", 2);
+			msh_perror("cd", NULL, "OLDPWD not set");
 		*is_home = 1;
 	}
 	else
@@ -53,9 +59,7 @@ static void	get_dir(char **argv, t_list **env_list, char **dir, int *is_home)
 
 static int	print_return_error(char *err_str, char *dir)
 {
-	ft_putstr_fd("msh: cd: ", 2);
-	ft_putstr_fd(dir, 2);
-	ft_putendl_fd(err_str, 2);
+	msh_perror("cd", dir, err_str);
 	return (1);
 }
 

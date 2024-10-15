@@ -12,7 +12,7 @@
 
 #include "msh_parse.h"
 
-void	msh_parse_astprint(t_ast *node, int indent)
+void	msh_parse_astprint(t_ast *node, int indent, int null_flag)
 {
 	int	i;
 	int	j;
@@ -23,17 +23,19 @@ void	msh_parse_astprint(t_ast *node, int indent)
 	while (++i < indent)
 		ft_putstr_fd("\t", STDIN_FILENO);
 	ft_putstr_fd(node->type, STDIN_FILENO);
+	ft_putstr_fd(": ", STDIN_FILENO);
 	if (node->value)
+		ft_putendl_fd(node->value, STDIN_FILENO);
+	else
 	{
-		ft_putstr_fd(": ", STDIN_FILENO);
-		ft_putstr_fd(node->value, STDIN_FILENO);
-		ft_putchar_fd('\n', STDIN_FILENO);
+		if (null_flag)
+			ft_putendl_fd("NULL", STDIN_FILENO);
 	}
 	j = -1;
 	while (++j < node->child_count)
 	{
 		ft_putchar_fd('\n', STDIN_FILENO);
-		msh_parse_astprint(node->children[j], indent + 1);
+		msh_parse_astprint(node->children[j], indent + 1, null_flag);
 	}
 	ft_putchar_fd('\n', STDIN_FILENO);
 }

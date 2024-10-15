@@ -25,10 +25,15 @@ static int	check_identifier(char *identifier)
 
 static int	print_invalid_argument(char *arg_str)
 {
-	ft_putstr_fd("msh: export: -", 2);
-	ft_putchar_fd(arg_str[1], 2);
-	ft_putendl_fd(": invalid option", 2);
-	ft_putendl_fd("export: usage: export [name[=value] ...]", 2);
+	char	*tmp;
+
+	tmp = NULL;
+	ft_strvappend(&tmp, "export: -", arg_str[1]);
+	if (!tmp)
+		return (msh_perror_exit_int("msh_builtins_func_export",
+				"print_invalid_argument", "malloc fail.", EXIT_FAILURE));
+	msh_perror(tmp, "invalid option\nexport",
+		"usage: export [name[=value] ...]");
 	return (2);
 }
 

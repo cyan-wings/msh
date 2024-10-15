@@ -19,7 +19,7 @@ static int	ft_ischar_identifier(char c)
 
 int	msh_execute_exit_status_get(void);
 
-static void	process_question(char **new_strptr)
+static void	process_question(char **new_strptr, int *i)
 {
 	char	*buf;
 
@@ -30,6 +30,7 @@ static void	process_question(char **new_strptr)
 			"malloc fail.", EXIT_FAILURE);
 	ft_strappend(new_strptr, buf);
 	ft_memdel((void **)&buf);
+	(*i)++;
 }
 
 static void	process_identifier(t_list *env_list, char *str, int *i,
@@ -39,9 +40,9 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	char	*key;
 	char	*value;
 
-	if (str[(*i)++] == '?')
-		return (process_question(new_strptr));
 	start = *i;
+	if (str[*i] == '?')
+		return (process_question(new_strptr, i));
 	while (str[*i] && ft_ischar_identifier(str[*i]))
 		++*i;
 	key = NULL;
@@ -58,8 +59,7 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 		ft_strappend(new_strptr, "");
 	if (!*new_strptr)
 		msh_perror_exit("msh_expansion_dollar",
-			"process_identifier: new_strptr",
-			"malloc fail.", EXIT_FAILURE);
+			"process_identifier: new_strptr", "malloc fail.", EXIT_FAILURE);
 }
 
 static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
@@ -74,6 +74,8 @@ static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
  * Environment variables cannot be special chars
  *
  * If flag is even, $ should be expanded. If odd, $ should be treated as string
+ * 
+ * (*strptr)[i + 1] check is to account for args ending with '$'.
  */
 void	msh_expansion_dollar(char **strptr, t_list *env_list)
 {
@@ -93,7 +95,7 @@ void	msh_expansion_dollar(char **strptr, t_list *env_list)
 		if ((*strptr)[i] == '\'' && !(dquote_flag % 2))
 			while ((*strptr)[++i] != '\'')
 				;
-		if ((*strptr)[i] == '$')
+		if ((*strptr)[i] == '$' && (*strptr)[i + 1])
 		{
 			msh_expansion_utils_strappend(strptr, start, i++, &new_str);
 			process_identifier(env_list, *strptr, &i, &new_str);

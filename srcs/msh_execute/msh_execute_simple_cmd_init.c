@@ -91,12 +91,15 @@ void	get_envp_arr(t_list **env_list, char ***envp_arr)
 static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
 {
 	int		i;
+	char	*executable_str;
 
 	if (ft_strcmp(arguments_node->type, "arguments"))
 		return (msh_perror_exit("debug",
 				"msh_execute_simple_cmd_init: get_argv_arr",
 				"Node is not arguments.", EXIT_FAILURE));
-	if (!*arguments_node->children[0]->value)
+	executable_str = NULL;
+	executable_str = arguments_node->children[0]->value;
+	if (!executable_str || !*executable_str)
 		return ;
 	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
 			sizeof(char *));

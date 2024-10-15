@@ -44,7 +44,7 @@ int		msh_parse(t_list *token_list, t_ast **root);
 //AST_UTILS
 t_ast	*msh_parse_astnew(char *type, char *value);
 void	msh_parse_astadd_child(t_ast *parent, t_ast *child);
-void	msh_parse_astprint(t_ast *node, int indent);
+void	msh_parse_astprint(t_ast *node, int indent, int null_flag);
 void	msh_parse_astfree(t_ast **root_node);
 
 //PARSE_EXPRESSION
