@@ -40,9 +40,9 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	char	*key;
 	char	*value;
 
-	start = *i;
 	if (str[*i] == '?')
 		return (process_question(new_strptr, i));
+	start = *i;
 	while (str[*i] && ft_ischar_identifier(str[*i]))
 		++*i;
 	key = NULL;
