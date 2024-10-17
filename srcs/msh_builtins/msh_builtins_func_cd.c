@@ -33,14 +33,12 @@ static int	print_invalid_argument(char *arg_str)
 }
 
 /*
- * First if condition is checking if cd has no arguments.
- * Not passing argc as parameter to adhere norme.
+ * If cd to OLDPWD, the directory must be printed.
+ * Hence, we return the flag as true.
  */
-static void	get_dir(char **argv, t_list **env_list, char **dir, int *is_home)
+static int	get_dir(int argc, char **argv, t_list **env_list, char **dir)
 {
-	*dir = 0;
-	*is_home = 0;
-	if (!argv[1])
+	if (argc == 1 || !argv[1] || !*argv[1] || !ft_strcmp(argv[1], "--"))
 	{
 		*dir = msh_env_getvar(*env_list, "HOME");
 		if (!*dir)
@@ -51,16 +49,13 @@ static void	get_dir(char **argv, t_list **env_list, char **dir, int *is_home)
 		*dir = msh_env_getvar(*env_list, "OLDPWD");
 		if (!*dir)
 			msh_perror("cd", NULL, "OLDPWD not set");
-		*is_home = 1;
+		return (1);
 	}
+	else if (argv[1] && argv[1][0] == '-' && argv[1][1])
+		return (print_invalid_argument(argv[1]));
 	else
 		*dir = argv[1];
-}
-
-static int	print_return_error(char *err_str, char *dir)
-{
-	msh_perror("cd", dir, err_str);
-	return (1);
+	return (0);
 }
 
 static int	get_change_dir_exit_status(char *dir)
@@ -68,22 +63,36 @@ static int	get_change_dir_exit_status(char *dir)
 	struct stat	statbuf;
 
 	if (access(dir, F_OK))
-		return (print_return_error(": No such file or directory", dir));
-	if (stat(dir, &statbuf) == -1)
-	{
-		ft_putendl_fd("stat error.", 2);
-		return (1);
-	}
+		return (msh_perror_int("cd", dir, strerror(errno)));
+	if (stat(dir, &statbuf))
+		return (msh_perror_int("cd", dir, strerror(errno)));
 	if (!S_ISDIR(statbuf.st_mode))
-		return (print_return_error(": Not a directory", dir));
+		return (msh_perror_int("cd", dir, "Not a directory"));
 	if (!(statbuf.st_mode & S_IXUSR))
-		return (print_return_error(": Permission denied", dir));
+		return (msh_perror_int("cd", dir, "Permission denied"));
 	if (chdir(dir) == -1)
-	{
-		ft_putendl_fd("chdir error.", 1);
-		return (1);
-	}
+		return (msh_perror_int("cd", "chdir", strerror(errno)));
 	return (0);
+}
+
+//curr_dir should not be freed since it will be used as an env_val.
+static void	update_pwd_env(char *dir, t_list **env_list)
+{
+	if (dir[0] == '/')
+	{
+		dir = ft_strdup(dir);
+		if (!dir)
+			return (msh_perror_exit("msh_builtins_func_cd", "update_pwd_env",
+					"malloc fail.", EXIT_FAILURE));
+	}
+	else
+	{
+		dir = getcwd(NULL, 0);
+		if (!dir)
+			return (msh_perror_exit("msh_builtins_func_cd", "update_pwd_env",
+					strerror(errno), EXIT_FAILURE));
+	}
+	msh_env_setvar(env_list, "PWD", dir);
 }
 
 /*
@@ -97,30 +106,29 @@ static int	get_change_dir_exit_status(char *dir)
  * 		test directory with chmod 100.
  */
 int	msh_builtins_func_cd(
-		int argc __attribute((unused)),
+		int argc,
 		char **argv, t_list **env_list,
 		int subshell_flag __attribute((unused))
 )
 {
 	char		*dir;
-	int			is_home;
-	char		curr_dir[PATH_MAX];
+	int			print_oldpwd_flag;
+	char		*curr_dir;
 
-	if (argv[1] && argv[1][0] == '-' && argv[1][1])
-		return (print_invalid_argument(argv[1]));
-	get_dir(argv, env_list, &dir, &is_home);
+	dir = NULL;
+	print_oldpwd_flag = get_dir(argc, argv, env_list, &dir);
 	if (!dir)
+		return (EXIT_FAILURE);
+	curr_dir = NULL;
+	curr_dir = getcwd(NULL, 0);
+	if (!curr_dir)
+		return (msh_perror_exit_int("msh_builtins_func_cd", "curr_dir",
+				strerror(errno), EXIT_FAILURE));
+	if (get_change_dir_exit_status(dir) == ERROR)
 		return (1);
-	if (!getcwd(curr_dir, sizeof(curr_dir)))
-	{
-		ft_putendl_fd("getcwd error.", 1);
-		return (1);
-	}
-	if (get_change_dir_exit_status(dir))
-		return (1);
-	if (is_home)
-		ft_putendl_fd(dir, 2);
+	if (print_oldpwd_flag)
+		ft_putendl_fd(dir, STDOUT_FILENO);
 	msh_env_setvar(env_list, "OLDPWD", curr_dir);
-	msh_env_setvar(env_list, "PWD", dir);
+	update_pwd_env(dir, env_list);
 	return (0);
 }

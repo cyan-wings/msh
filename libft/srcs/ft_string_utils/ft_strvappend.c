@@ -30,6 +30,8 @@ void	ft_strvappend(char **strptr, ...)
 	while (suffix)
 	{
 		ft_strappend(strptr, suffix);
+		if (*strptr == NULL)
+			return ;
 		suffix = va_arg(argv, char *);
 	}
 	va_end(argv);

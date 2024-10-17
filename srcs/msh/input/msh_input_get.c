@@ -51,7 +51,7 @@ void	get_prompt(char **prompt, t_list *env_list)
 		*prompt = create_prompt(env_list);
 }
 
-void	msh_history_save(char *input, const char *filename);
+void	msh_history_save(char *input, t_list *env_list);
 
 char	*msh_input_get(t_list *env_list)
 {
@@ -76,7 +76,7 @@ char	*msh_input_get(t_list *env_list)
 		return (NULL);
 	}
 	else if (isatty(STDIN_FILENO) && *input)
-		msh_history_save(input, HISTORY_FILE);
+		msh_history_save(input, env_list);
 	ft_memdel((void **) &prompt);
 	return (input);
 }

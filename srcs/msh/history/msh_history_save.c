@@ -13,7 +13,7 @@
 #include "msh.h"
 #include "ft_string_utils.h"
 
-static int	check_null_param(char *input, const char *filename)
+static int	check_null_param(char *input, t_list *env_list)
 {
 	int	flag;
 
@@ -23,22 +23,27 @@ static int	check_null_param(char *input, const char *filename)
 		msh_perror("debug", "msh_history_save", "input is NULL.");
 		flag = 0;
 	}
-	if (!filename)
+	if (!env_list)
 	{
-		msh_perror("debug", "msh_history_save", "filename is NULL.");
+		msh_perror("debug", "msh_history_save", "env_list is NULL.");
 		flag = 0;
 	}
 	return (flag);
 }
 
-void	msh_history_save(char *input, const char *filename)
+void	msh_history_save(char *input, t_list *env_list)
 {
 	int		fd;
+	char	*filename;
 	ssize_t	input_len;
 
-	if (!check_null_param(input, filename))
+	if (!check_null_param(input, env_list))
 		return ;
 	add_history(input);
+	filename = msh_env_getvar(env_list, "MSH_HIST_FILE");
+	if (!filename)
+		return (msh_perror_exit("debug", "msh_history_save",
+				"MSH_HIST_FILE is not set", EXIT_FAILURE));
 	fd = open(filename, O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 		msh_perror_exit("msh_history_save", HISTORY_FILE,

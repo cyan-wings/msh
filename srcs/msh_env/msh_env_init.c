@@ -27,13 +27,11 @@ void	msh_env_init(t_list **env_list)
 	char		*v;
 
 	if (!env_list)
-	{
-		msh_perror("debug", "msh_env_init", "env_list is NULL.");
-		return ;
-	}
+		return (msh_perror_exit("debug", "msh_env_init", "env_list is NULL.",
+				EXIT_FAILURE));
 	if (!environ)
-		msh_perror_exit("msh_env_init", NULL,
-			"No environment variable.", EXIT_FAILURE);
+		return (msh_perror_exit("msh_env_init", NULL,
+				"No environment variable.", EXIT_FAILURE));
 	while (*environ)
 	{
 		equals_symbol = find_equals(*environ);

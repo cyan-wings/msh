@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <string.h>
 
 # include "ft_lst_utils.h"
 # include "ft_char_utils.h"
