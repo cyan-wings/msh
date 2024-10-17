@@ -12,8 +12,42 @@
 
 #include "msh_builtins.h"
 
+static void	process_n_helper(char **argv, int i, int *flag)
+{
+	int	j;
+
+	j = 1;
+	while (argv[i][++j])
+	{
+		if (argv[i][j] != 'n')
+		{
+			*flag = 0;
+			break ;
+		}
+	}
+}
+
+static int	process_n(int argc, char **argv, int *no_newline)
+{
+	int	flag;
+	int	i;
+
+	flag = 1;
+	i = 0;
+	while (flag && ++i < argc)
+	{
+		if (argv[i][0] == '-' && argv[i][1] == 'n')
+			process_n_helper(argv, i, &flag);
+		else
+			break ;
+	}
+	if (i > 1)
+		*no_newline = 1;
+	return (i);
+}
+
 int	msh_builtins_func_echo(
-		int argc __attribute((unused)),
+		int argc,
 		char **argv,
 		t_list **env_list __attribute((unused)),
 		int subshell_flag __attribute((unused)))
@@ -22,9 +56,10 @@ int	msh_builtins_func_echo(
 	int	i;
 
 	no_newline = 0;
-	if (argv[1] && !ft_strcmp(argv[1], "-n"))
-		no_newline = 1;
-	i = no_newline;
+	i = 1;
+	if (argv[i] && argv[i][0] == '-' && argv[i][1] == 'n')
+		i = process_n(argc, argv, &no_newline);
+	--i;
 	while (argv[++i])
 	{
 		ft_putstr_fd(argv[i], 1);
