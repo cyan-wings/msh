@@ -14,6 +14,7 @@
 #include "ft_print_utils.h"
 
 //When getcwd is given NULL ptr, it dynamically allocates memmory.
+//ft_strdup(env_val) is for the history file
 static char	*set_home_env_var(t_list **env_list)
 {
 	char	*env_key;
@@ -32,6 +33,11 @@ static char	*set_home_env_var(t_list **env_list)
 			"set_home_env_var: env_val",
 			strerror(errno), EXIT_FAILURE);
 	msh_env_setvar(env_list, env_key, env_val);
+	env_val = ft_strdup(env_val);
+	if (!env_val)
+		msh_perror_exit("init_msh",
+			"set_home_env_var: env_val",
+			"malloc fail.", EXIT_FAILURE);
 	return (env_val);
 }
 
