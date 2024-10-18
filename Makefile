@@ -125,11 +125,13 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 
 NAME			=	msh
 CC				=	cc
+FSANITIZE		=	-fsanitize=address
 CFLAGS			:=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
+
 ifeq ($(ARCH), x86_64)
 	CFLAGS		+=	-DARCH_X86_64
 endif
-FSANITIZE		=	-fsanitize=address -g
+
 
 IFLAGS			=	$(READLINEINC) $(LIBFTINC) $(HDRINC)
 LFLAGS			=	$(READLINELD) $(LIBFTLD)

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:56 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/07 00:38:09 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/18 17:01:24 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,34 @@ static void	print_error_and_clean(char *err_str, t_list **token_list,
 	return ;
 }
 
+static void	msh_input_process_helper(t_list **env_list, t_ast *root)
+{
+	char	*tmp;
+
+	tmp = NULL;
+	tmp = msh_env_getvar(*env_list, "MSH_DEBUG_PARSE");
+	if (tmp && !ft_strcmp(tmp, "true"))
+	{
+		msh_parse_astprint(root, 0, 0);
+		msh_perror(NULL, NULL, "Parse success.");
+	}
+	msh_expansion(root, *env_list);
+	tmp = msh_env_getvar(*env_list, "MSH_DEBUG_EXPAND");
+	if (tmp && !ft_strcmp(tmp, "true"))
+	{
+		msh_parse_astprint(root, 0, 1);
+		msh_perror(NULL, NULL, "Expansion success.");
+	}
+	msh_execute(root->children[0], env_list, 0);
+}
+
 //Must free input and env_list when failure and exit.
 void	msh_input_process(char *input, t_list **env_list)
 {
 	t_list	*token_list;
 	t_ast	*root;
 	int		flag;
+	char	*tmp;
 
 	if (!check_null_param(input, env_list))
 		return ;
@@ -61,15 +83,13 @@ void	msh_input_process(char *input, t_list **env_list)
 	flag = msh_tokenise(input, &token_list);
 	if (!flag)
 		return (print_error_and_clean("Tokenise error.", &token_list, &root));
-	msh_tokenise_print_token_list(token_list);
+	tmp = NULL;
+	tmp = msh_env_getvar(*env_list, "MSH_DEBUG_TOKEN");
+	if (tmp && !ft_strcmp(tmp, "true"))
+		msh_tokenise_print_token_list(token_list);
 	flag = msh_parse(token_list, &root);
 	if (!flag)
 		return (print_error_and_clean("Parsing error.", &token_list, &root));
-	msh_parse_astprint(root, 0, 0);
-	ft_putendl_fd("Parse success.", 1);
-	msh_expansion(root, *env_list);
-	msh_parse_astprint(root, 0, 1);
-	ft_putendl_fd("Expansion success.", 1);
-	msh_execute(root->children[0], env_list, 0);
+	msh_input_process_helper(env_list, root);
 	print_error_and_clean(NULL, &token_list, &root);
 }

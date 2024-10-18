@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:46:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/17 15:35:12 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/18 16:59:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,6 @@ int	msh_parse(t_list *token_list, t_ast **root)
 		return (0);
 	if (!msh_parse_token(token_list))
 		return (0);
-	else
-		ft_putendl_fd("Parsing token success!", 1);
 	child_node = msh_parse_list(&token_list);
 	if (!child_node)
 		return (0);
@@ -82,6 +80,5 @@ int	msh_parse(t_list *token_list, t_ast **root)
 	expression_root_node = msh_parse_astnew("expression", 0);
 	msh_parse_astadd_child(expression_root_node, child_node);
 	*root = expression_root_node;
-	ft_putendl_fd("Parsing successful, AST build complete", 1);
 	return (1);
 }
