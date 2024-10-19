@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:28:40 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/19 22:49:16 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,10 @@ static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
  * If flag is even, $ should be expanded. If odd, $ should be treated as string
  * 
  * (*strptr)[i + 1] check is to account for args ending with '$'.
+ *
+ * quote = 0 is to ignore quotes.
  */
-void	msh_expansion_dollar(char **strptr, t_list *env_list)
+void	msh_expansion_dollar(char **strptr, t_list *env_list, int quote)
 {
 	int		dquote_flag;
 	int		start;
@@ -90,9 +92,9 @@ void	msh_expansion_dollar(char **strptr, t_list *env_list)
 	new_str = NULL;
 	while ((*strptr)[++i])
 	{
-		if ((*strptr)[i] == '\"')
+		if (quote && (*strptr)[i] == '\"')
 			++dquote_flag;
-		if ((*strptr)[i] == '\'' && !(dquote_flag % 2))
+		if (quote && (*strptr)[i] == '\'' && !(dquote_flag % 2))
 			while ((*strptr)[++i] != '\'')
 				;
 		if ((*strptr)[i] == '$' && (*strptr)[i + 1])

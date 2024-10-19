@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 18:57:05 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:24:43 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/19 22:29:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	msh_env_print(t_list *env_list)
 	while (curr)
 	{
 		curr_env = (t_env *)curr->content;
-		ft_putstr_fd(curr_env->key, STDIN_FILENO);
-		ft_putchar_fd('=', STDIN_FILENO);
-		ft_putendl_fd(curr_env->val, STDIN_FILENO);
+		ft_putstr_fd(curr_env->key, STDOUT_FILENO);
+		ft_putchar_fd('=', STDOUT_FILENO);
+		ft_putendl_fd(curr_env->val, STDOUT_FILENO);
 		curr = curr->next;
 	}
 	return ;
