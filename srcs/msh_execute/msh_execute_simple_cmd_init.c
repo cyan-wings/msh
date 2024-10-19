@@ -79,45 +79,8 @@ void	get_envp_arr(t_list **env_list, char ***envp_arr)
 	}
 }
 
-/*
- * Builds the argv for the execve function.
- * First element in the array must be the executable.
- * Note:
- * 		argv is always NULL terminated.
- * 		+ 2 due to the executable and the NULL terminator.
- * 		i is not incremented in the while loop becauase first index
- * 		of the arguments' child array is 0.
- */
-static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
-{
-	int		i;
-	int		j;
-	char	*executable_str;
-
-	if (ft_strcmp(arguments_node->type, "arguments"))
-		return (msh_perror_exit("debug",
-				"msh_execute_simple_cmd_init: get_argv_arr",
-				"Node is not arguments.", EXIT_FAILURE));
-	executable_str = NULL;
-	executable_str = arguments_node->children[0]->value;
-	if (!executable_str || !*executable_str)
-		return ;
-	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
-			sizeof(char *));
-	if (!*argv_arr)
-		return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
-				"argv_arr", "malloc fail.", EXIT_FAILURE));
-	i = -1;
-	j = 0;
-	while (++i < arguments_node->child_count)
-	{
-		if (arguments_node->children[i]->value)
-			(*argv_arr)[j++] = ft_strdup(arguments_node->children[i]->value);
-		if ((*argv_arr)[j - 1] == NULL)
-			return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
-					"argv_arr[i]", "malloc fail.", EXIT_FAILURE));
-	}
-}
+void	msh_execute_simple_cmd_init_get_argv_arr(t_ast *arguments_node,
+				char ***argv_arr);
 
 int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 		char ***envp_arr, char ***argv_arr)
@@ -129,7 +92,7 @@ int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 		return (ERROR);
 	get_envp_arr(env_list, envp_arr);
 	if (node->children[0]->child_count)
-		get_argv_arr(node->children[0], argv_arr);
+		msh_execute_simple_cmd_init_get_argv_arr(node->children[0], argv_arr);
 	status = 0;
 	redir_st_arr = NULL;
 	if (node->children[1]->child_count)

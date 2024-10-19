@@ -28,20 +28,23 @@ static int	print_invalid_argument(char *arg_str)
 	char	*tmp;
 
 	tmp = NULL;
-	ft_strvappend(&tmp, "export: -", arg_str[1]);
+	ft_strvappend(&tmp, "export: -", arg_str[1], NULL);
 	if (!tmp)
 		return (msh_perror_exit_int("msh_builtins_func_export",
 				"print_invalid_argument", "malloc fail.", EXIT_FAILURE));
 	msh_perror(tmp, "invalid option\nexport",
 		"usage: export [name[=value] ...]");
+	ft_memdel((void **)&tmp);
 	return (2);
 }
 
+//'=' is changed to a '\0' to separate the key and value to 2 strings.
+//This is to avoid malloc.
 static char	*get_key(char *arg_str, char **value, int *exit_status)
 {
 	char	*key;
 
-	*value = 0;
+	*value = NULL;
 	*value = ft_strchr(arg_str, '=');
 	if (*value)
 		**value = 0;
@@ -50,18 +53,16 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	{
 		msh_perror_exit("msh_builtins_func_export", "get_key: key",
 			"malloc fail.", EXIT_FAILURE);
-		return (0);
+		return (NULL);
 	}
 	if (!check_identifier(key))
 	{
-		ft_putstr_fd("msh: export: `", 2);
 		if (*value)
 			**value = '=';
-		ft_putstr_fd(arg_str, 2);
-		ft_putendl_fd("': not a valid identifier", 2);
+		msh_perror("export: `", arg_str, "': not a valid identifier");
 		*exit_status = 1;
 		ft_memdel((void **)&key);
-		return (0);
+		return (NULL);
 	}
 	return (key);
 }
@@ -97,6 +98,5 @@ int	msh_builtins_func_export(
 				"malloc fail.", EXIT_FAILURE);
 		msh_env_setvar(env_list, key, value);
 	}
-	msh_env_print(*env_list);
 	return (exit_status);
 }

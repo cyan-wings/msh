@@ -29,7 +29,7 @@ int	msh_builtins_func_pwd(
 {
 	char	buffer[PATH_MAX];
 
-	if (argv[1] && argv[1][0] == '-')
+	if (argv[1] && argv[1][0] == '-' && argv[1][1] && argv[1][1] != '-')
 	{
 		ft_putstr_fd("msh: pwd: ", 2);
 		ft_putchar_fd(argv[1][0], 2);

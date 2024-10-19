@@ -13,20 +13,16 @@
 #include "msh_env.h"
 #include "msh_builtins.h"
 
-static int	print_invalid_argument(char *arg_str)
+static int	print_env_ret(t_list **env_list)
 {
-	ft_putstr_fd("env: illegal option -- ", 2);
-	ft_putchar_fd(arg_str[1], 2);
-	ft_putchar_fd('\n', 2);
-	ft_putendl_fd("usage: env", 2);
-	return (1);
+	msh_env_print(*env_list);
+	return (0);
 }
 
-static int	print_invalid_file_dir(char *arg_str)
+static int	unsupported_args(char **argv)
 {
-	ft_putstr_fd("env: ", 2);
-	ft_putstr_fd(arg_str, 2);
-	ft_putendl_fd(": Does not support file or directory arguments yet", 2);
+	msh_perror("env", argv[1],
+		"Does not support file or directory arguments yet.");
 	return (127);
 }
 
@@ -48,10 +44,21 @@ int	msh_builtins_func_env(
 		int subshell_flag __attribute((unused))
 )
 {
-	if (argv[1] && argv[1][0] == '-')
-		return (print_invalid_argument(argv[1]));
 	if (argv[1])
-		return (print_invalid_file_dir(argv[1]));
-	msh_env_print(*env_list);
-	return (0);
+	{
+		if (!ft_strcmp(argv[1], "--"))
+			return (print_env_ret(env_list));
+		else if (argv[1][0] == '-' && argv[1][1])
+		{
+			ft_putstr_fd("msh: env: illegal option --", STDERR_FILENO);
+			ft_putchar_fd(argv[1][1], STDERR_FILENO);
+			ft_putendl_fd("\nusage: env", STDERR_FILENO);
+			return (1);
+		}
+		else if (argv[1][0] == '-')
+			return (0);
+		else
+			return (unsupported_args(argv));
+	}
+	return (print_env_ret(env_list));
 }

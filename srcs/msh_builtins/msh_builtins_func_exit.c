@@ -81,6 +81,7 @@ int	msh_builtins_exit(int argc, char **argv, int subshell_flag)
 		exit_status = msh_builtins_exit_helper(argv[1], exit_status);
 	exit(exit_status);
 	ft_putendl_fd("exit", 1);
+	return (0);
 }
 
 int	msh_builtins_func_exit(int argc, char **argv,

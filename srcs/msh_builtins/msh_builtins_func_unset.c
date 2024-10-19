@@ -13,26 +13,26 @@
 #include "msh_env.h"
 #include "msh_builtins.h"
 
-#define RESTRICTED_ENV_VARS 3
+#define RESTRICTED_ENV_VARS 5
 
 static int	print_invalid_argument(char *arg_str)
 {
 	if (!ft_strcmp(arg_str, "-"))
 	{
-		ft_putendl_fd("msh: unset: `-': not a valid identifier", 2);
+		msh_perror("unset", "`-'", "not a valid identifier");
 		return (1);
 	}
-	ft_putstr_fd("msh: unset: ", 2);
-	ft_putchar_fd(arg_str[0], 2);
-	ft_putchar_fd(arg_str[1], 2);
-	ft_putendl_fd(":invalid option", 2);
-	ft_putendl_fd("unset: usage: unset [name ...]", 2);
+	ft_putstr_fd("msh: unset: ", STDERR_FILENO);
+	ft_putchar_fd(arg_str[0], STDERR_FILENO);
+	ft_putchar_fd(arg_str[1], STDERR_FILENO);
+	ft_putendl_fd(": invalid option\nunset: usage: unset [name ...]",
+		STDERR_FILENO);
 	return (2);
 }
 
 static int	check_restricted(char *identifier)
 {
-	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER"};
+	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER", "MSH_HIST_FILE"};
 	int			i;
 
 	i = -1;
@@ -40,7 +40,7 @@ static int	check_restricted(char *identifier)
 	{
 		if (!ft_strcmp(lst[i], identifier))
 		{
-			ft_putendl_fd("Restrictied env_vars cannot be unset.", 2);
+			msh_perror("unset", NULL, "Restrictied vars cannot be unset.");
 			return (1);
 		}
 	}
@@ -92,14 +92,11 @@ int	msh_builtins_func_unset(
 			continue ;
 		if (!check_identifier(argv[i]))
 		{
-			ft_putstr_fd("msh: unset: `", 2);
-			ft_putstr_fd(argv[i], 2);
-			ft_putendl_fd("': not a valid identifier", 2);
+			msh_perror("unset", argv[i], "not a valid identifier");
 			exit_status = 1;
 			continue ;
 		}
 		msh_env_delvar(env_list, argv[i]);
 	}
-	msh_env_print(*env_list);
 	return (exit_status);
 }
