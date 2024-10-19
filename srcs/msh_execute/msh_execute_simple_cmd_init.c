@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:23:18 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/18 18:00:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/19 15:30:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,8 +114,8 @@ static void	get_argv_arr(t_ast *arguments_node, char ***argv_arr)
 		if (arguments_node->children[i]->value)
 			(*argv_arr)[j++] = ft_strdup(arguments_node->children[i]->value);
 		if ((*argv_arr)[j - 1] == NULL)
-				return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
-						"argv_arr[i]", "malloc fail.", EXIT_FAILURE));
+			return (msh_perror_exit("msh_execute_simple_cmd_init: get_argv_arr",
+					"argv_arr[i]", "malloc fail.", EXIT_FAILURE));
 	}
 }
 

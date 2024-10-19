@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:35:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 01:31:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/19 15:27:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,20 +71,20 @@ void	msh_parse_cmd_redirections_heredoc(const char *delim,
 
 	if (!delim)
 		msh_perror("debug", "msh_parse_cmd_redirections_heredoc",
-			"delim is NULL");
+			"delim is NULL.");
 	if (!heredoc_contents)
 		msh_perror("debug", "msh_parse_cmd_redirections_heredoc",
-			"heredoc_contents is NULL");
+			"heredoc_contents is NULL.");
 	fd = dup(STDIN_FILENO);
 	if (fd == -1)
-		msh_perror_exit("msh_parse_cmd_redirections", "redirection_heredoc",
+		msh_perror_exit("msh_parse_cmd_redirections", NULL,
 			strerror(errno), EXIT_FAILURE);
 	if (isatty(STDIN_FILENO))
 		heredoc_readline(delim, heredoc_contents);
 	else
 		heredoc_gnl(delim, heredoc_contents);
-	if (!*heredoc_contents)
-		msh_perror("debug", "msh_parse_cmd_redirections: redirection_heredoc",
-			"heredoc_contents is NULL");
+	if (!heredoc_contents)
+		msh_perror("debug", "msh_parse_cmd_redirections",
+			"heredoc_contents is NULL after input.");
 	close(fd);
 }

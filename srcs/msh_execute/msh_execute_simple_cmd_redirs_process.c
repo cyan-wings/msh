@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 21:42:13 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/11 07:19:39 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/19 15:22:47 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ static int	get_redir_in(char *file, int type)
 		if (pipe(fd) == -1)
 			return (msh_perror_exit_int("msh_execute_simple_cmd_redirs_process",
 					"get_redir_in: pipe", strerror(errno), EXIT_FAILURE));
-		write(fd[1], file, ft_strlen(file));
+		if (!file)
+			write(fd[1], "\0", 1);
+		else
+			write(fd[1], file, ft_strlen(file));
 		close(fd[1]);
 	}
 	else if (type == REDIR_IN)
