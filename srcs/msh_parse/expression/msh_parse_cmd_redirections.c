@@ -15,29 +15,33 @@
 
 void	msh_expansion_quotes(char **strptr);
 
-void	msh_parse_cmd_redirections_heredoc(const char *delim,
+int		msh_parse_cmd_redirections_heredoc(const char *delim,
 			char **heredoc_contents);
 
-static t_ast	*redirection(t_token *curr, t_token *next)
+static int	redirection(t_token *curr, t_token *next,
+					t_ast **redir_child_node)
 {
 	char	*redir_op;
 	t_ast	*redir_file;
+	int		status;
 	char	*heredoc_contents;
-	t_ast	*redir_node;
 
 	redir_op = curr->value;
+	redir_file = NULL;
+	status = 0;
 	if (!ft_strcmp(redir_op, "<<"))
 	{
 		msh_expansion_quotes(&next->value);
 		heredoc_contents = NULL;
-		msh_parse_cmd_redirections_heredoc(next->value, &heredoc_contents);
+		status = msh_parse_cmd_redirections_heredoc(next->value,
+				&heredoc_contents);
 		redir_file = msh_parse_astnew("heredoc", heredoc_contents);
 	}
 	else
 		redir_file = msh_parse_astnew("file", next->value);
-	redir_node = msh_parse_astnew("redirection", redir_op);
-	msh_parse_astadd_child(redir_node, redir_file);
-	return (redir_node);
+	*redir_child_node = msh_parse_astnew("redirection", redir_op);
+	msh_parse_astadd_child(*redir_child_node, redir_file);
+	return (status);
 }
 
 /*
@@ -54,6 +58,7 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 		t_ast **redirs_root_node)
 {
 	t_ast	*redir_child_node;
+	int		status;
 
 	if (!token_ptr)
 		msh_perror("debug", "msh_parse_cmd_redirections", "token_ptr is NULL.");
@@ -61,16 +66,18 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 		msh_perror("debug", "msh_parse_cmd_redirections",
 			"redirs_root_node is NULL.");
 	redir_child_node = NULL;
-	while (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
+	status = 0;
+	while (!status && *token_ptr
+		&& ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 	{
 		if (!((*token_ptr)->next) || \
 			((t_token *)(*token_ptr)->next->content)->type != WORD)
-			return (0);
-		redir_child_node = redirection((t_token *)(*token_ptr)->content, \
-				(t_token *)(*token_ptr)->next->content);
+			return (ERROR);
+		status = redirection((t_token *)(*token_ptr)->content, \
+				(t_token *)(*token_ptr)->next->content, &redir_child_node);
 		msh_parse_astadd_child(*redirs_root_node, redir_child_node);
 		msh_tokenise_get_next_token(token_ptr);
 		msh_tokenise_get_next_token(token_ptr);
 	}
-	return (1);
+	return (status);
 }

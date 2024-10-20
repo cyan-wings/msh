@@ -20,20 +20,21 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 		t_ast **pipeline_node, int option)
 {
 	t_ast	*child;
+	int		status;
 
 	child = NULL;
 	if (option == CMD)
-		child = msh_parse_cmd(token_ptr);
+		status = msh_parse_cmd(token_ptr, &child);
 	else if (option == GROUP)
-		child = msh_parse_grouping(token_ptr);
+		status = msh_parse_grouping(token_ptr, &child);
 	else
 		msh_perror("debug",
 			"msh_parse_pipeline: astadd_child_to_pipeline_node",
 			"undefined option");
-	if (!child)
-		return (0);
+	if (status)
+		return (status);
 	msh_parse_astadd_child(*pipeline_node, child);
-	return (1);
+	return (0);
 }
 
 static int	msh_parse_pipeline_helper(t_list **token_ptr,
@@ -41,12 +42,12 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
 {
 	int	status;
 
-	status = 1;
-	while (status && *token_ptr && \
+	status = 0;
+	while (!status && *token_ptr && \
 			!ft_strcmp(((t_token *)(*token_ptr)->content)->value, PIPE))
 	{
 		if (!((*token_ptr)->next))
-			return (0);
+			return (ERROR);
 		msh_tokenise_get_next_token(token_ptr);
 		if (((t_token *)(*token_ptr)->content)->type == WORD ||
 				((t_token *)(*token_ptr)->content)->type == REDIR_OP)
@@ -56,7 +57,7 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
 			status = astadd_child_to_pipeline_node(token_ptr, \
 					pipeline_node, GROUP);
 		else
-			status = 0;
+			status = ERROR;
 	}
 	return (status);
 }
@@ -68,26 +69,28 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
  * 		A simple command can start with a WORD (which assumes the executable)
  * 		or a REDIR_OP (which assumes starts with redirection(s))
  */
-t_ast	*msh_parse_pipeline(t_list **token_ptr)
+int	msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node)
 {
-	t_ast	*pipeline_node;
 	int		status;
 
 	if (!token_ptr)
 		msh_perror("debug", "msh_parse_pipeline", "token_ptr is NULL.");
 	if (!*token_ptr)
-		return (NULL);
-	pipeline_node = NULL;
-	pipeline_node = msh_parse_astnew("pipeline", NULL);
-	status = 1;
+		return (ERROR);
+	*pipeline_node = msh_parse_astnew("pipeline", NULL);
+	status = 0;
 	if (!ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 		status = astadd_child_to_pipeline_node(token_ptr, \
-				&pipeline_node, GROUP);
+				pipeline_node, GROUP);
 	else
 		status = astadd_child_to_pipeline_node(token_ptr, \
-				&pipeline_node, CMD);
-	if (status && msh_parse_pipeline_helper(token_ptr, &pipeline_node))
-		return (pipeline_node);
-	msh_parse_astfree(&pipeline_node);
-	return (NULL);
+				pipeline_node, CMD);
+	if (!status)
+	{
+		status = msh_parse_pipeline_helper(token_ptr, pipeline_node);
+		if (!status)
+			return (0);
+	}
+	msh_parse_astfree(pipeline_node);
+	return (status);
 }

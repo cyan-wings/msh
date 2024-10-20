@@ -14,12 +14,23 @@
 #include "msh_signal.h"
 #include "get_next_line.h"
 
+static void	signal_heredoc(int sig)
+{
+	if (sig == SIGINT)
+	{
+		if (close(STDIN_FILENO) == -1)
+			return (msh_perror_exit(",msh_parse_cmd_redirections_heredoc",
+					"signal_heredoc", strerror(errno), EXIT_FAILURE));
+		ft_putchar_fd('\n', STDERR_FILENO);
+	}
+}
+
 static void	heredoc_readline(const char *delim, char **heredoc_contents)
 {
 	char	*here_str;
 	char	*read_str;
 
-	signal(SIGINT, msh_signal_ctrl_c);
+	signal(SIGINT, signal_heredoc);
 	here_str = NULL;
 	read_str = NULL;
 	read_str = readline("> ");
@@ -33,6 +44,7 @@ static void	heredoc_readline(const char *delim, char **heredoc_contents)
 					EXIT_FAILURE));
 		read_str = readline("> ");
 	}
+	ft_memdel((void **)&read_str);
 	*heredoc_contents = here_str;
 }
 
@@ -42,7 +54,7 @@ static void	heredoc_gnl(const char *delim, char **heredoc_contents)
 	char	*here_str;
 	char	*read_str;
 
-	signal(SIGINT, msh_signal_ctrl_c);
+	signal(SIGINT, signal_heredoc);
 	delim_nl = NULL;
 	ft_strvappend(&delim_nl, delim, "\n", NULL);
 	if (!delim_nl)
@@ -60,11 +72,22 @@ static void	heredoc_gnl(const char *delim, char **heredoc_contents)
 				"heredoc_gnl: here_str", "malloc fail.", EXIT_FAILURE);
 		read_str = get_next_line(STDIN_FILENO);
 	}
+	ft_memdel((void **)&read_str);
 	ft_memdel((void **)&delim_nl);
 	*heredoc_contents = here_str;
 }
 
-void	msh_parse_cmd_redirections_heredoc(const char *delim,
+static int	sigint_heredoc(int fd, char **heredoc_contents)
+{
+	if (dup2(fd, STDIN_FILENO) == -1)
+		return (msh_perror_exit_int("msh_parse_cmd_redirections_heredoc",
+				NULL, strerror(errno), EXIT_FAILURE));
+	close(fd);
+	ft_memdel((void **)heredoc_contents);
+	return (HEREDOC_SIGINT_ERROR);
+}
+
+int	msh_parse_cmd_redirections_heredoc(const char *delim,
 			char **heredoc_contents)
 {
 	int		fd;
@@ -77,14 +100,19 @@ void	msh_parse_cmd_redirections_heredoc(const char *delim,
 			"heredoc_contents is NULL.");
 	fd = dup(STDIN_FILENO);
 	if (fd == -1)
-		msh_perror_exit("msh_parse_cmd_redirections", NULL,
-			strerror(errno), EXIT_FAILURE);
+		return (msh_perror_exit_int("msh_parse_cmd_redirections", NULL,
+				strerror(errno), EXIT_FAILURE));
 	if (isatty(STDIN_FILENO))
 		heredoc_readline(delim, heredoc_contents);
 	else
 		heredoc_gnl(delim, heredoc_contents);
+	if (errno == EBADF)
+		return (sigint_heredoc(fd, heredoc_contents));
 	if (!heredoc_contents)
 		msh_perror("debug", "msh_parse_cmd_redirections",
 			"heredoc_contents is NULL after input.");
-	close(fd);
+	if (close(fd) == -1)
+		return (msh_perror_exit_int(",msh_parse_cmd_redirections_heredoc",
+				NULL, strerror(errno), EXIT_FAILURE));
+	return (0);
 }

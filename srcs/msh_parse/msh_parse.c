@@ -36,7 +36,7 @@ int	msh_parse_token(t_list *token_list);
 int	msh_parse_error(t_ast **child_node)
 {
 	msh_parse_astfree(child_node);
-	return (0);
+	return (ERROR);
 }
 
 /*
@@ -65,20 +65,24 @@ int	msh_parse(t_list *token_list, t_ast **root)
 {
 	t_ast	*expression_root_node;
 	t_ast	*child_node;
+	int		status;
 
 	if (!check_null_param(token_list, root))
-		return (0);
+		return (ERROR);
 	if (!msh_parse_token(token_list))
-		return (0);
-	child_node = msh_parse_list(&token_list);
-	if (!child_node)
-		return (0);
+		return (ERROR);
+	child_node = NULL;
+	status = 0;
+	status = msh_parse_list(&token_list, &child_node);
+	if (status)
+		return (status);
 	if (token_list && (((t_token *)token_list->content)->type == WORD
 			|| !ft_strcmp(((t_token *)token_list->content)->value, "(")
 			|| !ft_strcmp(((t_token *)token_list->content)->value, ")")))
 		return (msh_parse_error(&child_node));
+	expression_root_node = NULL;
 	expression_root_node = msh_parse_astnew("expression", 0);
 	msh_parse_astadd_child(expression_root_node, child_node);
 	*root = expression_root_node;
-	return (1);
+	return (status);
 }

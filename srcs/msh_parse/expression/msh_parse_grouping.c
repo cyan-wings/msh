@@ -18,40 +18,40 @@
  * 1st: list node is NULL means grammar is wrong.
  * 2nd: No closing bracket found. Hence, list_node has to be freed also.
  */
-static t_ast	*msh_parse_grouping_error(t_ast **grouping_node,
+static int	msh_parse_grouping_error(t_ast **grouping_node,
 		t_ast **list_node)
 {
 	if (grouping_node)
 		msh_parse_astfree(grouping_node);
 	if (list_node)
 		msh_parse_astfree(list_node);
-	return (NULL);
+	return (ERROR);
 }
 
 /*
  * A grouping is a list. However, an extra grouping node needs to be created
  * because subshells may be executed differently.
  */
-t_ast	*msh_parse_grouping(t_list **token_ptr)
+int	msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node)
 {
-	t_ast	*grouping_node;
 	t_ast	*list_node;
+	int		status;
 
 	if (!token_ptr)
 		msh_perror("debug", "msh_parse_grouping", "token_ptr is NULL.");
 	if (ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
-		return (NULL);
+		return (ERROR);
 	msh_tokenise_get_next_token(token_ptr);
-	grouping_node = NULL;
-	grouping_node = msh_parse_astnew("grouping", NULL);
+	*grouping_node = msh_parse_astnew("grouping", NULL);
 	list_node = NULL;
-	list_node = msh_parse_list(token_ptr);
-	if (!list_node)
-		return (msh_parse_grouping_error(&grouping_node, NULL));
+	status = 0;
+	status = msh_parse_list(token_ptr, &list_node);
+	if (status)
+		return (msh_parse_grouping_error(grouping_node, NULL));
 	else if (!*token_ptr || \
 			ft_strcmp(((t_token *)(*token_ptr)->content)->value, ")"))
-		return (msh_parse_grouping_error(&grouping_node, &list_node));
+		return (msh_parse_grouping_error(grouping_node, &list_node));
 	msh_tokenise_get_next_token(token_ptr);
-	msh_parse_astadd_child(grouping_node, list_node);
-	return (grouping_node);
+	msh_parse_astadd_child(*grouping_node, list_node);
+	return (0);
 }

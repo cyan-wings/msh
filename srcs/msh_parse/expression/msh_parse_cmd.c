@@ -77,28 +77,29 @@ static int	msh_parse_cmd_helper(
 {
 	int		status;
 
-	status = 1;
+	status = 0;
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
-	if (!status)
-		return (0);
+	if (status)
+		return (status);
 	parse_arguments(token_ptr, args_node);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
-	if (!status)
-		return (0);
-	return (1);
+	if (status)
+		return (status);
+	return (0);
 }
 
-static t_ast	*msh_parse_cmd_error(
+static int	msh_parse_cmd_error(
 		t_ast **redirs_node,
 		t_ast **args_node,
-		t_ast **cmd_node)
+		t_ast **cmd_node,
+		int status)
 {
 	msh_parse_astfree(redirs_node);
 	msh_parse_astfree(args_node);
 	msh_parse_astfree(cmd_node);
-	return (NULL);
+	return (status);
 }
 
 /*
@@ -109,28 +110,29 @@ static t_ast	*msh_parse_cmd_error(
  * Notes:
  * 		Adding a child node that is NULL will not mutate the parent.
  */
-t_ast	*msh_parse_cmd(t_list **token_ptr)
+int	msh_parse_cmd(t_list **token_ptr, t_ast **cmd_node)
 {
 	t_ast	*redirs_node;
 	t_ast	*args_node;
-	t_ast	*cmd_node;
 	int		status;
 
 	if (!token_ptr)
 		msh_perror("debug", "msh_parse_cmd", "token_ptr is NULL.");
+	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type != REDIR_OP
+			&& ((t_token *)(*token_ptr)->content)->type != WORD)
+		return (ERROR);
 	redirs_node = NULL;
 	args_node = NULL;
-	cmd_node = NULL;
 	redirs_node = msh_parse_astnew("redirections", NULL);
 	args_node = msh_parse_astnew("arguments", NULL);
-	cmd_node = msh_parse_astnew("simple_command", NULL);
-	status = 1;
+	*cmd_node = msh_parse_astnew("simple_command", NULL);
+	status = 0;
 	status = msh_parse_cmd_helper(token_ptr, &redirs_node, &args_node);
-	if (status && (args_node->child_count || redirs_node->child_count))
+	if (!status && (args_node->child_count || redirs_node->child_count))
 	{
-		msh_parse_astadd_child(cmd_node, args_node);
-		msh_parse_astadd_child(cmd_node, redirs_node);
-		return (cmd_node);
+		msh_parse_astadd_child(*cmd_node, args_node);
+		msh_parse_astadd_child(*cmd_node, redirs_node);
+		return (0);
 	}
-	return (msh_parse_cmd_error(&args_node, &redirs_node, &cmd_node));
+	return (msh_parse_cmd_error(&args_node, &redirs_node, cmd_node, status));
 }

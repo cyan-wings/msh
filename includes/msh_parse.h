@@ -30,6 +30,10 @@
 # include "msh_perror.h"
 # include "msh_tokenise.h"
 
+# ifndef HEREDOC_SIGINT_ERROR
+#  define HEREDOC_SIGINT_ERROR 7
+# endif
+
 typedef struct s_ast
 {
 	char			*type;
@@ -48,9 +52,9 @@ void	msh_parse_astprint(t_ast *node, int indent, int null_flag);
 void	msh_parse_astfree(t_ast **root_node);
 
 //PARSE_EXPRESSION
-t_ast	*msh_parse_grouping(t_list **token_ptr);
-t_ast	*msh_parse_list(t_list **token_ptr);
-t_ast	*msh_parse_pipeline(t_list **token_ptr);
-t_ast	*msh_parse_cmd(t_list **token_ptr);
+int		msh_parse_list(t_list **token_ptr, t_ast **list_node);
+int		msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node);
+int		msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node);
+int		msh_parse_cmd(t_list **token_ptr, t_ast **cmd_node);
 
 #endif

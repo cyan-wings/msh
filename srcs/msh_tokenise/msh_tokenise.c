@@ -41,7 +41,7 @@ int	msh_tokenise(char *input, t_list **token_list)
 	char		*start_ptr;
 
 	if (!input || !token_list)
-		return (0);
+		return (ERROR);
 	while (*input && ft_strchr(sep, *input))
 		++input;
 	start_ptr = input;
@@ -50,7 +50,7 @@ int	msh_tokenise(char *input, t_list **token_list)
 		if (*input == '\'' || *input == '\"')
 			input = get_close_quote(input, *input);
 		if (!input)
-			return (0);
+			return (ERROR);
 		if (!ft_strchr(sep, *input) && (!input[1] || ft_strchr(sep, input[1])))
 		{
 			if (input[1])
@@ -61,5 +61,5 @@ int	msh_tokenise(char *input, t_list **token_list)
 			start_ptr = input + 1;
 		++input;
 	}
-	return (1);
+	return (0);
 }
