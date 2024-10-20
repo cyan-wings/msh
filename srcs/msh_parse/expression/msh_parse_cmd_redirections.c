@@ -36,6 +36,8 @@ static int	redirection(t_token *curr, t_token *next,
 		status = msh_parse_cmd_redirections_heredoc(next->value,
 				&heredoc_contents);
 		redir_file = msh_parse_astnew("heredoc", heredoc_contents);
+		ft_memdel((void **)&heredoc_contents);
+		signal(SIGINT, msh_signal_ctrl_c);
 	}
 	else
 		redir_file = msh_parse_astnew("file", next->value);

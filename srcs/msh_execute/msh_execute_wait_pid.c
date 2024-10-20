@@ -14,8 +14,6 @@
 
 static void	print_error_sig(int sig, char *name)
 {
-	char	*sig_str;
-
 	if (sig == SIGABRT)
 		msh_perror(name, "Abort program", "6");
 	else if (sig == SIGBUS)
@@ -24,16 +22,6 @@ static void	print_error_sig(int sig, char *name)
 		msh_perror(name, "Segmentation fault", "11");
 	else if (sig == SIGTERM)
 		msh_perror(name, "Terminated", "15");
-	else
-	{
-		sig_str = NULL;
-		sig_str = ft_itoa(sig);
-		if (!sig_str)
-			msh_perror_exit("msh_execute_wait_pid", "print_error_sig",
-				"malloc fail.", EXIT_FAILURE);
-		msh_perror(name, "Unknown", sig_str);
-		ft_memdel((void **)&sig_str);
-	}
 }
 
 /*

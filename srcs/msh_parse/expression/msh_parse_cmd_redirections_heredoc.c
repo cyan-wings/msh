@@ -46,6 +46,7 @@ static void	heredoc_readline(const char *delim, char **heredoc_contents)
 	}
 	ft_memdel((void **)&read_str);
 	*heredoc_contents = here_str;
+	printf("herestr: [%s]\n", here_str);
 }
 
 static void	heredoc_gnl(const char *delim, char **heredoc_contents)
