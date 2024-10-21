@@ -155,7 +155,7 @@ all: $(NAME)
 
 bonus: all
 
-$(NAME): $(LIBFT) rl $(OBJDIRS) $(OBJS)
+$(NAME): $(LIBFT) $(OBJDIRS) $(OBJS)
 	$(CC) -g -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
 
 $(LIBFT):
@@ -183,6 +183,6 @@ fclean: clean
 	$(MAKE_C) $(LIBFTDIR) $@
 	$(MAKE_C) readline distclean
 
-re: fclean all
+re: fclean rl all
 
 .PHONY: all bonus rl clean fclean re

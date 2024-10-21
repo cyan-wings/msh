@@ -6,12 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:35:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/21 13:36:29 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 15:35:48 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 #include "msh_signal.h"
+#include "msh_execute.h"
 #include "get_next_line.h"
 
 static void	signal_heredoc(int sig)
@@ -22,6 +23,7 @@ static void	signal_heredoc(int sig)
 			return (msh_perror_exit(",msh_parse_cmd_redirections_heredoc",
 					"signal_heredoc", strerror(errno), EXIT_FAILURE));
 		ft_putchar_fd('\n', STDERR_FILENO);
+		msh_execute_exit_status_set(EXIT_FAILURE);
 	}
 }
 

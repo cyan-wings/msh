@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:36:36 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/11 07:38:40 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 15:38:15 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void	pipeline_execute(t_ast *node, int pipes[2][2], int i,
 				strerror(errno), EXIT_FAILURE));
 	msh_execute_pipeline_close(pipes, -1, 0);
 	if (!ft_strcmp(node->children[i]->type, "simple_command"))
-		execute_simple_cmd(node->children[i], env_list, 0);
+		execute_simple_cmd(node->children[i], env_list, 1);
 	else if (!ft_strcmp(node->children[i]->type, "grouping"))
 	{
 		status = msh_execute_grouping(node->children[i], env_list, 1);
