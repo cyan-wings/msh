@@ -155,11 +155,15 @@ all: $(NAME)
 
 bonus: all
 
-$(NAME): $(LIBFT) $(OBJDIRS) $(OBJS)
+$(NAME): $(LIBFT) rl $(OBJDIRS) $(OBJS)
 	$(CC) -g -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
 
 $(LIBFT):
 	$(MAKE_C) $(LIBFTDIR)
+
+rl:
+	(cd readline && ./configure)
+	$(MAKE_C) readline
 
 $(OBJDIRS):
 	mkdir -p $@
@@ -177,7 +181,8 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE_C) $(LIBFTDIR) $@
+	$(MAKE_C) readline distclean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: all bonus rl clean fclean re

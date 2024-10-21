@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:35:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/19 15:27:21 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 13:36:29 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ static void	heredoc_readline(const char *delim, char **heredoc_contents)
 	}
 	ft_memdel((void **)&read_str);
 	*heredoc_contents = here_str;
-	printf("herestr: [%s]\n", here_str);
 }
 
 static void	heredoc_gnl(const char *delim, char **heredoc_contents)

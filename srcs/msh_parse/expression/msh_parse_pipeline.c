@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:24:06 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 13:27:28 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 	int		status;
 
 	child = NULL;
+	status = 0;
 	if (option == CMD)
 		status = msh_parse_cmd(token_ptr, &child);
 	else if (option == GROUP)
