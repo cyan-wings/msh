@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:48:25 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/21 15:17:57 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 15:21:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int	msh_builtins_func_cd(
 		return (EXIT_FAILURE);
 	dir = ft_strdup(dir);
 	if (!dir)
-		return (msh_perror_exit_int("msh_builtins_func_cd", "dir", 
+		return (msh_perror_exit_int("msh_builtins_func_cd", "dir",
 				"malloc fail.", EXIT_FAILURE));
 	curr_dir = NULL;
 	curr_dir = getcwd(NULL, 0);
