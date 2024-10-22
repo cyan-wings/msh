@@ -6,13 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:55:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:27:20 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 17:22:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 
-static int	check_null_param(t_ast *parent, t_ast *child)
+static int	check_null_param(t_ast *parent)
 {
 	int	flag;
 
@@ -20,11 +20,6 @@ static int	check_null_param(t_ast *parent, t_ast *child)
 	if (!parent)
 	{
 		msh_perror("debug", "msh_parse_astadd_child", "parent is NULL.");
-		flag = 0;
-	}
-	if (!child)
-	{
-		msh_perror("debug", "msh_parse_astadd_child", "child is NULL.");
 		flag = 0;
 	}
 	return (flag);
@@ -59,7 +54,9 @@ static t_ast	**children_realloc(t_ast ***old_children_ptr,
 
 void	msh_parse_astadd_child(t_ast *parent, t_ast *child)
 {
-	if (!check_null_param(parent, child))
+	if (!check_null_param(parent))
+		return ;
+	if (!child)
 		return ;
 	parent->child_count++;
 	parent->children = children_realloc(&(parent->children), \

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:30 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:58:55 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:36:18 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,21 +44,22 @@ static void	astadd_list_op_node(t_list **token_ptr, t_ast **list_node)
 	msh_parse_astadd_child(*list_node, list_op_node);
 }
 
-static int	astadd_pipeline_node(t_list **token_ptr, t_ast **list_node)
+static int	astadd_pipeline_node(t_list **token_ptr, t_ast **list_node,
+		t_list *env_list)
 {
 	t_ast	*pipeline_node;
 	int		status;
 
 	pipeline_node = NULL;
 	status = 0;
-	status = msh_parse_pipeline(token_ptr, &pipeline_node);
+	status = msh_parse_pipeline(token_ptr, &pipeline_node, env_list);
 	if (status)
 		return (status);
 	msh_parse_astadd_child(*list_node, pipeline_node);
 	return (0);
 }
 
-int	msh_parse_list(t_list **token_ptr, t_ast **list_node)
+int	msh_parse_list(t_list **token_ptr, t_ast **list_node, t_list *env_list)
 {
 	int	status;
 
@@ -68,7 +69,7 @@ int	msh_parse_list(t_list **token_ptr, t_ast **list_node)
 		msh_perror("debug", "msh_parse_list", "list_node is NULL.");
 	status = 0;
 	*list_node = msh_parse_astnew("list", NULL);
-	status = astadd_pipeline_node(token_ptr, list_node);
+	status = astadd_pipeline_node(token_ptr, list_node, env_list);
 	if (status)
 		return (msh_parse_list_error(list_node, status));
 	while (*token_ptr && \
@@ -79,7 +80,7 @@ int	msh_parse_list(t_list **token_ptr, t_ast **list_node)
 			return (msh_parse_list_error(list_node, ERROR));
 		astadd_list_op_node(token_ptr, list_node);
 		msh_tokenise_get_next_token(token_ptr);
-		status = astadd_pipeline_node(token_ptr, list_node);
+		status = astadd_pipeline_node(token_ptr, list_node, env_list);
 		if (status)
 			return (msh_parse_list_error(list_node, status));
 	}

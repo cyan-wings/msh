@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:12 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:26:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:35:57 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ static int	msh_parse_grouping_error(t_ast **grouping_node,
  * A grouping is a list. However, an extra grouping node needs to be created
  * because subshells may be executed differently.
  */
-int	msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node)
+int	msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node,
+		t_list *env_list)
 {
 	t_ast	*list_node;
 	int		status;
@@ -45,7 +46,7 @@ int	msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node)
 	*grouping_node = msh_parse_astnew("grouping", NULL);
 	list_node = NULL;
 	status = 0;
-	status = msh_parse_list(token_ptr, &list_node);
+	status = msh_parse_list(token_ptr, &list_node, env_list);
 	if (status)
 		return (msh_parse_grouping_error(grouping_node, NULL));
 	else if (!*token_ptr || \

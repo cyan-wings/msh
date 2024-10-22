@@ -48,6 +48,8 @@
         "utility": "c",
         "cstdlib": "c",
         "msh_tokenise.h": "c",
-        "msh_signal.h": "c"
+        "msh_signal.h": "c",
+        "sstream": "c",
+        "ft_char_utils.h": "c"
     }
 }

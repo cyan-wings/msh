@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:46:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/18 16:59:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:07:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	msh_parse_error(t_ast **child_node)
  * 		in the list and pipeline.
  *
  */
-int	msh_parse(t_list *token_list, t_ast **root)
+int	msh_parse(t_list *token_list, t_ast **root, t_list *env_list)
 {
 	t_ast	*expression_root_node;
 	t_ast	*child_node;
@@ -73,7 +73,7 @@ int	msh_parse(t_list *token_list, t_ast **root)
 		return (ERROR);
 	child_node = NULL;
 	status = 0;
-	status = msh_parse_list(&token_list, &child_node);
+	status = msh_parse_list(&token_list, &child_node, env_list);
 	if (status)
 		return (status);
 	if (token_list && (((t_token *)token_list->content)->type == WORD

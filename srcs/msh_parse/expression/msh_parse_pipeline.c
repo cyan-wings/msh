@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:51:52 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/21 13:27:28 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/21 20:36:34 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #define GROUP 2
 
 static int	astadd_child_to_pipeline_node(t_list **token_ptr,
-		t_ast **pipeline_node, int option)
+		t_ast **pipeline_node, int option, t_list *env_list)
 {
 	t_ast	*child;
 	int		status;
@@ -25,9 +25,9 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 	child = NULL;
 	status = 0;
 	if (option == CMD)
-		status = msh_parse_cmd(token_ptr, &child);
+		status = msh_parse_cmd(token_ptr, &child, env_list);
 	else if (option == GROUP)
-		status = msh_parse_grouping(token_ptr, &child);
+		status = msh_parse_grouping(token_ptr, &child, env_list);
 	else
 		msh_perror("debug",
 			"msh_parse_pipeline: astadd_child_to_pipeline_node",
@@ -39,7 +39,7 @@ static int	astadd_child_to_pipeline_node(t_list **token_ptr,
 }
 
 static int	msh_parse_pipeline_helper(t_list **token_ptr,
-		t_ast **pipeline_node)
+		t_ast **pipeline_node, t_list *env_list)
 {
 	int	status;
 
@@ -53,10 +53,10 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
 		if (((t_token *)(*token_ptr)->content)->type == WORD ||
 				((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 			status = astadd_child_to_pipeline_node(token_ptr, \
-					pipeline_node, CMD);
+					pipeline_node, CMD, env_list);
 		else if (!ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 			status = astadd_child_to_pipeline_node(token_ptr, \
-					pipeline_node, GROUP);
+					pipeline_node, GROUP, env_list);
 		else
 			status = ERROR;
 	}
@@ -70,7 +70,8 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
  * 		A simple command can start with a WORD (which assumes the executable)
  * 		or a REDIR_OP (which assumes starts with redirection(s))
  */
-int	msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node)
+int	msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node,
+		t_list *env_list)
 {
 	int		status;
 
@@ -82,13 +83,13 @@ int	msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node)
 	status = 0;
 	if (!ft_strcmp(((t_token *)(*token_ptr)->content)->value, "("))
 		status = astadd_child_to_pipeline_node(token_ptr, \
-				pipeline_node, GROUP);
+				pipeline_node, GROUP, env_list);
 	else
 		status = astadd_child_to_pipeline_node(token_ptr, \
-				pipeline_node, CMD);
+				pipeline_node, CMD, env_list);
 	if (!status)
 	{
-		status = msh_parse_pipeline_helper(token_ptr, pipeline_node);
+		status = msh_parse_pipeline_helper(token_ptr, pipeline_node, env_list);
 		if (!status)
 			return (0);
 	}

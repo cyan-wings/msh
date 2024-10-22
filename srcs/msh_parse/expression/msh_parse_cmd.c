@@ -6,39 +6,17 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:10 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 20:15:24 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 16:01:27 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 
 int		msh_parse_cmd_redirections(t_list **token_ptr,
-			t_ast **redirs_root_node);
+			t_ast **redirs_root_node, t_list *env_list);
 
-static t_ast	*argument(t_token *token)
-{
-	char	*argument_string;
-
-	if (token->type != WORD)
-		return (NULL);
-	argument_string = token->value;
-	return (msh_parse_astnew("argument", argument_string));
-}
-
-static void	parse_arguments(		
-		t_list **token_ptr,
-		t_ast **args_node
-		)
-{
-	t_ast	*arg_child_node;
-
-	while (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
-	{
-		arg_child_node = argument((t_token *)(*token_ptr)->content);
-		msh_parse_astadd_child(*args_node, arg_child_node);
-		msh_tokenise_get_next_token(token_ptr);
-	}
-}
+void	msh_parse_cmd_arguments(t_list **token_ptr, t_ast **args_node,
+			t_list *env_list);
 
 /*
  * Format of a simple command:
@@ -72,19 +50,20 @@ static void	parse_arguments(
 static int	msh_parse_cmd_helper(
 		t_list **token_ptr,
 		t_ast **redirs_node,
-		t_ast **args_node
+		t_ast **args_node,
+		t_list *env_list
 		)
 {
 	int		status;
 
 	status = 0;
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
-		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
+		status = msh_parse_cmd_redirections(token_ptr, redirs_node, env_list);
 	if (status)
 		return (status);
-	parse_arguments(token_ptr, args_node);
+	msh_parse_cmd_arguments(token_ptr, args_node, env_list);
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
-		status = msh_parse_cmd_redirections(token_ptr, redirs_node);
+		status = msh_parse_cmd_redirections(token_ptr, redirs_node, env_list);
 	if (status)
 		return (status);
 	return (0);
@@ -110,7 +89,7 @@ static int	msh_parse_cmd_error(
  * Notes:
  * 		Adding a child node that is NULL will not mutate the parent.
  */
-int	msh_parse_cmd(t_list **token_ptr, t_ast **cmd_node)
+int	msh_parse_cmd(t_list **token_ptr, t_ast **cmd_node, t_list *env_list)
 {
 	t_ast	*redirs_node;
 	t_ast	*args_node;
@@ -127,7 +106,8 @@ int	msh_parse_cmd(t_list **token_ptr, t_ast **cmd_node)
 	args_node = msh_parse_astnew("arguments", NULL);
 	*cmd_node = msh_parse_astnew("simple_command", NULL);
 	status = 0;
-	status = msh_parse_cmd_helper(token_ptr, &redirs_node, &args_node);
+	status = msh_parse_cmd_helper(token_ptr, &redirs_node, &args_node,
+			env_list);
 	if (!status && (args_node->child_count || redirs_node->child_count))
 	{
 		msh_parse_astadd_child(*cmd_node, args_node);

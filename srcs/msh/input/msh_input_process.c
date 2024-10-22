@@ -6,14 +6,13 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:56 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/18 17:01:24 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 19:02:14 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
 #include "msh_tokenise.h"
 #include "msh_parse.h"
-#include "msh_expansion.h"
 #include "msh_execute.h"
 
 static int	check_null_param(char *input, t_list **env_list)
@@ -77,15 +76,8 @@ static void	msh_input_process_helper(t_list **env_list, t_ast *root)
 	tmp = msh_env_getvar(*env_list, "MSH_DEBUG_PARSE");
 	if (tmp && !ft_strcmp(tmp, "true"))
 	{
-		msh_parse_astprint(root, 0, 0);
-		msh_perror(NULL, NULL, "Parse success.");
-	}
-	msh_expansion(root, *env_list);
-	tmp = msh_env_getvar(*env_list, "MSH_DEBUG_EXPAND");
-	if (tmp && !ft_strcmp(tmp, "true"))
-	{
 		msh_parse_astprint(root, 0, 1);
-		msh_perror(NULL, NULL, "Expansion success.");
+		msh_perror(NULL, NULL, "Parse success.");
 	}
 	msh_execute(root->children[0], env_list, 0);
 }
@@ -107,11 +99,14 @@ void	msh_input_process(char *input, t_list **env_list)
 		return (print_error_and_clean("Tokenise error.", &token_list, &root));
 	else if (status == 1)
 		return (print_error_and_clean(NULL, &token_list, &root));
-	status = msh_parse(token_list, &root);
+	status = msh_parse(token_list, &root, *env_list);
 	if (status == ERROR)
 		return (print_error_and_clean("Parsing error.", &token_list, &root));
 	else if (status == HEREDOC_SIGINT_ERROR)
 		return (print_error_and_clean(NULL, &token_list, &root));
+	else if (status == AMBIGUOUS_REDIR_ERROR)
+		return (print_error_and_clean("Ambiguous redirect.", &token_list,
+				&root));
 	msh_input_process_helper(env_list, root);
 	print_error_and_clean(NULL, &token_list, &root);
 }

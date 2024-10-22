@@ -70,13 +70,13 @@ SRC_M			=	\
 					msh_parse/expression/msh_parse_pipeline								\
 					msh_parse/expression/msh_parse_grouping								\
 					msh_parse/expression/msh_parse_cmd									\
+					msh_parse/expression/msh_parse_cmd_arguments						\
 					msh_parse/expression/msh_parse_cmd_redirections						\
 					msh_parse/expression/msh_parse_cmd_redirections_heredoc				\
-					msh_expansion/msh_expansion											\
-					msh_expansion/msh_expansion_dollar									\
-					msh_expansion/msh_expansion_wildcards_and_quotes					\
-					msh_expansion/msh_expansion_quotes									\
-					msh_expansion/utils/msh_expansion_utils_strappend					\
+					msh_parse/expansion/msh_parse_expansion_dollar						\
+					msh_parse/expansion/msh_parse_expansion_wildcards_and_quotes		\
+					msh_parse/expansion/msh_parse_expansion_quotes						\
+					msh_parse/expansion/msh_parse_expansion_utils_strappend				\
 					msh_builtins/msh_builtins_func_cd									\
 					msh_builtins/msh_builtins_func_echo									\
 					msh_builtins/msh_builtins_func_env									\
@@ -106,6 +106,7 @@ SRC_M			=	\
 					msh_execute/msh_execute_free										\
 					msh_execute/msh_execute_free_exit									\
 					utils/ft_arraylen													\
+					utils/ft_strrpad													\
 
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))

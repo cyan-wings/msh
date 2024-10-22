@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_expansion_dollar.c                             :+:      :+:    :+:   */
+/*   msh_parse_expansion_dollar.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/19 22:49:16 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 18:58:31 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_expansion.h"
+#include "msh_parse.h"
 
 static int	ft_ischar_identifier(char c)
 {
@@ -26,7 +26,7 @@ static void	process_question(char **new_strptr, int *i)
 	buf = NULL;
 	buf = ft_itoa(msh_execute_exit_status_get());
 	if (!buf)
-		msh_perror_exit("msh_expansion_dollar", "process_question",
+		msh_perror_exit("msh_parse_expansion_dollar", "process_question",
 			"malloc fail.", EXIT_FAILURE);
 	ft_strappend(new_strptr, buf);
 	ft_memdel((void **)&buf);
@@ -48,24 +48,24 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	key = NULL;
 	key = ft_substr(str, start, *i - start);
 	if (!key)
-		msh_perror_exit("msh_expansion_dollar", "process_identifier: key",
+		msh_perror_exit("msh_parse_expansion_dollar", "process_identifier: key",
 			"malloc fail.", EXIT_FAILURE);
 	value = NULL;
 	value = msh_env_getvar(env_list, key);
 	ft_memdel((void **) &key);
 	if (value)
+	{
 		ft_strappend(new_strptr, value);
-	else
-		ft_strappend(new_strptr, "");
-	if (!*new_strptr)
-		msh_perror_exit("msh_expansion_dollar",
-			"process_identifier: new_strptr", "malloc fail.", EXIT_FAILURE);
+		if (!*new_strptr)
+			msh_perror_exit("msh_parse_expansion_dollar",
+				"process_identifier: new_strptr", "malloc fail.", EXIT_FAILURE);
+	}
 }
 
-static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
+static void	msh_parse_expansion_dollar_helper(char **strptr, int start, int i,
 		char **new_strptr)
 {
-	msh_expansion_utils_strappend(strptr, start, i, new_strptr);
+	msh_parse_expansion_utils_strappend(strptr, start, i, new_strptr);
 	ft_memdel((void **) strptr);
 	*strptr = *new_strptr;
 }
@@ -79,7 +79,7 @@ static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
  *
  * quote = 0 is to ignore quotes.
  */
-void	msh_expansion_dollar(char **strptr, t_list *env_list, int quote)
+void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote)
 {
 	int		dquote_flag;
 	int		start;
@@ -99,10 +99,10 @@ void	msh_expansion_dollar(char **strptr, t_list *env_list, int quote)
 				;
 		if ((*strptr)[i] == '$' && (*strptr)[i + 1])
 		{
-			msh_expansion_utils_strappend(strptr, start, i++, &new_str);
+			msh_parse_expansion_utils_strappend(strptr, start, i++, &new_str);
 			process_identifier(env_list, *strptr, &i, &new_str);
 			start = i--;
 		}
 	}
-	msh_expansion_dollar_helper(strptr, start, i, &new_str);
+	msh_parse_expansion_dollar_helper(strptr, start, i, &new_str);
 }

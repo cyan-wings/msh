@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_expansion_quotes.c                             :+:      :+:    :+:   */
+/*   msh_parse_expansion_quotes.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:20:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:38:25 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 18:58:35 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_expansion.h"
+#include "msh_parse.h"
 
 static void	find_closing_quotes(char **strptr, char quote_type, int *i)
 {
@@ -18,33 +18,43 @@ static void	find_closing_quotes(char **strptr, char quote_type, int *i)
 		++*i;
 }
 
-/*
- * Function that performs quote removals
- */
-void	msh_expansion_quotes(char **strptr)
+static void	msh_parse_expansion_quotes_helper(char **strptr, char **new_str)
 {
 	int		start;
 	char	quote_type;
 	int		i;
-	char	*new_str;
 
 	start = 0;
 	quote_type = 0;
 	i = -1;
-	new_str = NULL;
 	while ((*strptr)[++i])
 	{
 		if ((*strptr)[i] == '\'' || (*strptr)[i] == '\"')
 		{
-			msh_expansion_utils_strappend(strptr, start, i, &new_str);
+			msh_parse_expansion_utils_strappend(strptr, start, i, new_str);
 			quote_type = (*strptr)[i];
 			start = ++i;
 			find_closing_quotes(strptr, quote_type, &i);
-			msh_expansion_utils_strappend(strptr, start, i, &new_str);
+			msh_parse_expansion_utils_strappend(strptr, start, i, new_str);
 			start = i + 1;
 		}
 	}
-	msh_expansion_utils_strappend(strptr, start, i, &new_str);
+	msh_parse_expansion_utils_strappend(strptr, start, i, new_str);
+}
+
+/*
+ * Function that performs quote removals
+ */
+void	msh_parse_expansion_quotes(char **strptr)
+{
+	char	*new_str;
+
+	new_str = NULL;
+	new_str = ft_memalloc(1);
+	if (!new_str)
+		return (msh_perror_exit("msh_parse_expansion_quotes", "new_str",
+				"malloc fail.", EXIT_FAILURE));
+	msh_parse_expansion_quotes_helper(strptr, &new_str);
 	ft_memdel((void **) strptr);
 	*strptr = new_str;
 }
