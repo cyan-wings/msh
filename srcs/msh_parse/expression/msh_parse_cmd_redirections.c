@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 18:51:49 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/22 19:32:04 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,8 @@ static int	parse_redirection(t_token *curr, t_token *next,
 		heredoc_contents = NULL;
 		status = msh_parse_cmd_redirections_heredoc(next->value,
 				&heredoc_contents);
+		if (heredoc_contents)
+			msh_parse_expansion_dollar(&heredoc_contents, env_list, 0);
 		redir_file = msh_parse_astnew("heredoc", heredoc_contents);
 		ft_memdel((void **)&heredoc_contents);
 		signal(SIGINT, msh_signal_ctrl_c);
