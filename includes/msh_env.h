@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:05:21 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:05:37 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:36:03 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	msh_env_init(t_list **env_list);
 void	msh_env_setvar(t_list **env_list, char *k, char *v);
 char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_delvar(t_list **env_list, char *k);
-void	msh_env_print(t_list *env_list);
+void	msh_env_print(t_list *env_list, int export_flag);
 void	msh_env_free(t_list **env_list);
 
 #endif

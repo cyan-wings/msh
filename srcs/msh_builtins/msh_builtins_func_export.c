@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/11 07:41:34 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:41:31 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 {
 	char	*key;
 
-	*value = NULL;
 	*value = ft_strchr(arg_str, '=');
 	if (*value)
 		**value = 0;
@@ -67,11 +66,9 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	return (key);
 }
 
-int	msh_builtins_func_export(
-		int argc __attribute((unused)),
+int	msh_builtins_func_export_helper(
 		char **argv,
-		t_list **env_list,
-		int subshell_flag __attribute((unused))
+		t_list **env_list
 )
 {
 	int		exit_status;
@@ -79,13 +76,12 @@ int	msh_builtins_func_export(
 	char	*key;
 	char	*value;
 
-	if (argv[1] && argv[1][0] == '-')
-		return (print_invalid_argument(argv[1]));
 	exit_status = 0;
 	i = 0;
 	while (argv[++i])
 	{
-		key = 0;
+		key = NULL;
+		value = NULL;
 		key = get_key(argv[i], &value, &exit_status);
 		if (!key || !value)
 		{
@@ -99,4 +95,21 @@ int	msh_builtins_func_export(
 		msh_env_setvar(env_list, key, value);
 	}
 	return (exit_status);
+}
+
+int	msh_builtins_func_export(
+		int argc __attribute((unused)),
+		char **argv,
+		t_list **env_list,
+		int subshell_flag __attribute((unused))
+)
+{
+	if (!argv[1])
+	{
+		msh_env_print(*env_list, 1);
+		return (0);
+	}
+	if (argv[1] && argv[1][0] == '-')
+		return (print_invalid_argument(argv[1]));
+	return (msh_builtins_func_export_helper(argv, env_list));
 }

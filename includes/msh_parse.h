@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:07:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:01:32 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:44:50 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,10 @@ void	msh_parse_astfree(t_ast **root_node);
 
 //PARSE_EXPRESSION
 int		msh_parse_list(t_list **token_ptr, t_ast **list_node, t_list *env_list);
-int		msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node, t_list *env_list);
-int		msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node, t_list *env_list);
+int		msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node,
+			t_list *env_list);
+int		msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node,
+			t_list *env_list);
 int		msh_parse_cmd(t_list **token_ptr, t_ast **cmd_nod, t_list *env_list);
 
 //EXPANSION

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:04 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/02 19:03:41 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:36:30 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	print_env_ret(t_list **env_list)
 {
-	msh_env_print(*env_list);
+	msh_env_print(*env_list, 0);
 	return (0);
 }
 

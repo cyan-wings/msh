@@ -156,7 +156,7 @@ all: $(NAME)
 
 bonus: all
 
-$(NAME): $(LIBFT) $(OBJDIRS) $(OBJS)
+$(NAME): $(LIBFT) rl $(OBJDIRS) $(OBJS)
 	$(CC) -g -v $(CFLAGS) $(IFLAGS) -o $@ $(OBJS) $(LFLAGS)
 
 $(LIBFT):
@@ -178,6 +178,7 @@ clean:
 	$(RM) .msh_history
 	$(RM) out
 	$(MAKE_C) $(LIBFTDIR) $@
+	$(MAKE_C) readline $@
 
 fclean: clean
 	$(RM) $(NAME)

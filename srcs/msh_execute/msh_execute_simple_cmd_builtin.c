@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:31:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/11 08:17:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:44:01 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ static int	check_null_param(t_ast *node, t_list **env_list,
 	return (1);
 }
 
+int	ft_arraylen(char **array);
+
 int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		char **argv_arr, int subshell_flag)
 {
@@ -53,7 +55,7 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		status = msh_execute_simple_cmd_redirs(node->children[1],
 				&redir_st_arr);
 		if (status != ERROR)
-			status = (*builtin_func)(node->children[0]->child_count,
+			status = (*builtin_func)(ft_arraylen(argv_arr),
 					argv_arr, env_list, subshell_flag);
 		if (redir_st_arr)
 			msh_execute_simple_cmd_redirs_restore(&redir_st_arr);

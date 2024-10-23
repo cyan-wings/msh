@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:27:51 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:08:10 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/23 16:49:25 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,6 @@ int	msh_execute_simple_cmd_execute(char **argv_arr, char **envp_arr,
 			return (127);
 		}
 	}
-	printf("str: [%s]\n", argv_arr[0]);
 	execve(argv_arr[0], argv_arr, envp_arr);
 	if (errno == ENOENT)
 		status = 127;
