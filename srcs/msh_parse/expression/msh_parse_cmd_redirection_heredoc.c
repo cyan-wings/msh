@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_cmd_redirections_heredoc.c               :+:      :+:    :+:   */
+/*   msh_parse_cmd_redirection_heredoc.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:35:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:27:58 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/24 20:39:06 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	sigint_heredoc(int fd, char **heredoc_contents)
 	return (HEREDOC_SIGINT_ERROR);
 }
 
-int	msh_parse_cmd_redirections_heredoc(const char *delim,
+int	msh_parse_cmd_redirection_heredoc(const char *delim,
 			char **heredoc_contents)
 {
 	int		fd;

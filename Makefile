@@ -70,9 +70,9 @@ SRC_M			=	\
 					msh_parse/expression/msh_parse_pipeline								\
 					msh_parse/expression/msh_parse_grouping								\
 					msh_parse/expression/msh_parse_cmd									\
-					msh_parse/expression/msh_parse_cmd_arguments						\
-					msh_parse/expression/msh_parse_cmd_redirections						\
-					msh_parse/expression/msh_parse_cmd_redirections_heredoc				\
+					msh_parse/expression/msh_parse_cmd_argument							\
+					msh_parse/expression/msh_parse_cmd_redirection						\
+					msh_parse/expression/msh_parse_cmd_redirection_heredoc				\
 					msh_parse/expansion/msh_parse_expansion_dollar						\
 					msh_parse/expansion/msh_parse_expansion_wildcards_and_quotes		\
 					msh_parse/expansion/msh_parse_expansion_quotes						\

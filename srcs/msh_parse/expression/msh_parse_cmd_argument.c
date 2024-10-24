@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_cmd_arguments.c                          :+:      :+:    :+:   */
+/*   msh_parse_cmd_argument.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:43:54 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 18:52:59 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/24 20:42:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,13 @@ static void	parse_argument(char *arg_str, t_ast **args_node)
 	ast_add_argument_node(arg_str, args_node);
 }
 
-void	msh_parse_cmd_arguments(		
+void	msh_parse_cmd_argument(		
 		t_list **token_ptr,
 		t_ast **args_node,
 		t_list *env_list
 		)
 {
-	while (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
+	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
 	{
 		msh_parse_expansion_dollar(
 			&(((t_token *)(*token_ptr)->content)->value), env_list, 1);

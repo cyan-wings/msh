@@ -6,16 +6,16 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:10 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 16:01:27 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/24 20:51:55 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
 
-int		msh_parse_cmd_redirections(t_list **token_ptr,
+int		msh_parse_cmd_redirection(t_list **token_ptr,
 			t_ast **redirs_root_node, t_list *env_list);
 
-void	msh_parse_cmd_arguments(t_list **token_ptr, t_ast **args_node,
+void	msh_parse_cmd_argument(t_list **token_ptr, t_ast **args_node,
 			t_list *env_list);
 
 /*
@@ -57,16 +57,27 @@ static int	msh_parse_cmd_helper(
 	int		status;
 
 	status = 0;
-	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
-		status = msh_parse_cmd_redirections(token_ptr, redirs_node, env_list);
-	if (status)
-		return (status);
-	msh_parse_cmd_arguments(token_ptr, args_node, env_list);
-	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
-		status = msh_parse_cmd_redirections(token_ptr, redirs_node, env_list);
-	if (status)
-		return (status);
-	return (0);
+	if (*token_ptr)
+	{
+		if (((t_token *)(*token_ptr)->content)->type == REDIR_OP)
+			status = msh_parse_cmd_redirection(token_ptr, redirs_node,
+					env_list);
+		else if (((t_token *)(*token_ptr)->content)->type == WORD)
+			msh_parse_cmd_argument(token_ptr, args_node, env_list);
+		else
+			return (ERROR);
+	}
+	while (!status && *token_ptr && \
+			(((t_token *)(*token_ptr)->content)->type == REDIR_OP || \
+			((t_token *)(*token_ptr)->content)->type == WORD))
+	{
+		if (((t_token *)(*token_ptr)->content)->type == REDIR_OP)
+			status = msh_parse_cmd_redirection(token_ptr, redirs_node,
+					env_list);
+		else if (((t_token *)(*token_ptr)->content)->type == WORD)
+			msh_parse_cmd_argument(token_ptr, args_node, env_list);
+	}
+	return (status);
 }
 
 static int	msh_parse_cmd_error(

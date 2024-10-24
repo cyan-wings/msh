@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_cmd_redirections.c                       :+:      :+:    :+:   */
+/*   msh_parse_cmd_redirection.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:32:04 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/24 20:44:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static int	check_null_param(t_list **token_ptr,
 	return (1);
 }
 
-int		msh_parse_cmd_redirections_heredoc(const char *delim,
+int		msh_parse_cmd_redirection_heredoc(const char *delim,
 				char **heredoc_contents);
 
 int		ft_arraylen(char **array);
@@ -89,7 +89,7 @@ static int	parse_redirection(t_token *curr, t_token *next,
 	{
 		msh_parse_expansion_quotes(&next->value);
 		heredoc_contents = NULL;
-		status = msh_parse_cmd_redirections_heredoc(next->value,
+		status = msh_parse_cmd_redirection_heredoc(next->value,
 				&heredoc_contents);
 		if (heredoc_contents)
 			msh_parse_expansion_dollar(&heredoc_contents, env_list, 0);
@@ -114,7 +114,7 @@ static int	parse_redirection(t_token *curr, t_token *next,
  * Notes:	Freeing due to error is done outside this function
  * 			on the redirections node.
  */
-int	msh_parse_cmd_redirections(t_list **token_ptr,
+int	msh_parse_cmd_redirection(t_list **token_ptr,
 		t_ast **redirs_root_node, t_list *env_list)
 {
 	int		status;
@@ -123,8 +123,7 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 	if (!check_null_param(token_ptr, redirs_root_node, env_list))
 		return (ERROR);
 	status = 0;
-	while (!status && *token_ptr
-		&& ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
+	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == REDIR_OP)
 	{
 		if (!((*token_ptr)->next) || \
 			((t_token *)(*token_ptr)->next->content)->type != WORD)
@@ -134,7 +133,7 @@ int	msh_parse_cmd_redirections(t_list **token_ptr,
 				(t_token *)(*token_ptr)->next->content, &redir_child_node,
 				env_list);
 		if (status)
-			break ;
+			return (status);
 		msh_parse_astadd_child(*redirs_root_node, redir_child_node);
 		msh_tokenise_get_next_token(token_ptr);
 		msh_tokenise_get_next_token(token_ptr);
