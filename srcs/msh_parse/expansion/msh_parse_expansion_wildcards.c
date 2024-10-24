@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_expansion_wildcards_and_quotes.c         :+:      :+:    :+:   */
+/*   msh_parse_expansion_wildcards.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:00:47 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 18:58:43 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 03:34:23 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,35 +59,46 @@ static void	append_to_new_str_if_match(char *pattern, char **new_strptr,
 		ft_strvappend(new_strptr, (char *)tmp, entry->d_name, (char *)tmp,
 			NULL);
 		if (!*new_strptr)
-			return (msh_perror_exit("msh_parse_expansion_wildcards_and_quotes",
+			return (msh_perror_exit("msh_parse_expansion_wildcards",
 					"append_to_new_str_if_match", "malloc fail.",
 					EXIT_FAILURE));
 		++*n;
 	}
 }
 
+void	ft_strrpad(char **strptr, char padding);
+
 /*
  * May want to call msh_perror_exit instead
  */
 static int	get_matched_files(char *pattern, char **new_strptr)
 {
+	char			*pattern_ex;
 	DIR				*dir;
 	struct dirent	*entry;
 	int				n;
 
+	pattern_ex = NULL;
+	pattern_ex = ft_strdup(pattern);
+	if (!pattern_ex)
+		msh_perror_exit("msh_parse_expansion_wildcards",
+			"get_matched_files: opendir", "malloc fail.", EXIT_FAILURE);
+	msh_parse_expansion_quotes(&pattern_ex);
+	ft_strrpad(&pattern_ex, PAD_R);
 	dir = opendir(".");
 	if (!dir)
-		msh_perror_exit("msh_parse_expansion_wildcards_and_quotes",
+		msh_perror_exit("msh_parse_expansion_wildcards",
 			"get_matched_files: opendir", strerror(errno), EXIT_FAILURE);
 	entry = readdir(dir);
 	n = 0;
 	while (entry)
 	{
-		append_to_new_str_if_match(pattern, new_strptr, entry, &n);
+		append_to_new_str_if_match(pattern_ex, new_strptr, entry, &n);
 		entry = readdir(dir);
 	}
+	ft_memdel((void **)&pattern_ex);
 	if (closedir(dir) == -1)
-		msh_perror_exit("msh_parse_expansion_wildcards_and_quotes",
+		msh_perror_exit("msh_parse_expansion_wildcards",
 			"get_matched_files: closedir", strerror(errno), EXIT_FAILURE);
 	return (n);
 }
@@ -130,20 +141,19 @@ static void	revert_wildcards_to_literal(char **strptr)
  * 	When n is 0, no match was found. The string must be treated as a 
  * 	literal. The replaced '*' must be reverted to its original form.
  */
-void	msh_parse_expansion_wildcards_and_quotes(char **strptr)
+void	msh_parse_expansion_wildcards(char **strptr)
 {
 	int		flag;
 	char	*new_str;
 	int		n;
 
 	if (!strptr)
-		msh_perror("debug", "msh_parse_expansion_wildcards_and_quotes",
+		msh_perror("debug", "msh_parse_expansion_wildcards",
 			"strptr is NULL.");
 	if (!*strptr)
 		return ;
 	flag = -1;
 	flag = check_and_replace_wildcards(strptr);
-	msh_parse_expansion_quotes(strptr);
 	if (!flag)
 		return ;
 	new_str = NULL;

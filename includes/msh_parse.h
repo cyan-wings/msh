@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:07:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/23 16:44:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 02:00:16 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		msh_parse_cmd(t_list **token_ptr, t_ast **cmd_nod, t_list *env_list);
 //EXPANSION
 void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote);
 void	msh_parse_expansion_quotes(char **strptr);
-void	msh_parse_expansion_wildcards_and_quotes(char **strptr);
+void	msh_parse_expansion_wildcards(char **strptr);
 void	msh_parse_expansion_utils_strappend(char **strptr, int start, int i,
 			char **new_strptr);
 

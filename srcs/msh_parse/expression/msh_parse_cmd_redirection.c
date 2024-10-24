@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/24 20:44:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 03:34:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,10 @@ int		ft_arraylen(char **array);
 
 void	ft_strrpad(char **strptr, char padding);
 
-static int	redirection_expand(t_token *next, t_ast **redir_file,
-					t_list *env_list)
+static int	redirection_expand_helper(t_token *next, t_ast **redir_file)
 {
 	char	**array;
 
-	msh_parse_expansion_dollar(&(next->value), env_list, 1);
-	msh_parse_expansion_wildcards_and_quotes(&(next->value));
-	if (!(next->value) || !ft_strlen(next->value))
-		return (AMBIGUOUS_REDIR_ERROR);
 	if (ft_strchr(next->value, PAD_R))
 	{
 		array = NULL;
@@ -72,6 +67,17 @@ static int	redirection_expand(t_token *next, t_ast **redir_file,
 	else
 		*redir_file = msh_parse_astnew("file", next->value);
 	return (0);
+}
+
+static int	redirection_expand(t_token *next, t_ast **redir_file,
+					t_list *env_list)
+{
+	msh_parse_expansion_dollar(&(next->value), env_list, 1);
+	msh_parse_expansion_wildcards(&(next->value));
+	msh_parse_expansion_quotes(&(next->value));
+	if (!(next->value) || !ft_strlen(next->value))
+		return (AMBIGUOUS_REDIR_ERROR);
+	return (redirection_expand_helper(next, redir_file));
 }
 
 static int	parse_redirection(t_token *curr, t_token *next,
