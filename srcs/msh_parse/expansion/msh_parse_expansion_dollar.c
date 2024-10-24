@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/24 23:51:31 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 00:16:13 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,8 @@ void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote)
 		if (quote && (*strptr)[i] == '\'' && !(dquote_flag % 2))
 			while ((*strptr)[++i] != '\'')
 				;
-		if ((*strptr)[i] == '$' && ft_ischar_identifier((*strptr)[i + 1]))
+		if ((*strptr)[i] == '$' && (ft_ischar_identifier((*strptr)[i + 1])
+			|| (*strptr)[i + 1] == '?'))
 		{
 			msh_parse_expansion_utils_strappend(strptr, start, i++, &new_str);
 			process_identifier(env_list, *strptr, &i, &new_str);
