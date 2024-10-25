@@ -119,5 +119,6 @@ int	msh_builtins_func_cd(
 		ft_putendl_fd(dir, STDOUT_FILENO);
 	msh_env_setvar(env_list, "OLDPWD", curr_dir);
 	update_pwd_env(dir, env_list);
+	ft_memdel((void **)&dir);
 	return (0);
 }
