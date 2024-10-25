@@ -18,7 +18,7 @@ void	msh_parse_astfree(t_ast **root_node)
 	t_ast	*node;
 	int		i;
 
-	if (!root_node || !*root_node)
+	if (!root_node)
 	{
 		msh_perror("debug", "msh_parse_astfree", "root_node is NULL.");
 		return ;

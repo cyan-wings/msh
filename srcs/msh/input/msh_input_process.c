@@ -33,11 +33,8 @@ static int	check_null_param(char *input, t_list **env_list)
 	return (flag);
 }
 
-static void	print_error_and_clean(char *err_str, t_list **token_list,
-		t_ast **root)
+static void	print_error_and_clean(char *err_str, t_list **token_list)
 {
-	if (root)
-		msh_parse_astfree(root);
 	if (token_list)
 		msh_tokenise_free(token_list);
 	if (err_str)
@@ -99,16 +96,15 @@ void	msh_input_process(char *input, t_list **env_list)
 	status = 0;
 	status = process_tokenise(input, env_list, &token_list);
 	if (status == ERROR)
-		return (print_error_and_clean("Tokenise error.", &token_list, NULL));
+		return (print_error_and_clean("Tokenise error.", &token_list));
 	else if (status == 1)
 		return (msh_tokenise_free(&token_list));
 	status = msh_parse(token_list, &root, *env_list);
 	if (status == ERROR)
-		return (print_error_and_clean("Parsing error.", &token_list, &root));
+		return (print_error_and_clean("Parsing error.", &token_list));
 	else if (status == HEREDOC_SIGINT_ERROR)
-		return (print_error_and_clean(NULL, &token_list, &root));
+		return (print_error_and_clean(NULL, &token_list));
 	else if (status == AMBIGUOUS_REDIR_ERROR)
-		return (print_error_and_clean("Ambiguous redirect.", &token_list,
-				&root));
+		return (print_error_and_clean("Ambiguous redirect.", &token_list));
 	return (msh_input_process_helper(env_list, root, &token_list));
 }

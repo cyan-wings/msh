@@ -76,9 +76,7 @@ int	msh_parse(t_list *token_list, t_ast **root, t_list *env_list)
 	status = msh_parse_list(&token_list, &child_node, env_list);
 	if (status)
 		return (status);
-	if (token_list && (((t_token *)token_list->content)->type == WORD
-			|| !ft_strcmp(((t_token *)token_list->content)->value, "(")
-			|| !ft_strcmp(((t_token *)token_list->content)->value, ")")))
+	if (token_list)
 		return (msh_parse_error(&child_node));
 	expression_root_node = NULL;
 	expression_root_node = msh_parse_astnew("expression", 0);

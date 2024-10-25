@@ -132,9 +132,9 @@ int	msh_parse_cmd_redirection(t_list **token_ptr,
 		status = parse_redirection((t_token *)(*token_ptr)->content, \
 				(t_token *)(*token_ptr)->next->content, &redir_child_node,
 				env_list);
+		msh_parse_astadd_child(*redirs_root_node, redir_child_node);
 		if (status)
 			return (status);
-		msh_parse_astadd_child(*redirs_root_node, redir_child_node);
 		msh_tokenise_get_next_token(token_ptr);
 		msh_tokenise_get_next_token(token_ptr);
 	}
