@@ -105,8 +105,12 @@ SRC_M			=	\
 					msh_execute/msh_execute_wait_pid									\
 					msh_execute/msh_execute_free										\
 					msh_execute/msh_execute_free_exit									\
-					utils/ft_arraylen													\
-					utils/ft_strrpad													\
+					msh_utils/msh_utils_strdup											\
+					msh_utils/msh_utils_memalloc										\
+					msh_utils/msh_utils_getcwd											\
+					msh_utils/msh_utils_arraylen										\
+					msh_utils/msh_utils_strrpad											\
+					msh_utils/msh_utils_split											\
 
 
 SRCS			=	$(addsuffix .c, $(addprefix $(SRCDIR), $(SRC_M) ))

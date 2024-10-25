@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 17:00:47 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 03:34:23 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 18:02:14 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ static void	append_to_new_str_if_match(char *pattern, char **new_strptr,
 	}
 }
 
-void	ft_strrpad(char **strptr, char padding);
-
 /*
  * May want to call msh_perror_exit instead
  */
@@ -79,12 +77,10 @@ static int	get_matched_files(char *pattern, char **new_strptr)
 	int				n;
 
 	pattern_ex = NULL;
-	pattern_ex = ft_strdup(pattern);
-	if (!pattern_ex)
-		msh_perror_exit("msh_parse_expansion_wildcards",
-			"get_matched_files: opendir", "malloc fail.", EXIT_FAILURE);
+	pattern_ex = msh_utils_strdup(pattern, "msh_parse_expansion_wildcards",
+			"get_matched_files: opendir");
 	msh_parse_expansion_quotes(&pattern_ex);
-	ft_strrpad(&pattern_ex, PAD_R);
+	msh_utils_strrpad(&pattern_ex, PAD_R);
 	dir = opendir(".");
 	if (!dir)
 		msh_perror_exit("msh_parse_expansion_wildcards",

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 01:01:19 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:39:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,7 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	*value = ft_strchr(arg_str, '=');
 	if (*value)
 		**value = 0;
-	key = ft_strdup(arg_str);
-	if (!key)
-	{
-		msh_perror_exit("msh_builtins_func_export", "get_key: key",
-			"malloc fail.", EXIT_FAILURE);
-		return (NULL);
-	}
+	key = msh_utils_strdup(arg_str, "msh_builtins_func_export", "get_key: key");
 	if (!check_identifier(key))
 	{
 		if (*value)
@@ -88,10 +82,7 @@ int	msh_builtins_func_export_helper(
 			ft_memdel((void **)&key);
 			continue ;
 		}
-		value = ft_strdup(++value);
-		if (!value)
-			msh_perror_exit("msh_builtins_func_export", "value",
-				"malloc fail.", EXIT_FAILURE);
+		value = msh_utils_strdup(++value, "msh_builtins_func_export", "value");
 		msh_env_setvar(env_list, key, value);
 	}
 	return (exit_status);

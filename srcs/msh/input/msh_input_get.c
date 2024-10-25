@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 16:55:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/23 01:21:51 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:08:47 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,8 @@ static char	*create_prompt(t_list *env_list)
 
 	user_str = msh_env_getvar(env_list, "USER");
 	pwd_str = msh_env_getvar(env_list, "PWD");
-	prompt = ft_memalloc(ft_strlen(user_str) + ft_strlen(pwd_str) + 6);
-	if (!prompt)
-		msh_perror_exit("msh_input_get", "get_prompt",
-			"malloc fail.", EXIT_FAILURE);
+	prompt = msh_utils_memalloc(ft_strlen(user_str) + ft_strlen(pwd_str) + 6,
+			"msh_input_get", "get_prompt");
 	ft_memcpy(prompt, user_str, ft_strlen(user_str));
 	i = ft_strlen(user_str);
 	ft_memcpy(prompt + i++, "@", 1);
@@ -41,12 +39,7 @@ void	get_prompt(char **prompt, t_list *env_list)
 {
 	*prompt = msh_env_getvar(env_list, "PS1");
 	if (*prompt)
-	{
-		*prompt = ft_strdup(*prompt);
-		if (!*prompt)
-			msh_perror_exit("msh_input_get", NULL,
-				"malloc fail.", EXIT_FAILURE);
-	}
+		*prompt = msh_utils_strdup(*prompt, "msh_input_get", NULL);
 	else
 		*prompt = create_prompt(env_list);
 }

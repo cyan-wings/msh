@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:07:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 02:00:16 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 14:18:13 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 
 # define PAD_R -2
 # define DELIM_R -3
+# define SPACE_R -32
 
 # ifndef HEREDOC_SIGINT_ERROR
 #  define HEREDOC_SIGINT_ERROR 7

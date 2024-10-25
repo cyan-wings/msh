@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 00:16:13 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 17:52:19 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ static void	process_question(char **new_strptr, int *i)
 		msh_perror_exit("msh_parse_expansion_dollar", "process_question",
 			"malloc fail.", EXIT_FAILURE);
 	ft_strappend(new_strptr, buf);
+	if (!*new_strptr)
+		msh_perror_exit("msh_parse_expansion_dollar", "process_question",
+			"malloc fail.", EXIT_FAILURE);
 	ft_memdel((void **)&buf);
 	(*i)++;
 }

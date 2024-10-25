@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:23:18 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/19 15:30:06 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 16:00:15 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ static char	*get_env_var(t_list *env_list)
 	current_env = (t_env *)env_list->content;
 	key_len = ft_strlen(current_env->key);
 	val_len = ft_strlen(current_env->val);
-	res = ft_memalloc(key_len + val_len + 2);
+	res = msh_utils_memalloc(key_len + val_len + 2,
+			"msh_execute_simple_cmd_init", "get_env_var");
 	ft_strlcpy(res, current_env->key, key_len + 1);
 	res[key_len] = '=';
 	ft_strlcpy(res + key_len + 1, current_env->val, val_len + 1);

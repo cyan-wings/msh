@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:05:10 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:05:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 14:55:55 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "ft_print_utils.h"
 
 # include "msh_perror.h"
+# include "msh_utils.h"
 
 typedef int	(*t_bif)(int argc, char **argv, t_list **env_list,
 			int subshell_flag);

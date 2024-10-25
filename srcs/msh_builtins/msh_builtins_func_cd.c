@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:48:25 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/21 15:21:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:34:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ static int	print_invalid_argument(char *arg_str)
 	char	*tmp;
 
 	tmp = NULL;
-	tmp = ft_memalloc(3);
+	tmp = msh_utils_memalloc(3, "msh_builtins_func_cd",
+			"print_invalid_argument");
 	if (!tmp)
 		return (msh_perror_exit_int("msh_builtins_func_cd",
 				"print_invalid_argument", "malloc fail.", EXIT_FAILURE));
@@ -79,19 +80,9 @@ static int	get_change_dir_exit_status(char *dir)
 static void	update_pwd_env(char *dir, t_list **env_list)
 {
 	if (dir[0] == '/')
-	{
-		dir = ft_strdup(dir);
-		if (!dir)
-			return (msh_perror_exit("msh_builtins_func_cd", "update_pwd_env",
-					"malloc fail.", EXIT_FAILURE));
-	}
+		dir = msh_utils_strdup(dir, "msh_builtins_func_cd", "update_pwd_env");
 	else
-	{
-		dir = getcwd(NULL, 0);
-		if (!dir)
-			return (msh_perror_exit("msh_builtins_func_cd", "update_pwd_env",
-					strerror(errno), EXIT_FAILURE));
-	}
+		dir = msh_utils_getcwd("msh_builtins_func_cd", "update_pwd_env");
 	msh_env_setvar(env_list, "PWD", dir);
 }
 
@@ -119,15 +110,9 @@ int	msh_builtins_func_cd(
 	print_oldpwd_flag = get_dir(argc, argv, env_list, &dir);
 	if (!dir)
 		return (EXIT_FAILURE);
-	dir = ft_strdup(dir);
-	if (!dir)
-		return (msh_perror_exit_int("msh_builtins_func_cd", "dir",
-				"malloc fail.", EXIT_FAILURE));
+	dir = msh_utils_strdup(dir, "msh_builtins_func_cd", "dir");
 	curr_dir = NULL;
-	curr_dir = getcwd(NULL, 0);
-	if (!curr_dir)
-		return (msh_perror_exit_int("msh_builtins_func_cd", "curr_dir",
-				strerror(errno), EXIT_FAILURE));
+	curr_dir = msh_utils_getcwd("msh_builtins_func_cd", "curr_dir");
 	if (get_change_dir_exit_status(dir) == ERROR)
 		return (1);
 	if (print_oldpwd_flag)

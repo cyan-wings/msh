@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:20:39 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 02:33:19 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 17:54:27 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,7 @@ void	msh_parse_expansion_quotes(char **strptr)
 	char	*new_str;
 
 	new_str = NULL;
-	new_str = ft_memalloc(1);
-	if (!new_str)
-		return (msh_perror_exit("msh_parse_expansion_quotes", "new_str",
-				"malloc fail.", EXIT_FAILURE));
+	new_str = msh_utils_memalloc(1, "msh_parse_expansion_quotes", "new_str");
 	msh_parse_expansion_quotes_helper(strptr, &new_str);
 	*strptr = new_str;
 }

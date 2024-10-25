@@ -6,12 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:36:59 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/24 22:05:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:27:51 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh.h"
-#include "ft_print_utils.h"
 
 //When getcwd is given NULL ptr, it dynamically allocates memmory.
 //ft_strdup(env_val) is for the history file
@@ -21,23 +20,13 @@ static char	*set_home_env_var(t_list **env_list)
 	char	*env_val;
 
 	env_key = NULL;
-	env_key = ft_strdup("HOME");
-	if (!env_key)
-		msh_perror_exit("init_msh",
-			"set_home_env_var: env_key",
-			"malloc fail.", EXIT_FAILURE);
+	env_key = msh_utils_strdup("HOME", "init_msh",
+			"set_home_env_var: env_key");
 	env_val = NULL;
-	env_val = getcwd(NULL, 0);
-	if (!env_val)
-		msh_perror_exit("init_msh",
-			"set_home_env_var: env_val",
-			strerror(errno), EXIT_FAILURE);
+	env_val = msh_utils_getcwd("init_msh", "set_home_env_var: env_val");
 	msh_env_setvar(env_list, env_key, env_val);
-	env_val = ft_strdup(env_val);
-	if (!env_val)
-		msh_perror_exit("init_msh",
-			"set_home_env_var: env_val",
-			"malloc fail.", EXIT_FAILURE);
+	env_val = msh_utils_strdup(env_val, "init_msh",
+			"set_home_env_var: env_val");
 	return (env_val);
 }
 
@@ -49,13 +38,11 @@ static void	set_history_file_env_var(t_list **env_list, char *filename)
 	char	*env_val;
 
 	env_key = NULL;
-	env_key = ft_strdup("MSH_HIST_FILE");
+	env_key = msh_utils_strdup("MSH_HIST_FILE", "init_msh",
+			"set_history_file_env_var: env_key");
 	env_val = NULL;
-	env_val = ft_strdup(filename);
-	if (!env_key || !env_val)
-		msh_perror_exit("init_msh",
-			"set_history_file_env_var: env_key or env_val",
-			"malloc fail.", EXIT_FAILURE);
+	env_val = msh_utils_strdup(filename, "init_msh",
+			"set_history_file_env_var: env_key");
 	msh_env_setvar(env_list, env_key, env_val);
 }
 
@@ -70,12 +57,7 @@ static void	init_msh(t_list **env_list)
 	if (!tmp)
 		tmp = set_home_env_var(env_list);
 	else
-	{
-		tmp = ft_strdup(tmp);
-		if (!tmp)
-			return (msh_perror_exit("init_msh", "ft_strdup(tmp)",
-					"malloc fail.", EXIT_FAILURE));
-	}
+		tmp = msh_utils_strdup(tmp, "init_msh", "ft_strdup(tmp)");
 	ft_strvappend(&tmp, "/", HISTORY_FILE, NULL);
 	if (!tmp)
 		return (msh_perror_exit("init_msh",

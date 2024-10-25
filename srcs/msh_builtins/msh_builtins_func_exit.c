@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:37:15 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/04 19:26:41 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 18:11:44 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,9 @@ static int	msh_builtins_exit_helper(char *exit_arg_str,
 
 	exit_arg_value = ft_atol(exit_arg_str);
 	temp = ft_itol(exit_arg_value);
+	if (!temp)
+		return (msh_perror_exit_int("msh_builtins_exit", "temp",
+				"malloc fail.", EXIT_FAILURE));
 	if (not_numeric(exit_arg_str) || ft_strcmp(exit_arg_str, temp))
 	{
 		ft_putstr_fd("msh: exit: ", 2);

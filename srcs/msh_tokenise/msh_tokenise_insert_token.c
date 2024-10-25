@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:00:08 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 19:19:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:47:16 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ static char	*ft_strdup_start_end(char *str, int start, int end)
 	char	*new_str;
 
 	new_str = NULL;
-	new_str = ft_memalloc(end - start + 2);
+	new_str = msh_utils_memalloc(end - start + 2,
+			"msh_tokenise_insert_token", "ft_strdup_start_end");
 	return ((char *) ft_memmove(new_str, str + start, end - start + 1));
 }
 

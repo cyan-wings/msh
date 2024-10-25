@@ -1,30 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrpad.c                                       :+:      :+:    :+:   */
+/*   msh_parse_cmd_expand_word.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/22 18:53:31 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 18:53:33 by myeow            ###   ########.fr       */
+/*   Created: 2024/10/25 14:15:32 by myeow             #+#    #+#             */
+/*   Updated: 2024/10/25 18:12:56 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string_utils.h"
-#include "ft_mem_utils.h"
+#include "msh_parse.h"
 
-void	ft_strrpad(char **strptr, char padding)
-{
-	int		len;
-	char	*buf;
-
-	len = ft_strlen(*strptr);
-	if ((*strptr)[0] == padding && (*strptr)[len - 1] == padding)
-	{
-		buf = NULL;
-		buf = ft_memalloc(len - 2 + 1);
-		ft_strlcpy(buf, *strptr + 1, len - 1);
-		ft_memdel((void **)strptr);
-		*strptr = buf;
-	}
-}
+char	msh_parse_cmd_expand_word(char *word);

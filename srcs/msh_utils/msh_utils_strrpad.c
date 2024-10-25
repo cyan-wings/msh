@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_tokenise_create_token.c                        :+:      :+:    :+:   */
+/*   msh_utils_strrpad.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 13:59:03 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 15:46:06 by myeow            ###   ########.fr       */
+/*   Created: 2024/10/22 18:53:31 by myeow             #+#    #+#             */
+/*   Updated: 2024/10/25 16:10:59 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_tokenise.h"
+#include "ft_string_utils.h"
+#include "ft_mem_utils.h"
 
-t_token	*msh_tokenise_create_token(char *str)
+void	msh_utils_strrpad(char **strptr, char padding)
 {
-	t_token	*token;
+	int		len;
+	char	*buf;
 
-	token = (t_token *)msh_utils_memalloc(sizeof(t_token),
-			"msh_tokenise_create_token", NULL);
-	token->value = str;
-	return (token);
+	len = ft_strlen(*strptr);
+	if ((*strptr)[0] == padding && (*strptr)[len - 1] == padding)
+	{
+		buf = NULL;
+		buf = ft_memalloc(len - 2 + 1);
+		ft_strlcpy(buf, *strptr + 1, len - 1);
+		ft_memdel((void **)strptr);
+		*strptr = buf;
+	}
 }

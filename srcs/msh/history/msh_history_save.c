@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:44:37 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:11:16 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 18:11:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ void	msh_history_save(char *input, t_list *env_list)
 	input_len = ft_strlen(input);
 	if (write(fd, input, input_len) != input_len || write(fd, "\n", 1) != 1)
 		msh_perror("msh_history_save", NULL, "Write to history error.");
-	close(fd);
+	if (close(fd) == -1)
+		return (msh_perror_exit("msh_history_save", NULL, strerror(errno),
+				EXIT_FAILURE));
 	return ;
 }

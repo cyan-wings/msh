@@ -6,13 +6,11 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 13:43:54 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 03:34:19 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 17:51:05 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_parse.h"
-
-void	ft_strrpad(char **strptr, char padding);
 
 static void	ast_add_argument_node(char *argument, t_ast **args_node)
 {
@@ -29,15 +27,12 @@ static void	parse_multiple(char *str, t_ast **args_node)
 	int		n;
 
 	array = NULL;
-	array = ft_split(str, DELIM_R);
-	if (!array)
-		return (msh_perror_exit("debug",
-				"msh_parse_cmd_arguments: parse_globbing",
-				"malloc fail.", EXIT_FAILURE));
+	array = msh_utils_split(str, DELIM_R, "msh_parse_cmd_arguments",
+			"parse_globbing");
 	n = -1;
 	while (array[++n])
 	{
-		ft_strrpad(&(array[n]), PAD_R);
+		msh_utils_strrpad(&(array[n]), PAD_R);
 		ast_add_argument_node(array[n], args_node);
 	}
 	ft_free_ft_split(array);

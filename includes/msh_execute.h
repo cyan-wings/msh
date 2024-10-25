@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:06:21 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/11 07:47:37 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:53:31 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "ft_string_utils.h"
 
 # include "msh_perror.h"
+# include "msh_utils.h"
 # include "msh_signal.h"
 # include "msh_parse.h"
 # include "msh_builtins.h"

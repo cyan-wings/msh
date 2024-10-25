@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:53:44 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 03:34:05 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 17:48:45 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,6 @@ static int	check_null_param(t_list **token_ptr,
 int		msh_parse_cmd_redirection_heredoc(const char *delim,
 				char **heredoc_contents);
 
-int		ft_arraylen(char **array);
-
-void	ft_strrpad(char **strptr, char padding);
-
 static int	redirection_expand_helper(t_token *next, t_ast **redir_file)
 {
 	char	**array;
@@ -51,16 +47,14 @@ static int	redirection_expand_helper(t_token *next, t_ast **redir_file)
 	if (ft_strchr(next->value, PAD_R))
 	{
 		array = NULL;
-		array = ft_split(next->value, DELIM_R);
-		if (!array)
-			return (msh_perror_exit_int("msh_parse_cmd_redirections",
-					"redirection_expand", "malloc fail.", EXIT_FAILURE));
-		if (ft_arraylen(array) != 1)
+		array = msh_utils_split(next->value, DELIM_R,
+				"msh_parse_cmd_redirections", "redirection_expand");
+		if (msh_utils_arraylen(array) != 1)
 		{
 			ft_free_ft_split(array);
 			return (AMBIGUOUS_REDIR_ERROR);
 		}
-		ft_strrpad(&(array[0]), PAD_R);
+		msh_utils_strrpad(&(array[0]), PAD_R);
 		*redir_file = msh_parse_astnew("file", array[0]);
 		ft_free_ft_split(array);
 	}

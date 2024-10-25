@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/22 15:07:00 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:07:02 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:46:00 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "ft_print_utils.h"
 
 # include "msh_perror.h"
+# include "msh_utils.h"
 
 typedef enum e_operator_type
 {

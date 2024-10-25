@@ -1,23 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_tokenise_create_token.c                        :+:      :+:    :+:   */
+/*   msh_utils_arraylen.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/09 13:59:03 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 15:46:06 by myeow            ###   ########.fr       */
+/*   Created: 2024/06/28 17:50:18 by myeow             #+#    #+#             */
+/*   Updated: 2024/10/25 15:51:21 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_tokenise.h"
-
-t_token	*msh_tokenise_create_token(char *str)
+int	msh_utils_arraylen(char **array)
 {
-	t_token	*token;
+	char	**ptr;
 
-	token = (t_token *)msh_utils_memalloc(sizeof(t_token),
-			"msh_tokenise_create_token", NULL);
-	token->value = str;
-	return (token);
+	ptr = array;
+	while (ptr && *ptr)
+		++ptr;
+	return (ptr - array);
 }

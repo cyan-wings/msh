@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:42:36 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/06 18:10:30 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:44:50 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,8 @@ void	msh_env_setvar(t_list **env_list, char *k, char *v)
 		}
 		curr = curr->next;
 	}
-	env_var = (t_env *) ft_memalloc(sizeof(t_env));
-	if (!env_var)
-		msh_perror_exit("msh_env_setvar", NULL, "malloc fail.", EXIT_FAILURE);
+	env_var = (t_env *)msh_utils_memalloc(sizeof(t_env), "msh_env_setvar",
+			NULL);
 	env_var->key = k;
 	env_var->val = v;
 	ft_lstadd_back(env_list, ft_lstnew(env_var));

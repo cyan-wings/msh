@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:23:18 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:12:24 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 15:58:20 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,10 @@ static void	insert_args_to_argv_arr(t_ast *arguments_node, char ***argv_arr)
 	while (++i < arguments_node->child_count)
 	{
 		if (arguments_node->children[i]->value)
-		{
-			(*argv_arr)[j++] = ft_strdup(arguments_node->children[i]->value);
-			if ((*argv_arr)[j - 1] == NULL)
-				return (msh_perror_exit(
-						"msh_execute_simple_cmd_init_get_argv_arr",
-						"insert_args_to_argv_arr: argv_arr[i]",
-						"malloc fail.", EXIT_FAILURE));
-		}
+			(*argv_arr)[j++] = msh_utils_strdup(
+					arguments_node->children[i]->value,
+					"msh_execute_simple_cmd_init_get_argv_arr",
+					"insert_args_to_argv_arr: argv_arr[i]");
 	}
 }
 

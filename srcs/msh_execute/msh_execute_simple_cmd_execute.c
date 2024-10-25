@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:27:51 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/23 16:49:25 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 18:12:13 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,9 @@ static int	find_path_access(char **path_split, char **argv_arr)
 			ft_strvappend(&tmp, path_split[i], "/", argv_arr[0], NULL);
 		else
 			ft_strvappend(&tmp, path_split[i], argv_arr[0], NULL);
+		if (!tmp)
+			return (msh_perror_exit_int("msh_execute_simple_cmd_execute",
+					"find_path_access", "malloc fail.", EXIT_FAILURE));
 		if (!access(tmp, F_OK) && (!stat(tmp, &s) && !S_ISDIR(s.st_mode)))
 		{
 			ft_memdel((void **)&argv_arr[0]);
@@ -79,11 +82,8 @@ static int	search_path(char **argv_arr, t_list **env_list)
 	path_split = NULL;
 	if (argv_arr[0] && argv_arr[0][0])
 	{
-		path_split = ft_split(msh_env_getvar(*env_list, "PATH"), ':');
-		if (!path_split)
-			return (msh_perror_exit_int("msh_execute_simple_cmd_path",
-					"get_path_split: path_split", "malloc fail.",
-					EXIT_FAILURE));
+		path_split = msh_utils_split(msh_env_getvar(*env_list, "PATH"), ':',
+				"msh_execute_simple_cmd_path", "get_path_split: path_split");
 		if (!find_path_access(path_split, argv_arr))
 		{
 			ft_free_ft_split(path_split);

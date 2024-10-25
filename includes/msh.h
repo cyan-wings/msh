@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:31:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/22 15:06:03 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/25 14:36:34 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@
 # include "msh_perror.h"
 # include "msh_signal.h"
 # include "msh_env.h"
+# include "msh_utils.h"
 
 /*
 # define OA "<"
