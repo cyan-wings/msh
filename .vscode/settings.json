@@ -50,6 +50,7 @@
         "msh_tokenise.h": "c",
         "msh_signal.h": "c",
         "sstream": "c",
-        "ft_char_utils.h": "c"
+        "ft_char_utils.h": "c",
+        "dirent.h": "c"
     }
 }

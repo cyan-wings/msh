@@ -50,7 +50,7 @@ void	msh_parse_expansion_quotes(char **strptr)
 	char	*new_str;
 
 	new_str = NULL;
-	new_str = msh_utils_memalloc(1, "msh_parse_expansion_quotes", "new_str");
 	msh_parse_expansion_quotes_helper(strptr, &new_str);
+	ft_memdel((void **)strptr);
 	*strptr = new_str;
 }

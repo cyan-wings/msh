@@ -73,6 +73,7 @@ SRC_M			=	\
 					msh_parse/expression/msh_parse_cmd_argument							\
 					msh_parse/expression/msh_parse_cmd_redirection						\
 					msh_parse/expression/msh_parse_cmd_redirection_heredoc				\
+					msh_parse/expression/msh_parse_cmd_expand_word						\
 					msh_parse/expansion/msh_parse_expansion_dollar						\
 					msh_parse/expansion/msh_parse_expansion_wildcards					\
 					msh_parse/expansion/msh_parse_expansion_quotes						\

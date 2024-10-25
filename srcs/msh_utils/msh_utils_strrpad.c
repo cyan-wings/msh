@@ -13,6 +13,7 @@
 #include "ft_string_utils.h"
 #include "ft_mem_utils.h"
 
+//Removes the padding
 void	msh_utils_strrpad(char **strptr, char padding)
 {
 	int		len;

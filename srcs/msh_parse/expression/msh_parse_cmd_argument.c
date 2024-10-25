@@ -12,6 +12,8 @@
 
 #include "msh_parse.h"
 
+char	*msh_parse_cmd_expand_word(char *word, t_list *env_list);
+
 static void	ast_add_argument_node(char *argument, t_ast **args_node)
 {
 	t_ast	*arg_child_node;
@@ -21,14 +23,14 @@ static void	ast_add_argument_node(char *argument, t_ast **args_node)
 	msh_parse_astadd_child(*args_node, arg_child_node);
 }
 
-static void	parse_multiple(char *str, t_ast **args_node)
+static void	parse_globbing_argument(char *str, t_ast **args_node)
 {
 	char	**array;
 	int		n;
 
 	array = NULL;
 	array = msh_utils_split(str, DELIM_R, "msh_parse_cmd_arguments",
-			"parse_globbing");
+			"parse_globbing_argument");
 	n = -1;
 	while (array[++n])
 	{
@@ -36,32 +38,45 @@ static void	parse_multiple(char *str, t_ast **args_node)
 		ast_add_argument_node(array[n], args_node);
 	}
 	ft_free_ft_split(array);
+	ft_memdel((void **)&str);
+}
+
+static void	parse_multiple_argument(char *str, t_ast **args_node)
+{
+	char	**array;
+	int		n;
+
+	array = NULL;
+	array = msh_utils_split(str, ' ', "msh_parse_cmd_arguments",
+			"parse_multiple_argument");
+	n = -1;
+	while (array[++n])
+		ast_add_argument_node(array[n], args_node);
+	ft_free_ft_split(array);
+	ft_memdel((void **)&str);
 }
 
 //It is valid for arg_str to be NULL.
 //Example: $abc (which doesn't exist in env)
-static void	parse_argument(char *arg_str, t_ast **args_node)
+static void	parse_argument(char *arg_str, t_ast **args_node, t_list *env_list)
 {
-	int	i;
+	char	*out;
+	int		i;
 
-	if (!arg_str)
+	out = NULL;
+	out = msh_parse_cmd_expand_word(arg_str, env_list);
+	if (!out)
 		return (ast_add_argument_node(NULL, args_node));
+	if (ft_strchr(out, PAD_R))
+		return (parse_globbing_argument(out, args_node));
+	if (!ft_strchr(out, SPACE_R))
+		return (parse_multiple_argument(out, args_node));
 	i = -1;
-	while (arg_str[++i])
-	{
-		if (arg_str[i] == '\"')
-			while (arg_str[++i] != '\"')
-				;
-		if (arg_str[i] == '\'')
-			while (arg_str[++i] != '\'')
-				;
-		if (arg_str[i] == ' ')
-			arg_str[i] = DELIM_R;
-	}
-	if (ft_strchr(arg_str, DELIM_R) || ft_strchr (arg_str, PAD_R))
-		return (parse_multiple(arg_str, args_node));
-	msh_parse_expansion_quotes(&arg_str);
-	ast_add_argument_node(arg_str, args_node);
+	while (out[++i])
+		if (out[i] == SPACE_R)
+			out[i] = ' ';
+	ast_add_argument_node(out, args_node);
+	ft_memdel((void **)&out);
 }
 
 void	msh_parse_cmd_argument(		
@@ -72,12 +87,8 @@ void	msh_parse_cmd_argument(
 {
 	if (*token_ptr && ((t_token *)(*token_ptr)->content)->type == WORD)
 	{
-		msh_parse_expansion_dollar(
-			&(((t_token *)(*token_ptr)->content)->value), env_list, 1);
-		msh_parse_expansion_wildcards(
-			&(((t_token *)(*token_ptr)->content)->value));
 		parse_argument(((t_token *)(*token_ptr)->content)->value,
-			args_node);
+			args_node, env_list);
 		msh_tokenise_get_next_token(token_ptr);
 	}
 }

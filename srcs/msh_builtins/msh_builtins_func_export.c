@@ -84,6 +84,7 @@ int	msh_builtins_func_export_helper(
 		}
 		value = msh_utils_strdup(++value, "msh_builtins_func_export", "value");
 		msh_env_setvar(env_list, key, value);
+		ft_memdel((void **)&key);
 	}
 	return (exit_status);
 }
