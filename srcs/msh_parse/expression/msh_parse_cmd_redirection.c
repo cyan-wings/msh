@@ -40,38 +40,52 @@ static int	check_null_param(t_list **token_ptr,
 int		msh_parse_cmd_redirection_heredoc(const char *delim,
 				char **heredoc_contents);
 
-static int	redirection_expand_helper(t_token *next, t_ast **redir_file)
-{
-	char	**array;
+char	*msh_parse_cmd_expand_word(char *word, t_list *env_list);
 
-	if (ft_strchr(next->value, PAD_R))
-	{
-		array = NULL;
-		array = msh_utils_split(next->value, DELIM_R,
-				"msh_parse_cmd_redirections", "redirection_expand");
-		if (msh_utils_arraylen(array) != 1)
-		{
-			ft_free_ft_split(array);
-			return (AMBIGUOUS_REDIR_ERROR);
-		}
-		msh_utils_strrpad(&(array[0]), PAD_R);
-		*redir_file = msh_parse_astnew("file", array[0]);
-		ft_free_ft_split(array);
-	}
-	else
-		*redir_file = msh_parse_astnew("file", next->value);
+static int	redirection_expand_helper(char **array, t_ast **redir_file_node)
+{
+	char	*file_str;
+	int		i;
+
+	file_str = NULL;
+	file_str = msh_utils_strdup(array[0], "msh_parse_cmd_redirection",
+			"redirection_expand_helper");
+	ft_free_ft_split(array);
+	i = -1;
+	while (file_str[++i])
+		if (file_str[i] == SPACE_R)
+			file_str[i] = ' ';
+	msh_utils_strrpad(&(file_str), PAD_R);
+	*redir_file_node = msh_parse_astnew("file", file_str);
+	ft_memdel((void **)&file_str);
 	return (0);
 }
 
-static int	redirection_expand(t_token *next, t_ast **redir_file,
+static int	redirection_expand(char *redir_str, t_ast **redir_file_node,
 					t_list *env_list)
 {
-	msh_parse_expansion_dollar(&(next->value), env_list, 1);
-	msh_parse_expansion_wildcards(&(next->value));
-	msh_parse_expansion_quotes(&(next->value));
-	if (!(next->value) || !ft_strlen(next->value))
+	char	*out;
+	char	**array;
+
+	out = NULL;
+	out = msh_parse_cmd_expand_word(redir_str, env_list);
+	if (!out || !ft_strlen(out))
 		return (AMBIGUOUS_REDIR_ERROR);
-	return (redirection_expand_helper(next, redir_file));
+	if (ft_strchr(out, DELIM_R))
+	{
+		ft_memdel((void **)&out);
+		return (AMBIGUOUS_REDIR_ERROR);
+	}
+	array = NULL;
+	array = msh_utils_split(out, ' ', "msh_parse_cmd_redirection",
+			"redirection_expand");
+	ft_memdel((void **)&out);
+	if (msh_utils_arraylen(array) != 1)
+	{
+		ft_free_ft_split(array);
+		return (AMBIGUOUS_REDIR_ERROR);
+	}
+	return (redirection_expand_helper(array, redir_file_node));
 }
 
 static int	parse_redirection(t_token *curr, t_token *next,
@@ -98,7 +112,7 @@ static int	parse_redirection(t_token *curr, t_token *next,
 		signal(SIGINT, msh_signal_ctrl_c);
 	}
 	else
-		status = redirection_expand(next, &redir_file, env_list);
+		status = redirection_expand(next->value, &redir_file, env_list);
 	*redir_child_node = msh_parse_astnew("redirection", redir_op);
 	msh_parse_astadd_child(*redir_child_node, redir_file);
 	return (status);
