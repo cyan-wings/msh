@@ -14,7 +14,7 @@
 #include "msh_signal.h"
 
 int		msh_parse_cmd_redirection_helper_heredoc(char *delim,
-				char **heredoc_contents);
+			char **heredoc_contents);
 
 char	*msh_parse_cmd_expand_word(char *word, t_list *env_list);
 

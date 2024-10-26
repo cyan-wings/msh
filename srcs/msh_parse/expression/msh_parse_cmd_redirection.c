@@ -37,7 +37,7 @@ static int	check_null_param(t_list **token_ptr,
 }
 
 int	msh_parse_redirection_helper(t_token *curr, t_token *next,
-					t_ast **redir_child_node, t_list *env_list);
+				t_ast **redir_child_node, t_list *env_list);
 
 /*
  * When this function enters current token is assumed to be of REDIR_OP type.
