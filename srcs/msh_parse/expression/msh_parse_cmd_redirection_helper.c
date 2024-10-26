@@ -13,7 +13,7 @@
 #include "msh_parse.h"
 #include "msh_signal.h"
 
-int		msh_parse_cmd_redirection_helper_heredoc(const char *delim,
+int		msh_parse_cmd_redirection_helper_heredoc(char *delim,
 				char **heredoc_contents);
 
 char	*msh_parse_cmd_expand_word(char *word, t_list *env_list);
@@ -81,6 +81,9 @@ static int	parse_redirection_heredoc(char *lim, t_list *env_list,
 			flag_dollar_expand = 0;
 	if (!flag_dollar_expand)
 		msh_parse_expansion_quotes(&lim_cpy);
+	if (!lim_cpy)
+		lim_cpy = msh_utils_memalloc(1, "msh_parse_redirection_helper",
+				"parse_redirection_heredoc: memalloc");
 	status = 0;
 	status = msh_parse_cmd_redirection_helper_heredoc(lim_cpy,
 			heredoc_contents);

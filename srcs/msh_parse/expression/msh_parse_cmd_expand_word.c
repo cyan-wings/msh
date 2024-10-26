@@ -67,6 +67,14 @@ static int	format_wildcards(char *str)
 	return (flag);
 }
 
+static char	*msh_parse_cmd_expand_word_helper(char *out)
+{
+	if (!out)
+		out = msh_utils_memalloc(1, "msh_parse_cmd_expand_word",
+				"msh_parse_cmd_expand_word_helper");
+	return (out);
+}
+
 char	*msh_parse_cmd_expand_word(char *word, t_list *env_list)
 {
 	char	*out;
@@ -92,5 +100,5 @@ char	*msh_parse_cmd_expand_word(char *word, t_list *env_list)
 	}
 	ft_memdel((void **)&out_cpy);
 	msh_parse_expansion_quotes(&out);
-	return (out);
+	return (msh_parse_cmd_expand_word_helper(out));
 }

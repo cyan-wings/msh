@@ -89,14 +89,11 @@ static int	sigint_heredoc(int fd, char **heredoc_contents)
 	return (HEREDOC_SIGINT_ERROR);
 }
 
-int	msh_parse_cmd_redirection_helper_heredoc(const char *delim,
+int	msh_parse_cmd_redirection_helper_heredoc(char *delim,
 			char **heredoc_contents)
 {
 	int		fd;
 
-	if (!delim)
-		msh_perror("debug", "msh_parse_cmd_redirections_heredoc",
-			"delim is NULL.");
 	if (!heredoc_contents)
 		msh_perror("debug", "msh_parse_cmd_redirections_heredoc",
 			"heredoc_contents is NULL.");
@@ -108,6 +105,7 @@ int	msh_parse_cmd_redirection_helper_heredoc(const char *delim,
 		heredoc_readline(delim, heredoc_contents);
 	else
 		heredoc_gnl(delim, heredoc_contents);
+	ft_memdel((void **)&delim);
 	if (errno == EBADF)
 		return (sigint_heredoc(fd, heredoc_contents));
 	if (!heredoc_contents)

@@ -69,7 +69,7 @@ static void	parse_argument(char *arg_str, t_ast **args_node, t_list *env_list)
 		return (ast_add_argument_node(NULL, args_node));
 	if (ft_strchr(out, PAD_R))
 		return (parse_globbing_argument(out, args_node));
-	if (!ft_strchr(out, SPACE_R))
+	if (!ft_strchr(out, SPACE_R) && ft_strchr(out, ' '))
 		return (parse_multiple_argument(out, args_node));
 	i = -1;
 	while (out[++i])
