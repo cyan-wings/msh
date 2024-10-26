@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:53:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 15:39:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/26 20:06:23 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	msh_builtins_func_export_helper(
 		}
 		value = msh_utils_strdup(++value, "msh_builtins_func_export", "value");
 		msh_env_setvar(env_list, key, value);
-		ft_memdel((void **)&key);
 	}
 	return (exit_status);
 }
