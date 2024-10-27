@@ -51,7 +51,7 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 	if (builtin_func)
 	{
 		status = msh_execute_simple_cmd_redirs(node->children[1],
-				&redir_st_arr);
+				&redir_st_arr, env_list);
 		if (status != ERROR)
 			status = (*builtin_func)(msh_utils_arraylen(argv_arr),
 					argv_arr, env_list, subshell_flag);

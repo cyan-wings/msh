@@ -19,9 +19,9 @@ static char	*find_equals(char *env_str)
 	return (env_str);
 }
 
-void	msh_env_init(t_list **env_list)
+void	msh_env_init(t_list **env_list, char **envp)
 {
-	extern char	**environ;
+	int			i;
 	char		*equals_symbol;
 	char		*k;
 	char		*v;
@@ -29,18 +29,18 @@ void	msh_env_init(t_list **env_list)
 	if (!env_list)
 		return (msh_perror_exit("debug", "msh_env_init", "env_list is NULL.",
 				EXIT_FAILURE));
-	if (!environ)
+	if (!envp)
 		return (msh_perror_exit("msh_env_init", NULL,
 				"No environment variable.", EXIT_FAILURE));
-	while (*environ)
+	i = -1;
+	while (envp[++i])
 	{
-		equals_symbol = find_equals(*environ);
-		k = msh_utils_memalloc(equals_symbol - *environ + 1, "msh_env_init",
+		equals_symbol = find_equals(envp[i]);
+		k = msh_utils_memalloc(equals_symbol - envp[i] + 1, "msh_env_init",
 				"k");
 		v = msh_utils_memalloc(ft_strlen(equals_symbol), "msh_env_init", "v");
-		ft_strlcpy(k, *environ, equals_symbol - *environ + 1);
+		ft_strlcpy(k, envp[i], equals_symbol - envp[i] + 1);
 		ft_strlcpy(v, equals_symbol + 1, ft_strlen(equals_symbol));
 		msh_env_setvar(env_list, k, v);
-		++environ;
 	}
 }

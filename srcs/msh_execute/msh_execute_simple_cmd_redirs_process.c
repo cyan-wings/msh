@@ -111,6 +111,7 @@ int	msh_execute_simple_cmd_redirs_process(char *op, char *file,
 		return (msh_perror_int("debug", "msh_execute_simple_cmd_redirs_process",
 				"Unknown redir op"));
 	fd[0] = get_redir_in(file, redir_type);
+	ft_memdel((void **)&file);
 	fd[1] = get_redir_out(redir_type);
 	if (fd[0] == ERROR || fd[1] == ERROR)
 		return (ERROR);

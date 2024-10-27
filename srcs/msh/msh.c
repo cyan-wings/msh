@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh.h"
+#include <signal.h>
 
 //When getcwd is given NULL ptr, it dynamically allocates memmory.
 //ft_strdup(env_val) is for the history file
@@ -36,6 +37,7 @@ static void	set_history_file_env_var(t_list **env_list, char *filename)
 {
 	char	*env_key;
 	char	*env_val;
+	int		flag;
 
 	env_key = NULL;
 	env_key = msh_utils_strdup("MSH_HIST_FILE", "init_msh",
@@ -43,15 +45,20 @@ static void	set_history_file_env_var(t_list **env_list, char *filename)
 	env_val = NULL;
 	env_val = msh_utils_strdup(filename, "init_msh",
 			"set_history_file_env_var: env_key");
+	flag = 0;
+	if (msh_env_getvar(*env_list, env_key))
+		flag = 1;
 	msh_env_setvar(env_list, env_key, env_val);
+	if (flag)
+		ft_memdel((void **)&env_key);
 }
 
-static void	init_msh(t_list **env_list)
+static void	init_msh(t_list **env_list, char **envp)
 {
 	char	*tmp;
 
 	signal(SIGQUIT, SIG_IGN);
-	msh_env_init(env_list);
+	msh_env_init(env_list, envp);
 	tmp = NULL;
 	tmp = msh_env_getvar(*env_list, "HOME");
 	if (!tmp)
@@ -95,13 +102,14 @@ void	msh_routine(t_list *env_list, char *input)
 
 //Better to register signal handler before modifying terminal settings.
 //system("leaks msh -q");
-int	main(void)
+int	main(int argc __attribute((unused)), char **argv __attribute((unused)),
+		char **envp)
 {
 	t_list		*env_list;
 	char		*input;
 
 	env_list = NULL;
-	init_msh(&env_list);
+	init_msh(&env_list, envp);
 	input = NULL;
 	msh_routine(env_list, input);
 	rl_clear_history();

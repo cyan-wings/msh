@@ -104,7 +104,5 @@ void	msh_input_process(char *input, t_list **env_list)
 		return (print_error_and_clean("Parsing error.", &token_list));
 	else if (status == HEREDOC_SIGINT_ERROR)
 		return (print_error_and_clean(NULL, &token_list));
-	else if (status == AMBIGUOUS_REDIR_ERROR)
-		return (print_error_and_clean("Ambiguous redirect.", &token_list));
 	return (msh_input_process_helper(env_list, root, &token_list));
 }

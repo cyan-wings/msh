@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh_builtins.h"
+#include "readline.h"
 
 static void	too_many_args_error(int argc)
 {
@@ -82,6 +83,7 @@ int	msh_builtins_exit(int argc, char **argv, int subshell_flag)
 	}
 	else
 		exit_status = msh_builtins_exit_helper(argv[1], exit_status);
+	rl_clear_history();
 	exit(exit_status);
 	ft_putendl_fd("exit", 1);
 	return (0);

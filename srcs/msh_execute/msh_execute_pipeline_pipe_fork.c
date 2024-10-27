@@ -58,7 +58,8 @@ static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 				subshell_flag);
 	else
 	{
-		if (msh_execute_simple_cmd_redirs(node->children[1], NULL) == ERROR)
+		if (msh_execute_simple_cmd_redirs(node->children[1], NULL, env_list)
+			== ERROR)
 			return (msh_execute_free_exit(EXIT_FAILURE, argv_arr, envp_arr));
 		status = msh_execute_simple_cmd_execute(argv_arr, envp_arr, env_list);
 	}

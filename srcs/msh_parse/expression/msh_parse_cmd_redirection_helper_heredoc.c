@@ -108,9 +108,9 @@ int	msh_parse_cmd_redirection_helper_heredoc(char *delim,
 	ft_memdel((void **)&delim);
 	if (errno == EBADF)
 		return (sigint_heredoc(fd, heredoc_contents));
-	if (!heredoc_contents)
-		msh_perror("debug", "msh_parse_cmd_redirections",
-			"heredoc_contents is NULL after input.");
+	if (!*heredoc_contents)
+		*heredoc_contents = msh_utils_memalloc(1,
+				"msh_parse_cmd_redirections_heredoc", "memalloc");
 	if (close(fd) == -1)
 		return (msh_perror_exit_int(",msh_parse_cmd_redirections_heredoc",
 				NULL, strerror(errno), EXIT_FAILURE));

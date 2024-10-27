@@ -100,7 +100,7 @@ int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 	if (node->children[1]->child_count)
 	{
 		status = msh_execute_simple_cmd_redirs(node->children[1],
-				&redir_st_arr);
+				&redir_st_arr, env_list);
 		msh_execute_simple_cmd_redirs_restore(&redir_st_arr);
 	}
 	return (status);
