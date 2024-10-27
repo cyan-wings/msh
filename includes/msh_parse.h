@@ -69,11 +69,4 @@ int		msh_parse_grouping(t_list **token_ptr, t_ast **grouping_node,
 			t_list *env_list);
 int		msh_parse_cmd(t_list **token_ptr, t_ast **cmd_nod, t_list *env_list);
 
-//EXPANSION
-void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote);
-void	msh_parse_expansion_quotes(char **strptr);
-int		msh_parse_expansion_wildcards(char **strptr);
-void	msh_parse_expansion_utils_strappend(char **strptr, int start, int i,
-			char **new_strptr);
-
 #endif

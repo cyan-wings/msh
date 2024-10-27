@@ -74,11 +74,11 @@ SRC_M			=	\
 					msh_parse/expression/msh_parse_cmd_redirection						\
 					msh_parse/expression/msh_parse_cmd_redirection_helper				\
 					msh_parse/expression/msh_parse_cmd_redirection_helper_heredoc		\
-					msh_parse/expression/msh_parse_cmd_expand_word						\
-					msh_parse/expansion/msh_parse_expansion_dollar						\
-					msh_parse/expansion/msh_parse_expansion_wildcards					\
-					msh_parse/expansion/msh_parse_expansion_quotes						\
-					msh_parse/expansion/msh_parse_expansion_utils_strappend				\
+					msh_expansion/msh_expansion_word									\
+					msh_expansion/msh_expansion_dollar									\
+					msh_expansion/msh_expansion_wildcards								\
+					msh_expansion/msh_expansion_quotes									\
+					msh_expansion/msh_expansion_utils_strappend							\
 					msh_builtins/msh_builtins_func_cd									\
 					msh_builtins/msh_builtins_func_echo									\
 					msh_builtins/msh_builtins_func_env									\
@@ -94,6 +94,7 @@ SRC_M			=	\
 					msh_execute/msh_execute_simple_cmd									\
 					msh_execute/msh_execute_simple_cmd_init								\
 					msh_execute/msh_execute_simple_cmd_init_get_argv_arr				\
+					msh_execute/msh_execute_simple_cmd_init_get_argv_arr_helper			\
 					msh_execute/msh_execute_simple_cmd_redirs							\
 					msh_execute/msh_execute_simple_cmd_redirs_process					\
 					msh_execute/msh_execute_simple_cmd_redirs_restore					\

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_cmd_expand_word.c                        :+:      :+:    :+:   */
+/*   msh_expansion_word.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh_expansion.h"
 
 //flag = 0, for <space> to SPACE_R
 //flag = 1, for SPACE_R to <space>
@@ -67,7 +67,7 @@ static int	format_wildcards(char *str)
 	return (flag);
 }
 
-static char	*msh_parse_cmd_expand_word_helper(char *out)
+static char	*msh_expansion_word_helper(char *out)
 {
 	if (!out)
 		out = msh_utils_memalloc(1, "msh_parse_cmd_expand_word",
@@ -75,7 +75,7 @@ static char	*msh_parse_cmd_expand_word_helper(char *out)
 	return (out);
 }
 
-char	*msh_parse_cmd_expand_word(char *word, t_list *env_list)
+char	*msh_expansion_word(char *word, t_list *env_list)
 {
 	char	*out;
 	char	*out_cpy;
@@ -83,7 +83,7 @@ char	*msh_parse_cmd_expand_word(char *word, t_list *env_list)
 	out = NULL;
 	out = msh_utils_strdup(word, "msh_parse_cmd_expand_word", "out");
 	format_spaces(out, 0);
-	msh_parse_expansion_dollar(&out, env_list, 1);
+	msh_expansion_dollar(&out, env_list, 1);
 	if (!out)
 		return (NULL);
 	out_cpy = NULL;
@@ -91,14 +91,14 @@ char	*msh_parse_cmd_expand_word(char *word, t_list *env_list)
 	format_spaces(out_cpy, 1);
 	if (format_wildcards(out_cpy))
 	{
-		msh_parse_expansion_quotes(&out_cpy);
-		if (msh_parse_expansion_wildcards(&out_cpy))
+		msh_expansion_quotes(&out_cpy);
+		if (msh_expansion_wildcards(&out_cpy))
 		{
 			ft_memdel((void **)&out);
 			return (out_cpy);
 		}
 	}
 	ft_memdel((void **)&out_cpy);
-	msh_parse_expansion_quotes(&out);
-	return (msh_parse_cmd_expand_word_helper(out));
+	msh_expansion_quotes(&out);
+	return (msh_expansion_word_helper(out));
 }

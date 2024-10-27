@@ -15,8 +15,7 @@
 int		msh_parse_cmd_redirection(t_list **token_ptr,
 			t_ast **redirs_root_node, t_list *env_list);
 
-void	msh_parse_cmd_argument(t_list **token_ptr, t_ast **args_node,
-			t_list *env_list);
+void	msh_parse_cmd_argument(t_list **token_ptr, t_ast **args_node);
 
 /*
  * Format of a simple command:
@@ -63,7 +62,7 @@ static int	msh_parse_cmd_helper(
 			status = msh_parse_cmd_redirection(token_ptr, redirs_node,
 					env_list);
 		else if (((t_token *)(*token_ptr)->content)->type == WORD)
-			msh_parse_cmd_argument(token_ptr, args_node, env_list);
+			msh_parse_cmd_argument(token_ptr, args_node);
 		else
 			return (ERROR);
 	}
@@ -75,7 +74,7 @@ static int	msh_parse_cmd_helper(
 			status = msh_parse_cmd_redirection(token_ptr, redirs_node,
 					env_list);
 		else if (((t_token *)(*token_ptr)->content)->type == WORD)
-			msh_parse_cmd_argument(token_ptr, args_node, env_list);
+			msh_parse_cmd_argument(token_ptr, args_node);
 	}
 	return (status);
 }

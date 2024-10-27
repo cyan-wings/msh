@@ -11,69 +11,68 @@
 /* ************************************************************************** */
 
 #include "msh_execute.h"
+#include "msh_expansion.h"
 
-static int	check_null_param(t_ast *arguments_node, char ***argv_arr)
+static int	get_args_count(char *expanded_word, char delim)
 {
-	if (!arguments_node)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd_init_get_argv_arr",
-			"arguments_node is NULL.");
+	char	**temp;
+	int		ret;
+
+	temp = NULL;
+	temp = msh_utils_split(expanded_word, delim,
+			"msh_execute_simple_cmd_init_get_argv_arr",
+			"count_args_in_word");
+	ret = 0;
+	ret = msh_utils_arraylen(temp);
+	ft_free_ft_split(temp);
+	return (ret);
+}
+
+static int	count_args_in_word(char *expanded_word)
+{
+	int	i;
+
+	if (!expanded_word)
 		return (0);
-	}
-	if (!argv_arr)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd_init_get_argv_arr",
-			"argv_arr is NULL.");
-		return (0);
-	}
+	if (ft_strchr(expanded_word, PAD_R))
+		return (get_args_count(expanded_word, DELIM_R));
+	if (!ft_strchr(expanded_word, SPACE_R) && ft_strchr(expanded_word, ' '))
+		return (get_args_count(expanded_word, ' '));
+	i = -1;
+	while (expanded_word[++i])
+		if (expanded_word[i] == SPACE_R)
+			expanded_word[i] = ' ';
 	return (1);
 }
 
-static void	insert_args_to_argv_arr(t_ast *arguments_node, char ***argv_arr)
-{
-	int		i;
-	int		j;
+void	msh_execute_simple_cmd_init_get_argv_arr_helper(t_ast *arguments_node,
+				char ***argv_arr, int argv_arr_len, char **temp_arr);
 
+void	msh_execute_simple_cmd_init_get_argv_arr(t_ast *arguments_node,
+		char ***argv_arr, t_list **env_list)
+{
+	int		argv_arr_len;
+	char	**temp_arr;
+	int		i;
+	char	*expanded_word;
+
+	argv_arr_len = 0;
+	temp_arr = (char **)ft_calloc(arguments_node->child_count + 1,
+			sizeof(char *));
 	i = -1;
-	j = 0;
 	while (++i < arguments_node->child_count)
 	{
-		if (arguments_node->children[i]->value)
-			(*argv_arr)[j++] = msh_utils_strdup(
-					arguments_node->children[i]->value,
-					"msh_execute_simple_cmd_init_get_argv_arr",
-					"insert_args_to_argv_arr: argv_arr[i]");
+		expanded_word = NULL;
+		expanded_word = msh_expansion_word(arguments_node->children[i]->value,
+				*env_list);
+		if (!i && !expanded_word)
+		{
+			ft_free_ft_split(temp_arr);
+			return ;
+		}
+		temp_arr[i] = expanded_word;
+		argv_arr_len += count_args_in_word(expanded_word);
 	}
-}
-
-/*
- * Builds the argv for the execve function.
- * First element in the array must be the executable.
- * Note:
- * 		argv is always NULL terminated.
- * 		+ 2 due to the executable and the NULL terminator.
- * 		i is not incremented in the while loop becauase first index
- * 		of the arguments' child array is 0.
- */
-void	msh_execute_simple_cmd_init_get_argv_arr(t_ast *arguments_node,
-		char ***argv_arr)
-{
-	char	*executable_str;
-
-	if (!check_null_param(arguments_node, argv_arr))
-		return ;
-	if (ft_strcmp(arguments_node->type, "arguments"))
-		return (msh_perror_exit("debug",
-				"msh_execute_simple_cmd_init_get_argv_arr",
-				"Node is not arguments.", EXIT_FAILURE));
-	executable_str = NULL;
-	executable_str = arguments_node->children[0]->value;
-	if (!executable_str)
-		return ;
-	*argv_arr = (char **)ft_calloc(arguments_node->child_count + 1,
-			sizeof(char *));
-	if (!*argv_arr)
-		return (msh_perror_exit("msh_execute_simple_cmd_init_get_argv_arr",
-				"argv_arr", "malloc fail.", EXIT_FAILURE));
-	insert_args_to_argv_arr(arguments_node, argv_arr);
+	return (msh_execute_simple_cmd_init_get_argv_arr_helper(arguments_node,
+			argv_arr, argv_arr_len, temp_arr));
 }

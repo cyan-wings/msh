@@ -60,32 +60,36 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	return (key);
 }
 
-int	msh_builtins_func_export_helper(
+static void	msh_builtins_func_export_helper(
 		char **argv,
-		t_list **env_list
+		t_list **env_list,
+		int *exit_status
 )
 {
-	int		exit_status;
 	int		i;
 	char	*key;
 	char	*value;
+	int		flag;
 
-	exit_status = 0;
 	i = 0;
 	while (argv[++i])
 	{
 		key = NULL;
 		value = NULL;
-		key = get_key(argv[i], &value, &exit_status);
+		key = get_key(argv[i], &value, exit_status);
 		if (!key || !value)
 		{
 			ft_memdel((void **)&key);
 			continue ;
 		}
 		value = msh_utils_strdup(++value, "msh_builtins_func_export", "value");
+		flag = 0;
+		if (msh_env_getvar(*env_list, key))
+			flag = 1;
 		msh_env_setvar(env_list, key, value);
+		if (flag)
+			ft_memdel((void **)&key);
 	}
-	return (exit_status);
 }
 
 int	msh_builtins_func_export(
@@ -95,6 +99,8 @@ int	msh_builtins_func_export(
 		int subshell_flag __attribute((unused))
 )
 {
+	int	exit_status;
+
 	if (!argv[1])
 	{
 		msh_env_print(*env_list, 1);
@@ -102,5 +108,7 @@ int	msh_builtins_func_export(
 	}
 	if (argv[1] && argv[1][0] == '-')
 		return (print_invalid_argument(argv[1]));
-	return (msh_builtins_func_export_helper(argv, env_list));
+	exit_status = 0;
+	msh_builtins_func_export_helper(argv, env_list, &exit_status);
+	return (exit_status);
 }

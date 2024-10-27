@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_expansion_dollar.c                       :+:      :+:    :+:   */
+/*   msh_expansion_dollar.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh_expansion.h"
 
 static int	ft_ischar_identifier(char c)
 {
@@ -65,10 +65,10 @@ static void	process_identifier(t_list *env_list, char *str, int *i,
 	}
 }
 
-static void	msh_parse_expansion_dollar_helper(char **strptr, int start, int i,
+static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
 		char **new_strptr)
 {
-	msh_parse_expansion_utils_strappend(strptr, start, i, new_strptr);
+	msh_expansion_utils_strappend(strptr, start, i, new_strptr);
 	ft_memdel((void **) strptr);
 	*strptr = *new_strptr;
 }
@@ -82,7 +82,7 @@ static void	msh_parse_expansion_dollar_helper(char **strptr, int start, int i,
  *
  * quote = 0 is to ignore quotes.
  */
-void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote)
+void	msh_expansion_dollar(char **strptr, t_list *env_list, int quote)
 {
 	int		dquote_flag;
 	int		start;
@@ -103,10 +103,10 @@ void	msh_parse_expansion_dollar(char **strptr, t_list *env_list, int quote)
 		if ((*strptr)[i] == '$' && (ft_ischar_identifier((*strptr)[i + 1])
 			|| (*strptr)[i + 1] == '?'))
 		{
-			msh_parse_expansion_utils_strappend(strptr, start, i++, &new_str);
+			msh_expansion_utils_strappend(strptr, start, i++, &new_str);
 			process_identifier(env_list, *strptr, &i, &new_str);
 			start = i--;
 		}
 	}
-	msh_parse_expansion_dollar_helper(strptr, start, i, &new_str);
+	msh_expansion_dollar_helper(strptr, start, i, &new_str);
 }

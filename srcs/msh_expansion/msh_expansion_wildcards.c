@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_expansion_wildcards.c                    :+:      :+:    :+:   */
+/*   msh_expansion_wildcards.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh_expansion.h"
 #include "dirent.h"
 
 static int	append_to_new_str_if_match(char *pattern, char **new_strptr,
@@ -102,7 +102,7 @@ static void	revert_wildcards_to_literal(char **strptr)
  * 	When n is 0, no match was found. The string must be treated as a 
  * 	literal. The replaced '*' must be reverted to its original form.
  */
-int	msh_parse_expansion_wildcards(char **strptr)
+int	msh_expansion_wildcards(char **strptr)
 {
 	char	*new_str;
 	int		n;

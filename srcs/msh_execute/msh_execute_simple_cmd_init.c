@@ -81,7 +81,7 @@ void	get_envp_arr(t_list **env_list, char ***envp_arr)
 }
 
 void	msh_execute_simple_cmd_init_get_argv_arr(t_ast *arguments_node,
-				char ***argv_arr);
+				char ***argv_arr, t_list **env_list);
 
 int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 		char ***envp_arr, char ***argv_arr)
@@ -93,7 +93,8 @@ int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 		return (ERROR);
 	get_envp_arr(env_list, envp_arr);
 	if (node->children[0]->child_count)
-		msh_execute_simple_cmd_init_get_argv_arr(node->children[0], argv_arr);
+		msh_execute_simple_cmd_init_get_argv_arr(node->children[0], argv_arr,
+			env_list);
 	status = 0;
 	redir_st_arr = NULL;
 	if (node->children[1]->child_count)

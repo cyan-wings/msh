@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_parse_expansion_utils_strappend.c              :+:      :+:    :+:   */
+/*   msh_expansion_utils_strappend.c                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,9 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "msh_parse.h"
+#include "msh_expansion.h"
 
-void	msh_parse_expansion_utils_strappend(char **strptr, int start, int i,
+void	msh_expansion_utils_strappend(char **strptr, int start, int i,
 		char **new_strptr)
 {
 	char	*temp;
