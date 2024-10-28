@@ -13,16 +13,6 @@
 #include "msh_env.h"
 #include "msh_builtins.h"
 
-static int	check_identifier(char *identifier)
-{
-	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
-		return (0);
-	while (*++identifier)
-		if (!ft_isalnum(*identifier) && *identifier != '_')
-			return (0);
-	return (1);
-}
-
 static int	print_invalid_argument(char *arg_str)
 {
 	char	*tmp;
@@ -38,6 +28,16 @@ static int	print_invalid_argument(char *arg_str)
 	return (2);
 }
 
+static int	check_identifier(char *identifier)
+{
+	if (!ft_isalpha(identifier[0]) && identifier[0] != '_')
+		return (0);
+	while (*++identifier)
+		if (!ft_isalnum(*identifier) && *identifier != '_')
+			return (0);
+	return (1);
+}
+
 //'=' is changed to a '\0' to separate the key and value to 2 strings.
 //This is to avoid malloc.
 static char	*get_key(char *arg_str, char **value, int *exit_status)
@@ -47,14 +47,15 @@ static char	*get_key(char *arg_str, char **value, int *exit_status)
 	*value = ft_strchr(arg_str, '=');
 	if (*value)
 		**value = 0;
-	key = msh_utils_strdup(arg_str, "msh_builtins_func_export", "get_key: key");
+	else
+		return (NULL);
+	key = arg_str;
 	if (!check_identifier(key))
 	{
 		if (*value)
 			**value = '=';
 		msh_perror("export: `", arg_str, "': not a valid identifier");
 		*exit_status = 1;
-		ft_memdel((void **)&key);
 		return (NULL);
 	}
 	return (key);
@@ -69,7 +70,6 @@ static void	msh_builtins_func_export_helper(
 	int		i;
 	char	*key;
 	char	*value;
-	int		flag;
 
 	i = 0;
 	while (argv[++i])
@@ -77,18 +77,9 @@ static void	msh_builtins_func_export_helper(
 		key = NULL;
 		value = NULL;
 		key = get_key(argv[i], &value, exit_status);
-		if (!key || !value)
-		{
-			ft_memdel((void **)&key);
+		if (!key || msh_env_check_restricted(key, "export"))
 			continue ;
-		}
-		value = msh_utils_strdup(++value, "msh_builtins_func_export", "value");
-		flag = 0;
-		if (msh_env_getvar(*env_list, key))
-			flag = 1;
-		msh_env_setvar(env_list, key, value);
-		if (flag)
-			ft_memdel((void **)&key);
+		msh_env_setvar(env_list, key, ++value);
 	}
 }
 

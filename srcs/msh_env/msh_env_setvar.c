@@ -49,15 +49,15 @@ void	msh_env_setvar(t_list **env_list, char *k, char *v)
 		if (!ft_strcmp(env_var->key, k))
 		{
 			ft_memdel((void **)&env_var->val);
-			env_var->val = v;
+			env_var->val = msh_utils_strdup(v, "msh_env_setvar", "v");
 			return ;
 		}
 		curr = curr->next;
 	}
 	env_var = (t_env *)msh_utils_memalloc(sizeof(t_env), "msh_env_setvar",
-			NULL);
-	env_var->key = k;
-	env_var->val = v;
+			"env_var");
+	env_var->key = msh_utils_strdup(k, "msh_env_setvar", "k");
+	env_var->val = msh_utils_strdup(v, "msh_env_setvar", "v");
 	ft_lstadd_back(env_list, ft_lstnew(env_var));
 	return ;
 }

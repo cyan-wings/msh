@@ -51,6 +51,7 @@ SRC_M			=	\
 					msh_env/msh_env_free_t_env											\
 					msh_env/msh_env_free												\
 					msh_env/msh_env_print												\
+					msh_env/msh_env_check_restricted									\
 					msh_tokenise/msh_tokenise											\
 					msh_tokenise/msh_tokenise_create_token								\
 					msh_tokenise/msh_tokenise_insert_token								\

@@ -54,6 +54,7 @@ void	msh_env_delvar(t_list **env_list, char *k)
 			else
 				*env_list = curr->next;
 			msh_env_free_t_env(curr->content);
+			curr->content = NULL;
 			ft_memdel((void **) &curr);
 			break ;
 		}

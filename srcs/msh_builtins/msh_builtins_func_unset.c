@@ -13,8 +13,6 @@
 #include "msh_env.h"
 #include "msh_builtins.h"
 
-#define RESTRICTED_ENV_VARS 5
-
 static int	print_invalid_argument(char *arg_str)
 {
 	if (!ft_strcmp(arg_str, "-"))
@@ -28,23 +26,6 @@ static int	print_invalid_argument(char *arg_str)
 	ft_putendl_fd(": invalid option\nunset: usage: unset [name ...]",
 		STDERR_FILENO);
 	return (2);
-}
-
-static int	check_restricted(char *identifier)
-{
-	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER", "MSH_HIST_FILE"};
-	int			i;
-
-	i = -1;
-	while (++i < RESTRICTED_ENV_VARS)
-	{
-		if (!ft_strcmp(lst[i], identifier))
-		{
-			msh_perror("unset", NULL, "Restrictied vars cannot be unset.");
-			return (1);
-		}
-	}
-	return (0);
 }
 
 /*
@@ -88,7 +69,7 @@ int	msh_builtins_func_unset(
 	i = 0;
 	while (argv[++i])
 	{
-		if (check_restricted(argv[i]))
+		if (msh_env_check_restricted(argv[i], "unset"))
 			continue ;
 		if (!check_identifier(argv[i]))
 		{

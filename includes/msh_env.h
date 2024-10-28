@@ -36,5 +36,6 @@ char	*msh_env_getvar(t_list *env_list, char *k);
 void	msh_env_delvar(t_list **env_list, char *k);
 void	msh_env_print(t_list *env_list, int export_flag);
 void	msh_env_free(t_list **env_list);
+int		msh_env_check_restricted(char *identifier, char *msg_function);
 
 #endif

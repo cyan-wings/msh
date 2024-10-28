@@ -27,9 +27,9 @@ int	msh_builtins_func_pwd(
 		int subshell_flag __attribute((unused))
 		)
 {
-	char	buffer[PATH_MAX];
+	char	*pwd_str;
 
-	if (argv[1] && argv[1][0] == '-' && argv[1][1] && argv[1][1] != '-')
+	if (argv[1] && argv[1][0] == '-' && argv[1][1] != '-')
 	{
 		ft_putstr_fd("msh: pwd: ", 2);
 		ft_putchar_fd(argv[1][0], 2);
@@ -38,11 +38,11 @@ int	msh_builtins_func_pwd(
 		ft_putendl_fd("pwd: usage: pwd", 2);
 		return (1);
 	}
-	if (!getcwd(buffer, sizeof(buffer)))
-	{
-		ft_putendl_fd("getcwd error.", 2);
+	pwd_str = NULL;
+	pwd_str = msh_utils_getcwd("pwd", "getcwd");
+	if (!pwd_str)
 		return (1);
-	}
-	ft_putendl_fd(buffer, 1);
+	ft_putendl_fd(pwd_str, 1);
+	ft_memdel((void **)&pwd_str);
 	return (0);
 }

@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   msh_utils_getcwd.c                                 :+:      :+:    :+:   */
+/*   msh_env_check_restricted.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/25 14:27:43 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 18:13:20 by myeow            ###   ########.fr       */
+/*   Created: 2024/09/01 16:56:11 by myeow             #+#    #+#             */
+/*   Updated: 2024/09/06 17:07:38 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include "msh_perror.h"
-#include <string.h>
-#include <stdlib.h>
+#include "msh_env.h"
 
-char	*msh_utils_getcwd(char *msg1, char *msg2)
+int	msh_env_check_restricted(char *identifier, char *msg_function)
 {
-	char	*out;
+	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER", "MSH_HIST_FILE",
+			"PATH", NULL};
+	int			len;
+	int			i;
 
-	out = NULL;
-	out = getcwd(NULL, 0);
-	if (!out)
-		msh_perror(msg1, msg2, strerror(errno));
-	return (out);
+	len = msh_utils_arraylen((char **)lst);
+	i = -1;
+	while (++i < len)
+	{
+		if (!ft_strcmp(lst[i], identifier))
+		{
+			msh_perror(msg_function, NULL, "Restrictied variable");
+			return (1);
+		}
+	}
+	return (0);
 }

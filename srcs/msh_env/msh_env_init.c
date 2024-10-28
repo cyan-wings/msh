@@ -42,5 +42,7 @@ void	msh_env_init(t_list **env_list, char **envp)
 		ft_strlcpy(k, envp[i], equals_symbol - envp[i] + 1);
 		ft_strlcpy(v, equals_symbol + 1, ft_strlen(equals_symbol));
 		msh_env_setvar(env_list, k, v);
+		ft_memdel((void **)&k);
+		ft_memdel((void **)&v);
 	}
 }
