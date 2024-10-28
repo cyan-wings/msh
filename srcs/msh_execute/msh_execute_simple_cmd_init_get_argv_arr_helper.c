@@ -80,7 +80,6 @@ static void	insert_args_to_argv_arr(char *expanded_word, char **argv_arr,
 			"insert_args_to_argv_arr");
 }
 
-
 void	msh_execute_simple_cmd_init_get_argv_arr_helper(t_ast *arguments_node,
 		char ***argv_arr, int argv_arr_len, char **temp_arr)
 {
