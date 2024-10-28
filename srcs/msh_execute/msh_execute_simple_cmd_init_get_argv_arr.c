@@ -30,18 +30,12 @@ static int	get_args_count(char *expanded_word, char delim)
 
 static int	count_args_in_word(char *expanded_word)
 {
-	int	i;
-
 	if (!expanded_word)
 		return (0);
 	if (ft_strchr(expanded_word, PAD_R))
 		return (get_args_count(expanded_word, DELIM_R));
 	if (!ft_strchr(expanded_word, SPACE_R) && ft_strchr(expanded_word, ' '))
 		return (get_args_count(expanded_word, ' '));
-	i = -1;
-	while (expanded_word[++i])
-		if (expanded_word[i] == SPACE_R)
-			expanded_word[i] = ' ';
 	return (1);
 }
 
