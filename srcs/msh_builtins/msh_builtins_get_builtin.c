@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 16:11:56 by myeow             #+#    #+#             */
-/*   Updated: 2024/09/01 17:21:49 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/28 18:49:57 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	msh_builtins_func_unset(int argc, char **argv, t_list **env_list,
 
 static t_bif	*get_builtin_func(int i, int len)
 {
-	const t_bif	builtin_func[] = {
+	static t_bif	builtin_func[] = {
 		msh_builtins_func_cd,
 		msh_builtins_func_echo,
 		msh_builtins_func_env,
@@ -61,7 +61,7 @@ t_bif	*msh_builtins_get_builtin(char *executable)
 	int			len;
 	int			i;
 
-	len = msh_utils_arraylen(builtin_list);
+	len = msh_utils_arraylen((char **)builtin_list);
 	i = -1;
 	while (++i < len)
 		if (!ft_strcmp(executable, builtin_list[i]))

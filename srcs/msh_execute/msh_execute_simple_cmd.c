@@ -6,41 +6,12 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/28 19:14:55 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/22 19:11:42 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/28 19:04:42 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_execute.h"
 #include "msh.h"
-
-static int	check_param(t_ast *node, t_list **env_list)
-{
-	int	flag;
-
-	flag = 1;
-	if (!node)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd", "node is NULL.");
-		flag = 0;
-	}
-	if (!env_list)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd", "env_list is NULL.");
-		flag = 0;
-	}
-	if (node && !node->child_count)
-	{
-		msh_perror("debug", "msh_execute_simple_cmd",
-			"No child nodes in simple_command.");
-		flag = 0;
-	}
-	if (node && ft_strcmp(node->type, "simple_command"))
-	{
-		msh_perror("debug", "msh_execute_simple_cmd", "type is incorrect.");
-		flag = 0;
-	}
-	return (flag);
-}
 
 static int	ret_func(char **argv_arr, char **envp_arr, int status)
 {
@@ -68,7 +39,7 @@ int	msh_execute_simple_cmd_helper(t_ast *node, t_list **env_list,
 		msh_execute_free_exit(status, argv_arr, envp_arr);
 	}
 	status = msh_execute_wait_pid(pid, argv_arr[0]);
-	return (status);
+	return (ret_func(argv_arr, envp_arr, status));
 }
 
 int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
@@ -77,8 +48,6 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 	char	**envp_arr;
 	int		status;
 
-	if (!check_param(node, env_list))
-		return (ERROR);
 	argv_arr = NULL;
 	envp_arr = NULL;
 	if (msh_execute_simple_cmd_init(node, env_list, &envp_arr, &argv_arr)
@@ -99,6 +68,5 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 				subshell_flag);
 		return (ret_func(argv_arr, envp_arr, status));
 	}
-	status = msh_execute_simple_cmd_helper(node, env_list, envp_arr, argv_arr);
-	return (ret_func(argv_arr, envp_arr, status));
+	return (msh_execute_simple_cmd_helper(node, env_list, envp_arr, argv_arr));
 }

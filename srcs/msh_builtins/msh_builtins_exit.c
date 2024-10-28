@@ -32,7 +32,7 @@ static int	process_arg(char *exit_arg_str)
 {
 	long	exit_arg_value;
 	char	*temp;
-	int  	status;
+	int		status;
 
 	if (not_valid_number(exit_arg_str))
 	{
@@ -54,7 +54,7 @@ static int	process_arg(char *exit_arg_str)
 	else
 		status = (unsigned char)(exit_arg_value % 256);
 	ft_memdel((void **) &temp);
-	return (exit_status);
+	return (status);
 }
 
 /*
@@ -69,18 +69,19 @@ static int	process_arg(char *exit_arg_str)
 int	msh_builtins_exit_helper(int argc, char **argv, int subshell_flag)
 {
 	unsigned char	status;
-	
+
 	status = 0;
+	if (!subshell_flag && isatty(STDERR_FILENO))
+		ft_putendl_fd("exit", STDERR_FILENO);
 	if (argc > 2)
 	{
-		msh_perror("exit", "too many arguments");
+		msh_perror("exit", NULL, "too many arguments");
 		status = EXIT_FAILURE;
 	}
 	else if (argc == 2)
 		status = process_arg(argv[1]);
-	if (!subshell_flag && isatty(STDERR_FILENO))
-		ft_putendl_fd("exit", STDERR_FILENO);
 	ft_free_ft_split(argv);
+	rl_clear_history();
 	exit(status);
 	return (status);
 }
