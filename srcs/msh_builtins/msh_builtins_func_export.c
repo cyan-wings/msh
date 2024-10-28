@@ -13,12 +13,17 @@
 #include "msh_env.h"
 #include "msh_builtins.h"
 
-static int	print_invalid_argument(char *arg_str)
+static int	print_invalid_argument(t_list *env_list, char *arg_str)
 {
 	char	*tmp;
 
+	if (!ft_strcmp(arg_str, "--"))
+	{
+		msh_env_print(env_list, 1);
+		return (0);
+	}
 	tmp = NULL;
-	ft_strvappend(&tmp, "export: -", arg_str[1], NULL);
+	ft_strvappend(&tmp, "export: -", ++arg_str, NULL);
 	if (!tmp)
 		return (msh_perror_exit_int("msh_builtins_func_export",
 				"print_invalid_argument", "malloc fail.", EXIT_FAILURE));
@@ -98,7 +103,7 @@ int	msh_builtins_func_export(
 		return (0);
 	}
 	if (argv[1] && argv[1][0] == '-')
-		return (print_invalid_argument(argv[1]));
+		return (print_invalid_argument(*env_list, argv[1]));
 	exit_status = 0;
 	msh_builtins_func_export_helper(argv, env_list, &exit_status);
 	return (exit_status);
