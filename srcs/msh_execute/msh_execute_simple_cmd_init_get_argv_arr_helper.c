@@ -16,6 +16,7 @@ static void	insert_globbing_arg(char *expanded_word, char **argv_arr, int *j)
 {
 	char	**array;
 	int		n;
+	char	*temp;
 
 	array = NULL;
 	array = msh_utils_split(expanded_word, DELIM_R, "msh_parse_cmd_arguments",
@@ -23,8 +24,12 @@ static void	insert_globbing_arg(char *expanded_word, char **argv_arr, int *j)
 	n = -1;
 	while (array[++n])
 	{
-		msh_utils_strrpad(&(array[n]), PAD_R);
-		argv_arr[(*j)++] = array[n];
+		temp = NULL;
+		temp = msh_utils_strdup(array[n],
+				"msh_execute_simple_cmd_init_get_argv_arr_helper",
+				"insert_globbing_arg");
+		msh_utils_strrpad(&temp, PAD_R);
+		argv_arr[(*j)++] = temp;
 	}
 	ft_free_ft_split(array);
 }
@@ -33,13 +38,20 @@ static void	insert_multiple_arg(char *expanded_word, char **argv_arr, int *j)
 {
 	char	**array;
 	int		n;
+	char	*temp;
 
 	array = NULL;
 	array = msh_utils_split(expanded_word, ' ', "msh_parse_cmd_arguments",
 			"parse_multiple_argument");
 	n = -1;
 	while (array[++n])
-		argv_arr[(*j)++] = array[n];
+	{
+		temp = NULL;
+		temp = msh_utils_strdup(array[n],
+				"msh_execute_simple_cmd_init_get_argv_arr_helper",
+				"insert_globbing_arg");
+		argv_arr[(*j)++] = temp;
+	}
 	ft_free_ft_split(array);
 }
 
