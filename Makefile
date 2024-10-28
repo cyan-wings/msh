@@ -83,11 +83,11 @@ SRC_M			=	\
 					msh_builtins/msh_builtins_func_cd									\
 					msh_builtins/msh_builtins_func_echo									\
 					msh_builtins/msh_builtins_func_env									\
-					msh_builtins/msh_builtins_func_exit									\
 					msh_builtins/msh_builtins_func_export								\
 					msh_builtins/msh_builtins_func_pwd									\
 					msh_builtins/msh_builtins_func_unset								\
 					msh_builtins/msh_builtins_get_builtin								\
+					msh_builtins/msh_builtins_exit										\
 					msh_execute/msh_execute		 										\
 					msh_execute/msh_execute_exit_status/msh_execute_exit_status_get		\
 					msh_execute/msh_execute_exit_status/msh_execute_exit_status_ptr		\

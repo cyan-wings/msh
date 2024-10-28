@@ -86,15 +86,19 @@ int	msh_execute_simple_cmd(t_ast *node, t_list **env_list, int subshell_flag)
 		return (ret_func(argv_arr, envp_arr, ERROR));
 	if (!argv_arr)
 		return (ret_func(NULL, envp_arr, EXIT_SUCCESS));
+	if (!ft_strcmp("exit", argv_arr[0]))
+	{
+		msh_execute_free(NULL, envp_arr);
+		return (msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
+				subshell_flag));
+	}
 	status = 0;
 	if (msh_builtins_get_builtin(argv_arr[0]))
 	{
 		status = msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
 				subshell_flag);
-		msh_execute_free(argv_arr, envp_arr);
-		return (status);
+		return (ret_func(argv_arr, envp_arr, status));
 	}
 	status = msh_execute_simple_cmd_helper(node, env_list, envp_arr, argv_arr);
-	msh_execute_free(argv_arr, envp_arr);
-	return (status);
+	return (ret_func(argv_arr, envp_arr, status));
 }

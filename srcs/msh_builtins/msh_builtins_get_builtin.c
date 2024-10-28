@@ -12,8 +12,6 @@
 
 #include "msh_builtins.h"
 
-#define NO_OF_BUILTINS 7
-
 int	msh_builtins_func_cd(int argc, char **argv, t_list **env_list,
 		int subshell_flag);
 
@@ -21,9 +19,6 @@ int	msh_builtins_func_echo(int argc, char **argv, t_list **env_list,
 		int subshell_flag);
 
 int	msh_builtins_func_env(int argc, char **argv, t_list **env_list,
-		int subshell_flag);
-
-int	msh_builtins_func_exit(int argc, char **argv, t_list **env_list,
 		int subshell_flag);
 
 int	msh_builtins_func_export(int argc, char **argv, t_list **env_list,
@@ -35,19 +30,19 @@ int	msh_builtins_func_pwd(int argc, char **argv, t_list **env_list,
 int	msh_builtins_func_unset(int argc, char **argv, t_list **env_list,
 		int subshell_flag);
 
-static t_bif	*get_builtin_func(int i)
+static t_bif	*get_builtin_func(int i, int len)
 {
-	static t_bif	builtin_func[NO_OF_BUILTINS] = {
+	const t_bif	builtin_func[] = {
 		msh_builtins_func_cd,
 		msh_builtins_func_echo,
 		msh_builtins_func_env,
-		msh_builtins_func_exit,
 		msh_builtins_func_export,
 		msh_builtins_func_pwd,
-		msh_builtins_func_unset
+		msh_builtins_func_unset,
+		NULL
 	};
 
-	if (i < 0 || i >= NO_OF_BUILTINS)
+	if (i < 0 || i >= len)
 		return (NULL);
 	return (&builtin_func[i]);
 }
@@ -58,16 +53,18 @@ t_bif	*msh_builtins_get_builtin(char *executable)
 		"cd",
 		"echo",
 		"env",
-		"exit",
 		"export",
 		"pwd",
-		"unset"
+		"unset",
+		NULL
 	};
+	int			len;
 	int			i;
 
+	len = msh_utils_arraylen(builtin_list);
 	i = -1;
-	while (++i < NO_OF_BUILTINS)
+	while (++i < len)
 		if (!ft_strcmp(executable, builtin_list[i]))
-			return (get_builtin_func(i));
+			return (get_builtin_func(i, len));
 	return (NULL);
 }

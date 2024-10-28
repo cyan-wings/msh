@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "msh_execute.h"
+#include "msh_env.hs"
 
 static int	check_null_param(t_ast *node, t_list **env_list,
 				char **argv_arr)
@@ -36,6 +37,16 @@ static int	check_null_param(t_ast *node, t_list **env_list,
 	return (1);
 }
 
+int	msh_builtins_exit(char **argv, int subshell_flag);
+
+static int	execute_builtin_exit(t_list **env_list, char **argv_arr,
+		int subshell_flag)
+{
+	rl_clear_history();
+	msh_env_free(env_list);
+	return (msh_builtins_exit(argv_arr, subshell_flag));
+}
+
 int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		char **argv_arr, int subshell_flag)
 {
@@ -58,5 +69,9 @@ int	msh_execute_simple_cmd_builtin(t_ast *node, t_list **env_list,
 		if (redir_st_arr)
 			msh_execute_simple_cmd_redirs_restore(&redir_st_arr);
 	}
+	else if (!ft_strcmp("exit", argv_arr[0]))
+		return (execute_builtin_exit(argv_arr, subshell_flag));
+	else
+		msh_perror("debug", "msh_execute_simple_cmd_builtin", "Not a builtin");
 	return (status);
 }
