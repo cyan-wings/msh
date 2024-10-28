@@ -15,7 +15,7 @@
 int	msh_env_check_restricted(char *identifier, char *msg_function)
 {
 	const char	*lst[] = {"HOME", "PWD", "OLDPWD", "USER", "MSH_HIST_FILE",
-			"PATH", NULL};
+		"PATH", NULL};
 	int			len;
 	int			i;
 

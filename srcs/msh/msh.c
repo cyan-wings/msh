@@ -17,43 +17,19 @@
 //ft_strdup(env_val) is for the history file
 static char	*set_home_env_var(t_list **env_list)
 {
-	char	*env_key;
 	char	*env_val;
 
-	env_key = NULL;
-	env_key = msh_utils_strdup("HOME", "init_msh",
-			"set_home_env_var: env_key");
 	env_val = NULL;
 	env_val = msh_utils_getcwd("init_msh", "set_home_env_var: env_val");
-	msh_env_setvar(env_list, env_key, env_val);
-	env_val = msh_utils_strdup(env_val, "init_msh",
-			"set_home_env_var: env_val");
+	if (!env_val)
+		return (NULL);
+	msh_env_setvar(env_list, "HOME", env_val);
 	return (env_val);
 }
 
 void	msh_history_load(const char *filename);
 
-static void	set_history_file_env_var(t_list **env_list, char *filename)
-{
-	char	*env_key;
-	char	*env_val;
-	int		flag;
-
-	env_key = NULL;
-	env_key = msh_utils_strdup("MSH_HIST_FILE", "init_msh",
-			"set_history_file_env_var: env_key");
-	env_val = NULL;
-	env_val = msh_utils_strdup(filename, "init_msh",
-			"set_history_file_env_var: env_key");
-	flag = 0;
-	if (msh_env_getvar(*env_list, env_key))
-		flag = 1;
-	msh_env_setvar(env_list, env_key, env_val);
-	if (flag)
-		ft_memdel((void **)&env_key);
-}
-
-static void	init_msh(t_list **env_list, char **envp)
+static int	init_msh(t_list **env_list, char **envp)
 {
 	char	*tmp;
 
@@ -65,14 +41,17 @@ static void	init_msh(t_list **env_list, char **envp)
 		tmp = set_home_env_var(env_list);
 	else
 		tmp = msh_utils_strdup(tmp, "init_msh", "ft_strdup(tmp)");
+	if (!tmp)
+		return (ERROR);
 	ft_strvappend(&tmp, "/", HISTORY_FILE, NULL);
 	if (!tmp)
-		return (msh_perror_exit("init_msh",
+		return (msh_perror_exit_int("init_msh",
 				"ft_strvappend(&tmp, /, HISTORY_FILE)",
 				"malloc fail.", EXIT_FAILURE));
 	msh_history_load(tmp);
-	set_history_file_env_var(env_list, tmp);
+	msh_env_setvar(env_list, "MSH_HIST_FILE", tmp);
 	ft_memdel((void **)&tmp);
+	return (0);
 }
 
 char	*msh_input_get(t_list *env_list);
@@ -109,7 +88,8 @@ int	main(int argc __attribute((unused)), char **argv __attribute((unused)),
 	char		*input;
 
 	env_list = NULL;
-	init_msh(&env_list, envp);
+	if (init_msh(&env_list, envp) == ERROR)
+		return (1);
 	input = NULL;
 	msh_routine(env_list, input);
 	rl_clear_history();
