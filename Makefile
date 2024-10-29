@@ -135,7 +135,7 @@ OBJDIRS			=	$(sort $(dir $(OBJS)))
 
 NAME			=	msh
 CC				=	cc
-FSANITIZE		=	-fsanitize=address
+#FSANITIZE		=	-fsanitize=address
 CFLAGS			:=	-Wall -Wextra -Werror$(if $(FSANITIZE), $(FSANITIZE))
 
 ifeq ($(ARCH), x86_64)

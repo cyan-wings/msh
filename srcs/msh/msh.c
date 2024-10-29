@@ -13,8 +13,6 @@
 #include "msh.h"
 #include <signal.h>
 
-//When getcwd is given NULL ptr, it dynamically allocates memmory.
-//ft_strdup(env_val) is for the history file
 static char	*set_home_env_var(t_list **env_list)
 {
 	char	*env_val;
@@ -79,8 +77,6 @@ void	msh_routine(t_list *env_list, char *input)
 	}
 }
 
-//Better to register signal handler before modifying terminal settings.
-//system("leaks msh -q");
 int	main(int argc __attribute((unused)), char **argv __attribute((unused)),
 		char **envp)
 {

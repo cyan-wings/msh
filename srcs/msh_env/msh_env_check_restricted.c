@@ -25,7 +25,7 @@ int	msh_env_check_restricted(char *identifier, char *msg_function)
 	{
 		if (!ft_strcmp(lst[i], identifier))
 		{
-			msh_perror(msg_function, NULL, "Restrictied variable");
+			msh_perror(msg_function, NULL, "Restricted variable");
 			return (1);
 		}
 	}
