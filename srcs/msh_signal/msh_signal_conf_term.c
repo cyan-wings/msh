@@ -14,6 +14,9 @@
 #include "msh_signal.h"
 #include <stdio.h>
 
+/*
+ * This function configures the terminal whether to print a CTRL character.
+ */
 void	msh_signal_conf_term(int echo_ctrl_chr_flag)
 {
 	struct termios	term;

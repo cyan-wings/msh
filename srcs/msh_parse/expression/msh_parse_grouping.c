@@ -13,9 +13,9 @@
 #include "msh_parse.h"
 
 /*
- * 2 scenarios:
+ * 2 scenarios for error to occur:
  *
- * 1st: list node is NULL means grammar is wrong.
+ * 1st: list node is NULL means parsing grammar is wrong.
  * 2nd: No closing bracket found. Hence, list_node has to be freed also.
  */
 static int	msh_parse_grouping_error(t_ast **grouping_node,

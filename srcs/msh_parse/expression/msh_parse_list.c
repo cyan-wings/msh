@@ -59,6 +59,12 @@ static int	astadd_pipeline_node(t_list **token_ptr, t_ast **list_node,
 	return (0);
 }
 
+/*
+ * A must consist of at least 1 pipeline node.
+ *
+ * Notes:
+ * 		list operators are chained as nodes to the parent list node.
+ */
 int	msh_parse_list(t_list **token_ptr, t_ast **list_node, t_list *env_list)
 {
 	int	status;

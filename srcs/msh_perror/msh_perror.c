@@ -16,7 +16,7 @@
 
 /*
  * This prints an error message but does not terminate the shell.
- * Possible error types:
+ * Possible examples of error types:
  * 		(1) Tokenise error.
  * 		(2) Parsing error.
  * 		(3) Open or close dir error during wildcards expansion.

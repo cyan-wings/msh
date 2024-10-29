@@ -15,6 +15,11 @@
 #include <string.h>
 #include <stdlib.h>
 
+/*
+ * Wrapper for the getcwd function.
+ * When getcwd(NULL, 0) is called, the current directory string is
+ * dynamically allocated.
+ */
 char	*msh_utils_getcwd(char *msg1, char *msg2)
 {
 	char	*out;

@@ -89,6 +89,20 @@ static int	sigint_heredoc(int fd, char **heredoc_contents)
 	return (HEREDOC_SIGINT_ERROR);
 }
 
+/*
+ * Function that prompts the heredoc input and processes it.
+ * 
+ * 		(1) Here document (i.e., operator is <<)
+ * 		(2) Rest of the operators (i.e., <, >, >>)
+ * 
+ * Notes:
+ * 		(1) When interrupted with SIGINT, the file is closed in 
+ * 			the signal_heredoc(int sig) function, causing 
+ * 			errno to be EBADF.
+ * 		(2) Heredoc contents can be NULL when limiter is passed
+ * 			immediately in the first prompt. A single memory
+ * 			block is allocated to denote an empty string.
+ */
 int	msh_parse_cmd_redirection_helper_heredoc(char *delim,
 			char **heredoc_contents)
 {

@@ -17,6 +17,18 @@
 int		msh_parse_cmd_redirection_helper_heredoc(char *delim,
 			char **heredoc_contents);
 
+/*
+ * This function quote expands the limiter.
+ *
+ * @params
+ * 		lim: 	The limiter
+ * 		expanded_lim:	Pointer that holds the expanded limiter.
+ * 
+ * @return
+ * 		flag_dollar_expand: flag to indicate whether environment variables
+ * 				should be expanded in the heredoc contents.
+ * 
+ */
 static int	expand_lim(char *lim, char **expanded_lim)
 {
 	char	*lim_cpy;
@@ -40,6 +52,12 @@ static int	expand_lim(char *lim, char **expanded_lim)
 	return (flag_dollar_expand);
 }
 
+/*
+ * Notes:
+ * 		(1) Only quote expansion occurs to the limiter.
+ * 		(2) As long as there is a quote, the contents of the heredoc
+ * 			should not be dollar expanded (i.e., no env variables expansion).
+ */
 static int	redirection_heredoc(char *lim, t_ast **redir_file)
 {
 	int		status;
@@ -62,6 +80,17 @@ static int	redirection_heredoc(char *lim, t_ast **redir_file)
 	return (status);
 }
 
+/*
+ * 2 scenarios in redirection parsing:
+ * 
+ * 		(1) Here document (i.e., operator is <<)
+ * 		(2) Rest of the operators (i.e., <, >, >>)
+ * 
+ * Notes:
+ * 		Here document's limiter must be expanded. The contents which is
+ * 		a string is added to the ast as a "heredoc" or "heredoc_quoted"
+ * 		type node as its value.
+ */
 int	msh_parse_redirection_helper(t_token *curr, t_token *next,
 					t_ast **redir_child_node)
 {

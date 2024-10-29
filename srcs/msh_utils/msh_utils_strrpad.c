@@ -13,7 +13,11 @@
 #include "ft_string_utils.h"
 #include "ft_mem_utils.h"
 
-//Removes the padding
+/*
+ * Removes the string's the first and last character which is
+ * parameterised as padding.
+ * 
+ */
 void	msh_utils_strrpad(char **strptr, char padding)
 {
 	int		len;

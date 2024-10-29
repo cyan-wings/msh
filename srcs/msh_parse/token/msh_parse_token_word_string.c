@@ -66,6 +66,10 @@ static int	string_tail(char *str, int *idx)
 	return (0);
 }
 
+/*
+ * This module is not fully utilised since tokenisation
+ * already checks for closing quotes.
+ */
 int	msh_parse_token_word_string(char *str, int *idx)
 {
 	int	start_idx;

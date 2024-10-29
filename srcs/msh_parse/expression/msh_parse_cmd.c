@@ -19,32 +19,21 @@ void	msh_parse_cmd_argument(t_list **token_ptr, t_ast **args_node);
 
 /*
  * Format of a simple command:
- * 		<redirections> <arguments> <redirections>
+ * 		<redirections> <arguments> <redirections> <arguments> ...
+ * 		<arguments> <redirections> <arguments> <redirections> ...
  * 
- * Either are optional. But flag error if there is nothing.
  * This function handles the format structure of the simple command.
- * The executable and arguments sandwiched between the optional redirections.
+ * Redirections and arguments can intertwine.
+ * Each instance we encounter a redirection or an argument, it will
+ * be processed and added to the parent redirections node or the 
+ * parent arguments node.
  *
  * Notes: 	
  *
- * 	(1)	After the first set of redirections, if a WORD is present
- * 		it would be the executable.
- * 	(2) Following WORDs right after executable will be the arguments.
- * 		Refer to msh_parse_cmd_arguments.c
+ * 	(1)	A valid redirection or an argument is mandatory and required.
+ * 	(2) Following redirections or arguments are optional.
  *  (3) The 3rd if-statement is to check if there is a second set of
  *  	redirections.
- *  (4) After this, NO WORDS nor '(' or ')' should exist as it is the 
- *  	end of a simple command. That means we must follow it only by
- *  	PIPE or LIST_OPs.
- * 	(5) When parse error, function returns 0 and all freeing is done in
- * 		the outer function (i.e., msh_parse_cmd).
- *
- * MISC:	The redirections ast node is initialised here due to the fact
- * 			that redirections can occur from the front and back of the 
- * 			arguments.
- *
- * 			Arguments node will be added regardless 
- * 			whether there are available or not in the simple command.
  */
 static int	msh_parse_cmd_helper(
 		t_list **token_ptr,
@@ -95,7 +84,6 @@ static int	msh_parse_cmd_error(
  * Initialisation of all the nodes (i.e., executable, arguments
  * 		and redirections)
  *
- * Only executable is mandatory, hence the if-guard.
  * Notes:
  * 		Adding a child node that is NULL will not mutate the parent.
  */

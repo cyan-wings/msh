@@ -64,11 +64,12 @@ static int	msh_parse_pipeline_helper(t_list **token_ptr,
 }
 
 /*
- * A pipeline must consist at least 1 simple command.
+ * A pipeline must consist at least 1 simple command or a grouping.
  *
  * Notes:
  * 		A simple command can start with a WORD (which assumes the executable)
- * 		or a REDIR_OP (which assumes starts with redirection(s))
+ * 		or a REDIR_OP (which assumes starts with redirection(s)).
+ * 		A grouping must start with a '('.
  */
 int	msh_parse_pipeline(t_list **token_ptr, t_ast **pipeline_node,
 		t_list *env_list)
