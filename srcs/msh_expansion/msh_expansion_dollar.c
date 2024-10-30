@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 14:30:01 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 17:52:19 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:16:34 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,24 @@ static void	msh_expansion_dollar_helper(char **strptr, int start, int i,
 }
 
 /*
- * Environment variables cannot be special chars
+ * This function takes a pointer to the string, and replaces the 
+ * string in the pointer with a new processed string.
  *
- * If flag is even, $ should be expanded. If odd, $ should be treated as string
+ * @params
+ * 		strptr	: The string to perform the expansion on and the result
+ * 					should be stored back in this buffer.
+ * 		quote	:	0 is to ignore quotes (specifically for heredoc).
+ * 					1 is otherwise.
  * 
- * (*strptr)[i + 1] check is to account for args ending with '$'.
+ * @vars
+ * 		dquote_flag	: Count of the double quote.
  *
- * quote = 0 is to ignore quotes.
+ * 	Notes:
+ * 		(1) When dquote_flag is even, it means the character is not double
+ * 			quoted. Hence, if a single quote is found, it should be looped
+ * 			to find the closing single quote.
+ * 		(2) Environment variables cannot having special chars except _
+ * 		(3) $? expands to exit status.
  */
 void	msh_expansion_dollar(char **strptr, t_list *env_list, int quote)
 {

@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 07:23:18 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 16:00:15 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:24:24 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,12 @@ void	get_envp_arr(t_list **env_list, char ***envp_arr)
 void	msh_execute_simple_cmd_init_get_argv_arr(t_ast *arguments_node,
 				char ***argv_arr, t_list **env_list);
 
+
+/*
+ * 	Process:
+ * 		(1) Obtain the argv array which requires expansion.
+ * 		(2) Perform redirections and restore them back as a test for errors.
+ */
 int	msh_execute_simple_cmd_init(t_ast *node, t_list **env_list,
 		char ***envp_arr, char ***argv_arr)
 {

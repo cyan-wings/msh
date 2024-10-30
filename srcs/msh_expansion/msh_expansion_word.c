@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/25 14:15:32 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 18:12:56 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:47:09 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,32 @@ static char	*msh_expansion_word_helper(char *out)
 	return (out);
 }
 
+/*
+ * 	Handles the expansion process.
+ * 	
+ * 	Process:
+ * 		(1) If spaces are found, change them to SPACE_R.
+ * 		(2) Expand all the $ sign.
+ * 		(3) Create a copy and change SPACE_R back to space.
+ * 		(4) Quote and wildcard expand to check if the copy
+ * 			contains wildcards.
+ * 		(5) Free the copy and quote expand the original
+ * 			string.
+ * 		(6) IF NULL, a empty string must be returned.
+ * 
+ * 	Notes:
+ * 		(1) When a space is found in a WORD, that WORD will consider as
+ * 			a single argument.
+ * 			Ex:
+ * 				export "-l -a "
+ * 				ls "-t "
+ * 			will yield an error due to recognising "-l -a ""-t " as a
+ * 			single argument.
+ * 		(2) 	export "-l -a "
+ * 				ls "-t"
+ * 			will yield 3 arguments: -l -a -t
+ * 		(3) '*' has to convert to -1 since '*' can be part of a file name.
+ */
 char	*msh_expansion_word(char *word, t_list *env_list)
 {
 	char	*out;

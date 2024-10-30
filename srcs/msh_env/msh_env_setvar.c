@@ -6,7 +6,7 @@
 /*   By: myeow <myeow@student.42kl.edu.my>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 13:42:36 by myeow             #+#    #+#             */
-/*   Updated: 2024/10/25 15:44:50 by myeow            ###   ########.fr       */
+/*   Updated: 2024/10/30 17:02:32 by myeow            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ static int	check_null_param(t_list **env_list, char *k, char *v)
 	return (flag);
 }
 
+/*
+ * Updates an environment variable or creates it if not present.
+ *
+ * @params
+ * 		k: 	key of the env (doesn't need to be freed)
+ * 		v:	value of the env (doesn't need to be freed)
+ *
+ */
 void	msh_env_setvar(t_list **env_list, char *k, char *v)
 {
 	t_list	*curr;
