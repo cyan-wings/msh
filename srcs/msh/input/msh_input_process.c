@@ -49,9 +49,12 @@ static void	print_error_and_clean(char *err_str, t_list **token_list)
 static int	process_tokenise(char *input, t_list **env_list,
 		t_list	**token_list)
 {
+	const char	*sep = " \t\r\n\v\f";
 	int		status;
 	char	*tmp;
 
+	while (*input && ft_strchr(sep, *input))
+		++input;
 	if (!*input)
 		return (1);
 	status = 0;
