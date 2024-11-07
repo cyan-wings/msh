@@ -38,6 +38,13 @@ static void	set_pipes(int fd[2], int pipes[2][2], int i, int last)
 
 void	msh_execute_pipeline_close(int pipes[2][2], int i, int last);
 
+static void	execute_exit(t_ast *node, t_list **env_list,
+		char **argv_arr, char **envp_arr)
+{
+	msh_execute_free(NULL, envp_arr);
+	msh_execute_simple_cmd_builtin(node, env_list, argv_arr, 1);
+}
+
 static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 		int subshell_flag)
 {
@@ -52,6 +59,8 @@ static void	execute_simple_cmd(t_ast *node, t_list **env_list,
 		return (msh_execute_free_exit(EXIT_FAILURE, argv_arr, envp_arr));
 	if (!argv_arr)
 		return (msh_execute_free_exit(EXIT_SUCCESS, NULL, envp_arr));
+	if (!ft_strcmp("exit", argv_arr[0]))
+		return (execute_exit(node, env_list, argv_arr, envp_arr));
 	status = 0;
 	if (msh_builtins_get_builtin(argv_arr[0]))
 		status = msh_execute_simple_cmd_builtin(node, env_list, argv_arr,
