@@ -50,8 +50,8 @@ static int	process_tokenise(char *input, t_list **env_list,
 		t_list	**token_list)
 {
 	const char	*sep = " \t\r\n\v\f";
-	int		status;
-	char	*tmp;
+	int			status;
+	char		*tmp;
 
 	while (*input && ft_strchr(sep, *input))
 		++input;
