@@ -1,0 +1,10 @@
+.vscode
+.vscode/*
+libft/objs
+libft/objs/*
+libft/libft.a
+objs
+objs/*
+msh
+readline
+readline/*
