@@ -81,13 +81,13 @@ cd msh && make
 Export the MSH_DEBUG_TOKEN env to print the token list:
 
 ```
-export MSH\_DEBUG\_TOKEN=true
+export MSH_DEBUG_TOKEN=true
 ```
 
 Export the MSH_DEBUG_PARSE env to print the AST parse tree:
 
 ```
-export MSH\_DEBUG\_PARSE=true
+export MSH_DEBUG_PARSE=true
 ```
 
 ## Changing the prompt
