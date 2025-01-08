@@ -81,11 +81,7 @@ sudo apt install libncurses5-dev libncursesw5-dev
 <b>Running msh:</b>
 ```
 git clone https://github.com/cyan-wings/msh msh
-```
-```
 cd msh && make
-```
-```
 ./msh
 ```
 
