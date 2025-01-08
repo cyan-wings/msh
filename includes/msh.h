@@ -21,13 +21,8 @@
 # include <fcntl.h>
 # include <string.h>
 
-# ifdef ARCH_X86_64
-#  include "readline.h"
-#  include "history.h"
-# else
-#  include <readline.h>
-#  include <history.h>
-# endif
+# include "readline.h"
+# include "history.h"
 
 # include "libft.h"
 # include "ft_mem_utils.h"

@@ -16,11 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-# ifdef ARCH_X86_64
-#  include "readline.h"
-# else
-#  include <readline.h>
-# endif
+# include "readline.h"
 
 # include "ft_lst_utils.h"
 # include "ft_char_utils.h"

@@ -8,16 +8,9 @@ LIBFTLD				=	-L$(LIBFTDIR) -lft
 LIBFT				=	$(LIBFTDIR)/libft.a
 
 ARCH				:=	$(shell uname -m)
-ifeq ($(ARCH), x86_64)
-	READLINEDIR		=	readline
-	READLINEINC		=	-I$(READLINEDIR)/
-	READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
-else
-	READLINEDIR		=	/opt/homebrew/Cellar/readline/8.2.13/lib/
-	READLINEINC		=	-I/opt/homebrew/Cellar/readline/8.2.13/include/readline/
-	READLINELD		=	 -L$(READLINEDIR) -lreadline -lncurses
-endif
-
+READLINEDIR		=	readline
+READLINEINC		=	-I$(READLINEDIR)/
+READLINELD		=	-L$(READLINEDIR) -lreadline -lncurses -lhistory
 
 ##############################################
 ###HEADERS								######
