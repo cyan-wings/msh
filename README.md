@@ -65,7 +65,20 @@ msh currently works on all UNIX based systems (i.e., macOS, Linux, WSL).
 <b>Requirements:</b>
 - GCC / CLANG Compiler
 - GNU Make
+- libncurses
 
+<b>Installing libncurses:</b>
+
+For macOS
+```
+brew install ncurses
+```
+For Linux or WSL
+```
+sudo apt install libncurses5-dev libncursesw5-dev
+```
+
+<b>Running msh:</b>
 ```
 git clone https://github.com/cyan-wings/msh msh
 ```
